@@ -1,0 +1,5 @@
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  application:
+    name: ms-transaction-api
