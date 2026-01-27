@@ -2,6 +2,7 @@ package dev.suel.mstransactionapi.infra.mapper;
 
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.dto.TransactionDetailResponse;
+import dev.suel.mstransactionapi.dto.TransactionKafkaEventData;
 import dev.suel.mstransactionapi.infra.persistence.entity.TransactionEntity;
 import org.springframework.stereotype.Component;
 
@@ -49,5 +50,15 @@ public class TransactionMapper {
                 .currencyType(transaction.getCurrencyType())
                 .userId(transaction.getUserId())
                 .build();
+    }
+
+    public TransactionKafkaEventData modelToKafkaData(Transaction model) {
+        return new TransactionKafkaEventData(
+                model.getTransactionId(),
+                model.getUserId(),
+                model.getCurrencyType(),
+                model.getAmount(),
+                model.getDestAccountId()
+        );
     }
 }

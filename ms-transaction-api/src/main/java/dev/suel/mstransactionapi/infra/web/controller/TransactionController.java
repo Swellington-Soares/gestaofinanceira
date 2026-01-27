@@ -33,7 +33,6 @@ public class TransactionController {
     private final CreateDepositTransactionUseCase createDepositTransactionUseCase;
     private final CreateWithDrawTransactionUseCase createWithdrawTransactionUseCase;
     private final CreateTransferTransactionUseCase createTransferTransactionUseCase;
-    private final TransactionReportUseCase transactionReportUseCase;
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")

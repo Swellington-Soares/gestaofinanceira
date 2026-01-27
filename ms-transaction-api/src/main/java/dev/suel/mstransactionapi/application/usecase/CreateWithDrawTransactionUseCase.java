@@ -3,6 +3,7 @@ package dev.suel.mstransactionapi.application.usecase;
 import dev.suel.mstransactionapi.application.gateway.TransactionServicePort;
 import dev.suel.mstransactionapi.domain.CurrencyType;
 import dev.suel.mstransactionapi.domain.OperationType;
+import dev.suel.mstransactionapi.domain.TransactionStatus;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 import dev.suel.mstransactionapi.infra.web.dto.TransactionWithdrawCreateRequest;
@@ -31,6 +32,7 @@ public class CreateWithDrawTransactionUseCase {
                 .operationType(OperationType.WITHDRAW)
                 .amount(data.amount())
                 .userId(ownerId)
+                .status(TransactionStatus.PENDING)
                 .currencyType(CurrencyType.Default())
                 .build();
 

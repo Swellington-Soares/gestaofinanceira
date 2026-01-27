@@ -27,5 +27,5 @@ public interface TransactionReportPort {
             LocalDateTime endDate
     );
 
-    byte[] generateDocument(ExpenseReportData expenseReportData);
+
 }

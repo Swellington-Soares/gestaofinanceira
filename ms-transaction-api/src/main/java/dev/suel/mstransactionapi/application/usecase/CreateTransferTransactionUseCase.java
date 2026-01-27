@@ -4,6 +4,7 @@ package dev.suel.mstransactionapi.application.usecase;
 import dev.suel.mstransactionapi.application.gateway.TransactionServicePort;
 import dev.suel.mstransactionapi.domain.CurrencyType;
 import dev.suel.mstransactionapi.domain.OperationType;
+import dev.suel.mstransactionapi.domain.TransactionStatus;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 import dev.suel.mstransactionapi.infra.web.dto.TransactionTransferCreateRequest;
@@ -32,7 +33,9 @@ public class CreateTransferTransactionUseCase {
                 .operationType(OperationType.TRANSFER)
                 .amount(data.amount())
                 .userId(id)
+                .status(TransactionStatus.PENDING)
                 .currencyType(CurrencyType.Default())
+                .destAccountId(data.destAccount())
                 .build();
 
         transactionServicePort.save(transactionModel);

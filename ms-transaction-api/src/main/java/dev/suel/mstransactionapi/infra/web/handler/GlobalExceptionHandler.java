@@ -2,10 +2,10 @@ package dev.suel.mstransactionapi.infra.web.handler;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import dev.suel.mstransactionapi.application.exception.InvalidOperationException;
 import dev.suel.mstransactionapi.application.exception.ResourceNotFoundException;
 import dev.suel.mstransactionapi.dto.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,7 +20,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -44,7 +43,7 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler( MissingServletRequestParameterException.class)
+    @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ApiResponse> handleMissingServletRequestParameterException(MissingServletRequestParameterException ex, HttpServletRequest request) {
         String paramName = ex.getParameterName();
 
@@ -62,7 +61,7 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler( MethodArgumentTypeMismatchException.class )
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponse> methodArgumentTypeMismatchHandler(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
 
         String paramName = ex.getParameter().getParameterName();
@@ -90,7 +89,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.NOT_FOUND.value(),
                         ex.getMessage(),
                         request.getRequestURI(),
-                        Map.of())
+                        null)
         );
 
     }
@@ -102,7 +101,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.BAD_REQUEST.value(),
                         ex.getMessage(),
                         request.getRequestURI(),
-                        Map.of())
+                        null)
         );
 
     }
@@ -117,19 +116,31 @@ public class GlobalExceptionHandler {
                         HttpStatus.FORBIDDEN.value(),
                         ex.getMessage(),
                         request.getRequestURI(),
-                        Map.of())
+                        null)
         );
     }
 
     @ExceptionHandler({TokenExpiredException.class, JWTVerificationException.class})
-    public  ResponseEntity<ApiResponse> handleJWTVerificationException(Exception ex,
-                                                                       HttpServletRequest request) {
+    public ResponseEntity<ApiResponse> handleJWTVerificationException(Exception ex,
+                                                                      HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(
                 new ApiResponse(LocalDateTime.now(),
                         HttpStatus.PRECONDITION_FAILED.value(),
                         ex.getMessage(),
                         request.getRequestURI(),
-                        Map.of())
+                        null)
+        );
+    }
+
+    @ExceptionHandler(InvalidOperationException.class)
+    public ResponseEntity<ApiResponse> handleInvalidOperationException(InvalidOperationException ex,
+                                                                       HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                new ApiResponse(LocalDateTime.now(),
+                        HttpStatus.CONFLICT.value(),
+                        ex.getMessage(),
+                        request.getRequestURI(),
+                        null)
         );
     }
 
@@ -140,7 +151,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         ex.getMessage(),
                         request.getRequestURI(),
-                        Map.of())
+                        null)
         );
     }
 }

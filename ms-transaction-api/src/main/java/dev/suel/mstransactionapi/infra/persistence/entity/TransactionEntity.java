@@ -43,4 +43,7 @@ public class TransactionEntity {
     @Enumerated(EnumType.STRING)
     private CurrencyType currencyType;
     private Long userId;
+
+    @Column()
+    private Long destAccount;
 }

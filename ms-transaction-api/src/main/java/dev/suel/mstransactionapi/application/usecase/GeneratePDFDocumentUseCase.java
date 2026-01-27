@@ -1,5 +1,6 @@
 package dev.suel.mstransactionapi.application.usecase;
 
+import dev.suel.mstransactionapi.application.gateway.DocumentGeneratorPort;
 import dev.suel.mstransactionapi.application.gateway.TransactionReportPort;
 import dev.suel.mstransactionapi.dto.ExpenseReportData;
 
@@ -10,9 +11,11 @@ import java.time.LocalTime;
 public class GeneratePDFDocumentUseCase {
 
     private final TransactionReportPort transactionReportPort;
+    private final DocumentGeneratorPort pdfDocumentGeneratorService;
 
-    public GeneratePDFDocumentUseCase(TransactionReportPort transactionReportPort) {
+    public GeneratePDFDocumentUseCase(TransactionReportPort transactionReportPort, DocumentGeneratorPort pdfDocumentGeneratorService) {
         this.transactionReportPort = transactionReportPort;
+        this.pdfDocumentGeneratorService = pdfDocumentGeneratorService;
     }
 
     public byte[] execute(Long userId,
@@ -34,6 +37,6 @@ public class GeneratePDFDocumentUseCase {
                 transactionReportPort.totalByCategory(userId, s1, s2)
         );
 
-        return transactionReportPort.generateDocument(expenseReport);
+        return pdfDocumentGeneratorService.generateDocument(expenseReport);
     }
 }

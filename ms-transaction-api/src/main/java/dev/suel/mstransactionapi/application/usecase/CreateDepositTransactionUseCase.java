@@ -3,6 +3,7 @@ package dev.suel.mstransactionapi.application.usecase;
 
 import dev.suel.mstransactionapi.application.gateway.TransactionServicePort;
 import dev.suel.mstransactionapi.domain.OperationType;
+import dev.suel.mstransactionapi.domain.TransactionStatus;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 import dev.suel.mstransactionapi.infra.web.dto.TransactionCreateRequest;
@@ -31,15 +32,11 @@ public class CreateDepositTransactionUseCase {
                 .operationType(OperationType.DEPOSIT)
                 .amount(data.amount())
                 .userId(ownerId)
+                .status(TransactionStatus.PENDING)
                 .currencyType(data.currencyType())
                 .build();
 
-        transactionServicePort.save(transactionModel);
+        return transactionServicePort.save(transactionModel);
 
-        return new TransactionCreatedResponseDto(
-            transactionModel.getTransactionId(),
-            transactionModel.getStatus(),
-            transactionModel.getCreatedDate()
-        );
     }
 }

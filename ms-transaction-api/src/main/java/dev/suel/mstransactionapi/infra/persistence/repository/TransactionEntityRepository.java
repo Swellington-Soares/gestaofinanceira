@@ -1,9 +1,12 @@
 package dev.suel.mstransactionapi.infra.persistence.repository;
 
+import dev.suel.mstransactionapi.domain.PaginatedResponse;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
 import dev.suel.mstransactionapi.infra.persistence.entity.TransactionEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -73,4 +76,5 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
     );
 
 
+    Page<TransactionEntity> findAllByUserId(Long userId, Pageable pageable);
 }

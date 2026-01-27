@@ -12,15 +12,20 @@ public class Transaction {
     private UUID transactionId;
     private LocalDateTime createdDate;
     private LocalDateTime processedDate;
-    private BigDecimal amount;
-    private BigDecimal exchange;
+    private BigDecimal amount = new BigDecimal("0.0");
+    private BigDecimal exchange = new BigDecimal("1.0");
     private OperationType operationType;
     private TransactionStatus status = TransactionStatus.PENDING;
     private String message;
     private CurrencyType currencyType;
     private Long userId;
+    private Long destAccountId;
 
-    public Transaction(UUID transactionId, LocalDateTime createdDate, LocalDateTime processedDate, BigDecimal amount, BigDecimal exchange, OperationType operationType, TransactionStatus status, String message, CurrencyType currencyType, Long userId) {
+
+    public Transaction(UUID transactionId, LocalDateTime createdDate,
+                       LocalDateTime processedDate, BigDecimal amount,
+                       BigDecimal exchange, OperationType operationType,
+                       TransactionStatus status, String message, CurrencyType currencyType, Long userId, Long destAccountId) {
         this.transactionId = transactionId;
         this.createdDate = createdDate;
         this.processedDate = processedDate;
@@ -31,9 +36,29 @@ public class Transaction {
         this.message = message;
         this.currencyType = currencyType;
         this.userId = userId;
+        this.destAccountId = destAccountId;
     }
 
     public Transaction() {
+        this.exchange = new BigDecimal("1.0");
+        this.amount = new BigDecimal("0");
+    }
+
+    public static TransactionBuilder builder() {
+        return new TransactionBuilder();
+    }
+
+    public static TransactionBuilder withId() {
+        return new TransactionBuilder().transactionId(UUID.randomUUID());
+    }
+
+    public Long getDestAccountId() {
+        return destAccountId;
+    }
+
+    public Transaction setDestAccountId(Long destAccountId) {
+        this.destAccountId = destAccountId;
+        return this;
     }
 
     public UUID getTransactionId() {
@@ -126,15 +151,11 @@ public class Transaction {
         return this;
     }
 
-    public static TransactionBuilder builder() {
-        return new TransactionBuilder();
-    }
-
-    public static TransactionBuilder withId(){
-        return new TransactionBuilder().transactionId( UUID.randomUUID() );
-    }
-
     public BigDecimal getFinalAmount() {
+        if (exchange == null)
+            exchange = new BigDecimal("1.0");
+        if (amount == null )
+            amount = new BigDecimal("0.0");
         return exchange.multiply(amount);
     }
 
@@ -142,17 +163,18 @@ public class Transaction {
         return userId != null && userId.equals(ownerId);
     }
 
-    public static class TransactionBuilder{
+    public static class TransactionBuilder {
         private UUID transactionId;
         private LocalDateTime createdDate;
         private LocalDateTime processedDate;
-        private BigDecimal amount;
-        private BigDecimal exchange;
+        private BigDecimal amount = new BigDecimal("0.0");
+        private BigDecimal exchange = new BigDecimal("1.0");
         private OperationType operationType;
         private TransactionStatus status = TransactionStatus.PENDING;
         private String message;
         private CurrencyType currencyType;
         private Long userId;
+        private Long destAccountId;
 
         public TransactionBuilder transactionId(UUID transactionId) {
             this.transactionId = transactionId;
@@ -204,11 +226,24 @@ public class Transaction {
             return this;
         }
 
-        public Transaction build(){
-            return new Transaction(transactionId,
-                    createdDate, processedDate,
-                    amount, exchange, operationType,
-                    status, message, currencyType, userId);
+        public TransactionBuilder destAccountId(Long destAccountId) {
+            this.destAccountId = destAccountId;
+            return this;
+        }
+
+        public Transaction build() {
+            return new Transaction(
+                    transactionId,
+                    createdDate,
+                    processedDate,
+                    amount,
+                    exchange,
+                    operationType,
+                    status,
+                    message,
+                    currencyType,
+                    userId,
+                    destAccountId);
         }
     }
 }

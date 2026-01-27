@@ -13,9 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class AppConfiguration {
 
-    private final DocumentGeneratorPort documentGeneratorPort;
+
     private final TransactionServicePort transactionServicePort;
     private final TransactionReportPort transactionReportPort;
+    private final DocumentGeneratorPort pdfDocumentGeneratorService;
 
     @Bean
     public CreateDepositTransactionUseCase createDepositTransactionUseCase() {
@@ -39,7 +40,7 @@ public class AppConfiguration {
 
     @Bean
     public GeneratePDFDocumentUseCase generatePDFDocumentUseCase() {
-        return new GeneratePDFDocumentUseCase(transactionReportPort);
+        return new GeneratePDFDocumentUseCase(transactionReportPort, pdfDocumentGeneratorService);
     }
 
     @Bean

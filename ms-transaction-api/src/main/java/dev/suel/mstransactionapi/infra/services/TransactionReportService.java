@@ -7,11 +7,12 @@ import dev.suel.mstransactionapi.dto.ExpenseByMonth;
 import dev.suel.mstransactionapi.infra.persistence.repository.TransactionEntityRepository;
 import dev.suel.mstransactionapi.dto.ExpenseReportData;
 import lombok.RequiredArgsConstructor;
-import org.openpdf.text.Paragraph;
+import org.openpdf.text.*;
+import org.openpdf.text.Font;
 import org.openpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
-import org.openpdf.text.Document;
 
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,21 +39,5 @@ public class TransactionReportService implements TransactionReportPort {
         return repository.totalByMonth(userId, startDate, endDate);
     }
 
-    @Override
-    public byte[] generateDocument(ExpenseReportData expenseReportData) {
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
-            Document document = new Document();
-            PdfWriter.getInstance(document, out);
-
-            document.open();
-            document.add(new Paragraph("Olá mundo!"));
-            document.close();
-
-            return out.toByteArray();
-
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao gerar PDF", e);
-        }
-    }
 }
