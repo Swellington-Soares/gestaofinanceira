@@ -3,13 +3,14 @@ CREATE TABLE transactions
     transaction_id BINARY(16)   NOT NULL,
     created_date   datetime     NULL,
     processed_date datetime     NULL,
-    amount         DECIMAL      NOT NULL,
-    exchange       DECIMAL      NULL,
-    operation_type VARCHAR(255) NULL,
-    status         VARCHAR(255) NULL,
+    amount         DECIMAL      NOT NULL DEFAULT 0,
+    exchange       DECIMAL      NOT NULL DEFAULT 1,
+    operation_type VARCHAR(255) NOT NULL,
+    status         VARCHAR(255) NOT NULL,
     message        VARCHAR(255) NULL,
-    currency_type  VARCHAR(255) NULL,
-    user_id        BIGINT       NULL,
+    currency_type  VARCHAR(255) NOT NULL,
+    user_id        BIGINT       NOT NULL,
+    destAccount    BIGINT       NULL,
     CONSTRAINT pk_transactions PRIMARY KEY (transaction_id)
 );
 

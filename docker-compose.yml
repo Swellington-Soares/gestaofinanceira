@@ -14,9 +14,11 @@ services:
       - mariadb_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
-      interval: 10s
+      interval: 20s
       timeout: 5s
       retries: 5
+    networks:
+      - beca_java
 
   kafka-init:
     image: alpine:3.19
@@ -26,6 +28,8 @@ services:
     volumes:
       - kafka_data:/data
     restart: "no"
+    networks:
+      - beca_java
 
   kafka:
     image: apache/kafka-native:4.1.1
@@ -50,9 +54,10 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-
     volumes:
       - kafka_data:/var/lib/kafka/data
+    networks:
+      - beca_java
 
   ms-user:
     build:
@@ -64,7 +69,7 @@ services:
       - "8081:8080"
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      DB_URL: jdbc:mariadb://beca_database:3306/becajava
+      DB_URL: jdbc:mariadb://beca-database:3306/becajava
       DB_USERNAME: becajava
       DB_PASSWORD: becajava
       JWT_SIGN_KEY: db8ac1c259eb89d4a131b253bacfca5f319d54f2
@@ -73,6 +78,8 @@ services:
     depends_on:
       beca-database:
         condition: service_healthy
+    networks:
+      - beca_java
 
   ms-transaction-api:
     build:
@@ -84,7 +91,7 @@ services:
       - "8082:8080"
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      DB_URL: jdbc:mariadb://beca_database:3306/becajava
+      DB_URL: jdbc:mariadb://beca-database:3306/becajava
       DB_USERNAME: becajava
       DB_PASSWORD: becajava
       JWT_SIGN_KEY: db8ac1c259eb89d4a131b253bacfca5f319d54f2
@@ -93,6 +100,31 @@ services:
     depends_on:
       beca-database:
         condition: service_healthy
+    networks:
+      - beca_java
+
+  ms-transaction-processor:
+    build:
+      context: ./ms-transaction-processor
+      dockerfile: Dockerfile
+    container_name: ms-transaction-processor
+    restart: unless-stopped
+    ports:
+      - "8083:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:mariadb://beca-database:3306/becajava
+      DB_USERNAME: becajava
+      DB_PASSWORD: becajava
+    depends_on:
+      beca-database:
+        condition: service_healthy
+    networks:
+      - beca_java
+
+networks:
+  beca_java:
+    driver: bridge
 
 volumes:
   mariadb_data:

@@ -12,6 +12,12 @@ spring:
       ddl-auto: none
   flyway:
     enabled: true
+    baseline-on-migrate: true
+    baseline-description: "init"
+    baseline-version: 0
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    table: flyway_schema_history_ms1
 
 jwt:
   issuer: SW_ISSUER

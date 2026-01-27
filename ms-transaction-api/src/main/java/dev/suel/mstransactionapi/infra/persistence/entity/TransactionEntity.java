@@ -29,7 +29,10 @@ public class TransactionEntity {
     private LocalDateTime processedDate;
 
     @Column(nullable = false)
-    private BigDecimal amount;
+    @Builder.Default
+    private BigDecimal amount = new BigDecimal("0");
+
+    @Builder.Default
     private BigDecimal exchange = new BigDecimal("1.0");
 
     @Enumerated(EnumType.STRING)
@@ -41,9 +44,11 @@ public class TransactionEntity {
     private String message;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CurrencyType currencyType;
+
+    @Column(nullable = false)
     private Long userId;
 
-    @Column()
     private Long destAccount;
 }
