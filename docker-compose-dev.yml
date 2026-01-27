@@ -1,0 +1,25 @@
+services:
+  beca-database:
+    image: mariadb:11
+    container_name: mariadb-becajava
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: becajava
+      MARIADB_USER: becajava
+      MARIADB_PASSWORD: becajava
+      MARIADB_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+
+volumes:
+  mariadb_data:
+

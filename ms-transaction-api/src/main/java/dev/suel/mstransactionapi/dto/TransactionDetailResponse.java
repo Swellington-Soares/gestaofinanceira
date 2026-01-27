@@ -1,0 +1,21 @@
+package dev.suel.mstransactionapi.dto;
+
+import dev.suel.mstransactionapi.domain.OperationType;
+import dev.suel.mstransactionapi.domain.TransactionStatus;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public record TransactionDetailResponse(
+         Long userId,
+         LocalDateTime createdDate,
+         LocalDateTime processedDate,
+         UUID transactionId,
+         BigDecimal amount,
+         BigDecimal exchange,
+         OperationType operationType,
+         TransactionStatus status,
+         BigDecimal finalAmount
+) {
+}
