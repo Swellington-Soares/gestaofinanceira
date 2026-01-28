@@ -1,7 +1,6 @@
 package dev.suel.mstransactionprocessor.infra.service;
 
 import dev.suel.mstransactionprocessor.application.gateway.BalanceServicePort;
-import dev.suel.mstransactionprocessor.infra.external.brasilcambioapi.IBrasilCambioApiClient;
 import dev.suel.mstransactionprocessor.infra.external.mockapi.IMockApiClient;
 import dev.suel.mstransactionprocessor.infra.external.mockapi.UserBalanceInfo;
 import dev.suel.mstransactionprocessor.infra.external.mockapi.UserBalanceInfoCreate;

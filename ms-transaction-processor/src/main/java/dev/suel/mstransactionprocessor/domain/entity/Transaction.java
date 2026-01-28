@@ -170,6 +170,11 @@ public final class Transaction {
         return userId != null && userId.equals(ownerId);
     }
 
+    public boolean isPending() {
+        return this.status == TransactionStatus.PENDING;
+    }
+
+
     public void approve(String message) {
         this.message = message;
         this.status = TransactionStatus.APPROVED;
@@ -177,7 +182,7 @@ public final class Transaction {
     }
 
     public void approve() {
-        approve("Transação aprovada.");
+        approve("Transação realizada com sucesso.");
     }
 
     public void reject(String message) {
@@ -188,7 +193,7 @@ public final class Transaction {
 
 
     public void reject() {
-        approve("Transação rejeitada.");
+        reject("Transação rejeitada.");
     }
 
     public static class TransactionBuilder {

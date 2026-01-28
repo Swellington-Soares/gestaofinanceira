@@ -32,6 +32,8 @@ public class GeneratePDFDocumentUseCase {
         var s2 = LocalDateTime.of(endDate, LocalTime.MAX);
 
         ExpenseReportData expenseReport = new ExpenseReportData(
+                startDate,
+                endDate,
                 transactionReportPort.totalByMonth(userId, s1, s2),
                 transactionReportPort.totalByDay(userId, s1, s2),
                 transactionReportPort.totalByCategory(userId, s1, s2)

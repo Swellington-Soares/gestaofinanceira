@@ -1,42 +1,45 @@
 package dev.suel.mstransactionprocessor.infra.kafka;
 
 import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
+import dev.suel.mstransactionprocessor.application.gateway.ProcessTransactionRejectUseCase;
 import dev.suel.mstransactionprocessor.application.gateway.ProcessTransactionUseCase;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class TransactionRequestedConsumer {
-    private static final Logger log = LoggerFactory.getLogger(TransactionRequestedConsumer.class);
 
     private final ProcessTransactionUseCase processTransactionUseCase;
+    private final ProcessTransactionRejectUseCase processTransactionRejectUseCase;
 
+    @RetryableTopic(
+            attempts = "4", // 1 original + 3 retries
+            backoff = @Backoff(delay = 5000),
+            autoCreateTopics = "true",
+            include = {
+                    FeignException.class,
+                    RuntimeException.class
+            }
+    )
     @KafkaListener(
             topics = "transaction.requested",
-            groupId = "transaction-consumer-group"
+            groupId = "transaction-processor"
     )
-    public void consume(
-            @Payload TransactionKafkaEventData event,
-            @Header(KafkaHeaders.RECEIVED_KEY) String key,
-            @Header(KafkaHeaders.OFFSET) long offset
-    ) {
-
-        log.info("""
-                Evento recebido:
-                key={}
-                offset={}
-                payload={}
-                """, key, offset, event);
-
+    public void consume(TransactionKafkaEventData event) {
         processTransactionUseCase.execute(event);
+    }
 
+
+    public void consumeDlq(TransactionKafkaEventData event,
+                           @Header(KafkaHeaders.DLT_EXCEPTION_MESSAGE) String errorMessage) {
+        processTransactionRejectUseCase.execute(event, errorMessage);
 
     }
 

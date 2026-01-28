@@ -28,11 +28,13 @@ public class PDFDocumentGeneratorService implements DocumentGeneratorPort {
     private static final Font TITLE =
             new Font(Font.HELVETICA, 16, Font.BOLD);
 
+    private static final Font SUBTITLE = new Font(Font.HELVETICA, 14, Font.NORMAL, Color.DARK_GRAY);
+
     private static final Font SECTION =
             new Font(Font.HELVETICA, 12, Font.BOLD);
 
     private static final Font HEADER =
-            new Font(Font.HELVETICA, 11, Font.BOLD, Color.WHITE);
+            new Font(Font.HELVETICA, 11, Font.BOLD, Color.GRAY);
 
     private static final Font BODY =
             new Font(Font.HELVETICA, 11);
@@ -48,9 +50,17 @@ public class PDFDocumentGeneratorService implements DocumentGeneratorPort {
             document.open();
 
             addTitle(document);
-            addByMonth(document, expenseReportData.expenseByMonth());
-            addByDay(document, expenseReportData.expenseByDay());
-            addByCategory(document, expenseReportData.expenseByCategory());
+            addPeriodSubtitle(document, expenseReportData.getStartDate(), expenseReportData.getEndDate());
+
+            if (!expenseReportData.isEmpty()) {
+
+                addByMonth(document, expenseReportData.getExpenseByMonth());
+                addByDay(document, expenseReportData.getExpenseByDay());
+                addByCategory(document, expenseReportData.getExpenseByCategory());
+
+            } else {
+                addEmptyText(document);
+            }
 
             document.close();
             return out.toByteArray();
@@ -58,6 +68,22 @@ public class PDFDocumentGeneratorService implements DocumentGeneratorPort {
         } catch (Exception e) {
             throw new RuntimeException("Erro ao gerar relatório de despesas", e);
         }
+    }
+
+    private void addSubtitle(Document document, String text) {
+        Paragraph title = new Paragraph(text, SUBTITLE);
+        title.setAlignment(Element.ALIGN_LEFT);
+        title.setSpacingAfter(8);
+        document.add(title);
+    }
+
+    private void addEmptyText(Document document) {
+        addSubtitle(document, "Nenhum lançamento encontrado para o período informado");
+
+    }
+
+    private void addPeriodSubtitle(Document document, LocalDate startDate, LocalDate endDate) {
+        addSubtitle(document,"Período: " + formatDate(startDate) + " até " + formatDate(endDate));
     }
 
     private void addTitle(Document document) throws DocumentException {
@@ -72,20 +98,25 @@ public class PDFDocumentGeneratorService implements DocumentGeneratorPort {
 
         document.add(new Paragraph("Resumo por Mês", SECTION));
 
-        PdfPTable table = new PdfPTable(3);
-        table.setWidthPercentage(100);
-        table.setSpacingBefore(8);
-        table.setWidths(new float[]{2, 2, 3});
+        if (list.isEmpty()) {
+            addSubtitle(document, "Nenhum lançamento encontrado para o mês");
+        } else {
 
-        addHeader(table, "Ano", "Mês", "Total");
+            PdfPTable table = new PdfPTable(3);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(8);
+            table.setWidths(new float[]{2, 2, 3});
 
-        for (ExpenseByMonth item : list) {
-            table.addCell(cell(item.year()));
-            table.addCell(cell(String.valueOf(item.month())));
-            table.addCell(cell(formatCurrency(item.totalAmount())));
+            addHeader(table, "Ano", "Mês", "Total");
+
+            for (ExpenseByMonth item : list) {
+                table.addCell(cell(item.year()));
+                table.addCell(cell(String.valueOf(item.month())));
+                table.addCell(cell(formatCurrency(item.totalAmount())));
+            }
+
+            document.add(table);
         }
-
-        document.add(table);
     }
 
     private void addByDay(Document document, List<ExpenseByDay> list)
@@ -93,19 +124,25 @@ public class PDFDocumentGeneratorService implements DocumentGeneratorPort {
 
         document.add(new Paragraph("Resumo por Dia", SECTION));
 
-        PdfPTable table = new PdfPTable(2);
-        table.setWidthPercentage(100);
-        table.setSpacingBefore(8);
-        table.setWidths(new float[]{3, 3});
 
-        addHeader(table, "Data", "Total");
+        if (list.isEmpty()) {
+            addSubtitle(document, "Nenhum lançamento encontrado para o dia");
+        } else {
 
-        for (ExpenseByDay item : list) {
-            table.addCell(cell(formatDate(item.date())));
-            table.addCell(cell(formatCurrency(item.totalAmount())));
+            PdfPTable table = new PdfPTable(2);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(8);
+            table.setWidths(new float[]{3, 3});
+
+            addHeader(table, "Data", "Total");
+
+            for (ExpenseByDay item : list) {
+                table.addCell(cell(formatDate(item.date())));
+                table.addCell(cell(formatCurrency(item.totalAmount())));
+            }
+
+            document.add(table);
         }
-
-        document.add(table);
     }
 
 
@@ -114,19 +151,25 @@ public class PDFDocumentGeneratorService implements DocumentGeneratorPort {
 
         document.add(new Paragraph("Resumo por Categoria", SECTION));
 
-        PdfPTable table = new PdfPTable(2);
-        table.setWidthPercentage(100);
-        table.setSpacingBefore(8);
-        table.setWidths(new float[]{3, 3});
 
-        addHeader(table, "Categoria", "Total");
+        if (list.isEmpty()) {
+            addSubtitle(document, "Nenhum lançamento encontrado por categoria.");
+        } else {
 
-        for (ExpenseByCategory item : list) {
-            table.addCell(cell(item.category().name()));
-            table.addCell(cell(formatCurrency(item.totalAmount())));
+            PdfPTable table = new PdfPTable(2);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(8);
+            table.setWidths(new float[]{3, 3});
+
+            addHeader(table, "Categoria", "Total");
+
+            for (ExpenseByCategory item : list) {
+                table.addCell(cell(item.category().toString()));
+                table.addCell(cell(formatCurrency(item.totalAmount())));
+            }
+
+            document.add(table);
         }
-
-        document.add(table);
     }
 
     private void addHeader(PdfPTable table, String... titles) {

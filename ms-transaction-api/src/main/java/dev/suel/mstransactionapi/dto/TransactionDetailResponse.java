@@ -1,5 +1,6 @@
 package dev.suel.mstransactionapi.dto;
 
+import dev.suel.gestaofinanceira.types.CurrencyType;
 import dev.suel.gestaofinanceira.types.OperationType;
 import dev.suel.gestaofinanceira.types.TransactionStatus;
 
@@ -16,6 +17,7 @@ public record TransactionDetailResponse(
          BigDecimal exchange,
          OperationType operationType,
          TransactionStatus status,
-         BigDecimal finalAmount
+         BigDecimal finalAmount,
+         CurrencyType currencyType
 ) {
 }

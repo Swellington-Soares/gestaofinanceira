@@ -2,36 +2,27 @@ package dev.suel.mstransactionprocessor.infra.service;
 
 import dev.suel.gestaofinanceira.types.CurrencyType;
 import dev.suel.mstransactionprocessor.application.gateway.ExchangeServicePort;
-import dev.suel.mstransactionprocessor.domain.BusinessDayCalculator;
-import dev.suel.mstransactionprocessor.infra.external.brasilcambioapi.CurrencyExchangeRate;
-import dev.suel.mstransactionprocessor.infra.external.brasilcambioapi.CurrencyExchangeRateInfo;
-import dev.suel.mstransactionprocessor.infra.external.brasilcambioapi.IBrasilCambioApiClient;
+import dev.suel.mstransactionprocessor.infra.external.campioapi.CurrencyExchangeRateInfo;
+import dev.suel.mstransactionprocessor.infra.external.campioapi.ICambioApiClient;
+import dev.suel.mstransactionprocessor.infra.kafka.CurrencyQuotationVerifyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class ExchangeServiceImpl implements ExchangeServicePort {
 
-    private final IBrasilCambioApiClient brasilCambioApiClient;
+    private final ICambioApiClient brasilCambioApiClient;
 
     private float getSellQuoteToday(CurrencyType currencyCode) {
-
-        LocalDate currentDate =
-                !BusinessDayCalculator.isWeekend(LocalDate.now()) ? LocalDate.now() :
-                        BusinessDayCalculator.previousBusinessDay(LocalDate.now());
-        CurrencyExchangeRateInfo info = brasilCambioApiClient.getCurrency(currencyCode.name(), currentDate.toString());
-        List<CurrencyExchangeRate> rates = info.exchanges();
-        return rates.
-                stream()
-                .skip(rates.size() - 1)
-                .findFirst()
-                .map(CurrencyExchangeRate::sellQuote)
-                .orElse(1.0f);
+        Map<String, CurrencyExchangeRateInfo> info = brasilCambioApiClient.getCurrency(currencyCode.name());
+        CurrencyExchangeRateInfo value = info.values().stream().findFirst().orElseThrow(
+                () -> new CurrencyQuotationVerifyException("Não foi possível obter informação sobre a cotação.")
+        );
+        return Float.parseFloat(value.high());
 
     }
 

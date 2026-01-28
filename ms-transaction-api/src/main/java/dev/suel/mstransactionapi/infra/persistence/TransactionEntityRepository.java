@@ -17,12 +17,12 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
     @Query("""
             SELECT new dev.suel.mstransactionapi.dto.ExpenseByCategory(
                 t.operationType,
-                COALESCE(SUM(t.amount), 0)
+                COALESCE(SUM(t.amount * t.exchange), 0)
             )
             FROM Transaction t
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
-              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER')
+              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER', 'DEPOSIT')
               AND t.createdDate BETWEEN :start AND :end
             GROUP BY t.operationType
             """)
@@ -36,12 +36,12 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
     @Query("""
             SELECT new dev.suel.mstransactionapi.dto.ExpenseByDay(
                 t.createdDate,
-                COALESCE(SUM(t.amount), 0)
+                COALESCE(SUM(t.amount * t.exchange), 0)
             )
             FROM Transaction t
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
-              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER')
+              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER', 'DEPOSIT')
               AND t.createdDate BETWEEN :start AND :end
             GROUP BY DATE(t.createdDate)
             ORDER BY DATE(t.createdDate)
@@ -56,12 +56,12 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
                 SELECT new dev.suel.mstransactionapi.dto.ExpenseByMonth(
                     YEAR(t.createdDate),
                     MONTH(t.createdDate),
-                    COALESCE(SUM(t.amount), 0)
+                    COALESCE(SUM(t.amount * t.exchange), 0)
                 )
                 FROM Transaction t
                 WHERE t.userId = :userId
                   AND t.status = 'APPROVED'
-                  AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER')
+                  AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER', 'DEPOSIT')
                   AND t.createdDate BETWEEN :start AND :end
                 GROUP BY YEAR(t.createdDate), MONTH(t.createdDate)
                 ORDER BY YEAR(t.createdDate), MONTH(t.createdDate)
