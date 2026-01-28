@@ -2,6 +2,7 @@ package dev.suel.mstransactionapi.infra.web.handler;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import dev.suel.mstransactionapi.application.exception.AccessDeniedException;
 import dev.suel.mstransactionapi.application.exception.InvalidOperationException;
 import dev.suel.mstransactionapi.application.exception.ResourceNotFoundException;
 import dev.suel.mstransactionapi.dto.ApiResponse;
@@ -120,12 +121,15 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler({TokenExpiredException.class, JWTVerificationException.class})
+    @ExceptionHandler({
+            TokenExpiredException.class,
+            JWTVerificationException.class,
+            AccessDeniedException.class})
     public ResponseEntity<ApiResponse> handleJWTVerificationException(Exception ex,
                                                                       HttpServletRequest request) {
-        return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
                 new ApiResponse(LocalDateTime.now(),
-                        HttpStatus.PRECONDITION_FAILED.value(),
+                        HttpStatus.FORBIDDEN.value(),
                         ex.getMessage(),
                         request.getRequestURI(),
                         null)

@@ -20,9 +20,8 @@ public class TransactionRequestedConsumer {
     private final ProcessTransactionRejectUseCase processTransactionRejectUseCase;
 
     @RetryableTopic(
-            attempts = "4", // 1 original + 3 retries
+            attempts = "4",
             backoff = @Backoff(delay = 5000),
-            autoCreateTopics = "true",
             include = {
                     FeignException.class,
                     RuntimeException.class
@@ -36,11 +35,15 @@ public class TransactionRequestedConsumer {
         processTransactionUseCase.execute(event);
     }
 
-
-    public void consumeDlq(TransactionKafkaEventData event,
-                           @Header(KafkaHeaders.DLT_EXCEPTION_MESSAGE) String errorMessage) {
+    @KafkaListener(
+            topics = "transaction.requested.DLT",
+            groupId = "transaction-processor-dlt"
+    )
+    public void consumeDlq(
+            TransactionKafkaEventData event,
+            @Header(KafkaHeaders.DLT_EXCEPTION_MESSAGE) String errorMessage
+    ) {
         processTransactionRejectUseCase.execute(event, errorMessage);
-
     }
 
 

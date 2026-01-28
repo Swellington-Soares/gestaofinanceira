@@ -40,7 +40,7 @@ public class ExpenseAnalysisController {
             Authentication authentication
     ) {
         if (!securityService.isOwner(userId, authentication))
-            throw new AccessDeniedException("Você não tem autorização para acessar este recurso.");
+            throw new AccessDeniedException();
 
         return ResponseEntity.ok(
                 transactionReportUseCase.totalByCategory(userId, startDate, endDate)
@@ -59,7 +59,7 @@ public class ExpenseAnalysisController {
             Authentication authentication
     ) {
         if (!securityService.isOwner(userId, authentication))
-            throw new AccessDeniedException("Você não tem autorização para acessar este recurso.");
+            throw new AccessDeniedException();
         return ResponseEntity.ok(
                 transactionReportUseCase.totalByDay(userId, startDate, endDate)
         );
@@ -77,7 +77,7 @@ public class ExpenseAnalysisController {
             Authentication authentication
     ) {
         if (!securityService.isOwner(userId, authentication))
-            throw new AccessDeniedException("Você não tem autorização para acessar este recurso.");
+            throw new AccessDeniedException();
         return ResponseEntity.ok(
                 transactionReportUseCase.totalByMonth(userId, startDate, endDate)
         );
@@ -93,7 +93,7 @@ public class ExpenseAnalysisController {
             Authentication authentication
     ) {
         if (!securityService.isOwner(userId, authentication))
-            throw new AccessDeniedException("Você não tem autorização para acessar este recurso.");
+            throw new AccessDeniedException();
 
         byte[] pdf = generatePDFDocumentUseCase.execute(userId, startDate, endDate);
 

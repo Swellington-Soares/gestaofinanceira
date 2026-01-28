@@ -36,12 +36,6 @@ public class CreateWithDrawTransactionUseCase {
                 .currencyType(CurrencyType.Default())
                 .build();
 
-        transactionServicePort.save(transactionModel);
-
-        return new TransactionCreatedResponseDto(
-                transactionModel.getTransactionId(),
-                transactionModel.getStatus(),
-                transactionModel.getCreatedDate()
-        );
+       return transactionServicePort.save(transactionModel);
     }
 }

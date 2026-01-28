@@ -38,13 +38,8 @@ public class CreateTransferTransactionUseCase {
                 .destAccountId(data.destAccount())
                 .build();
 
-        transactionServicePort.save(transactionModel);
+        return transactionServicePort.save(transactionModel);
 
-        return new TransactionCreatedResponseDto(
-                transactionModel.getTransactionId(),
-                transactionModel.getStatus(),
-                transactionModel.getCreatedDate()
-        );
 
     }
 }

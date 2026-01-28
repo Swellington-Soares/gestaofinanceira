@@ -39,6 +39,7 @@ public class TransactionEntity {
     private OperationType operationType;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private TransactionStatus status = TransactionStatus.PENDING;
 
     private String message;
