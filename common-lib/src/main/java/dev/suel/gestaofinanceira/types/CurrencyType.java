@@ -1,4 +1,4 @@
-package dev.suel.mstransactionapi.domain;
+package dev.suel.gestaofinanceira.types;
 
 import java.util.Arrays;
 import java.util.List;

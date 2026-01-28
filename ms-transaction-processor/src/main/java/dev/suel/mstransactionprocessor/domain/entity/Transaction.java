@@ -1,9 +1,8 @@
 package dev.suel.mstransactionprocessor.domain.entity;
 
-
-import dev.suel.mstransactionprocessor.domain.CurrencyType;
-import dev.suel.mstransactionprocessor.domain.OperationType;
-import dev.suel.mstransactionprocessor.domain.TransactionStatus;
+import dev.suel.gestaofinanceira.types.CurrencyType;
+import dev.suel.gestaofinanceira.types.OperationType;
+import dev.suel.gestaofinanceira.types.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,15 +17,22 @@ public final class Transaction {
     private OperationType operationType;
     private TransactionStatus status = TransactionStatus.PENDING;
     private String message;
-    private CurrencyType currencyType;
     private Long userId;
+    private CurrencyType currencyType;
     private Long destAccountId;
 
 
-    public Transaction(UUID transactionId, LocalDateTime createdDate,
-                       LocalDateTime processedDate, BigDecimal amount,
-                       BigDecimal exchange, OperationType operationType,
-                       TransactionStatus status, String message, CurrencyType currencyType, Long userId, Long destAccountId) {
+    public Transaction(UUID transactionId,
+                       LocalDateTime createdDate,
+                       LocalDateTime processedDate,
+                       BigDecimal amount,
+                       BigDecimal exchange,
+                       OperationType operationType,
+                       TransactionStatus status,
+                       String message,
+                       Long userId,
+                       CurrencyType currencyType,
+                       Long destAccountId) {
         this.transactionId = transactionId;
         this.createdDate = createdDate;
         this.processedDate = processedDate;
@@ -35,8 +41,8 @@ public final class Transaction {
         this.operationType = operationType;
         this.status = status;
         this.message = message;
-        this.currencyType = currencyType;
         this.userId = userId;
+        this.currencyType = currencyType;
         this.destAccountId = destAccountId;
     }
 
@@ -213,6 +219,11 @@ public final class Transaction {
             return this;
         }
 
+        public TransactionBuilder currencyType(CurrencyType currencyType) {
+            this.currencyType = currencyType;
+            return this;
+        }
+
         public TransactionBuilder amount(BigDecimal amount) {
             this.amount = amount;
             return this;
@@ -238,10 +249,6 @@ public final class Transaction {
             return this;
         }
 
-        public TransactionBuilder currencyType(CurrencyType currencyType) {
-            this.currencyType = currencyType;
-            return this;
-        }
 
         public TransactionBuilder userId(Long userId) {
             this.userId = userId;
@@ -263,9 +270,10 @@ public final class Transaction {
                     operationType,
                     status,
                     message,
-                    currencyType,
                     userId,
-                    destAccountId);
+                    currencyType,
+                    destAccountId
+            );
         }
     }
 }

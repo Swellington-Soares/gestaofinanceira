@@ -1,8 +1,9 @@
 package dev.suel.mstransactionprocessor.infra.persistence;
 
-import dev.suel.mstransactionprocessor.domain.CurrencyType;
-import dev.suel.mstransactionprocessor.domain.OperationType;
-import dev.suel.mstransactionprocessor.domain.TransactionStatus;
+
+import dev.suel.gestaofinanceira.types.CurrencyType;
+import dev.suel.gestaofinanceira.types.OperationType;
+import dev.suel.gestaofinanceira.types.TransactionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

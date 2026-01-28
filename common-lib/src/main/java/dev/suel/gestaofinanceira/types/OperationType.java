@@ -1,4 +1,4 @@
-package dev.suel.mstransactionapi.domain;
+package dev.suel.gestaofinanceira.types;
 
 public enum OperationType {
     WITHDRAW,

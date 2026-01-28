@@ -1,6 +1,6 @@
 package dev.suel.mstransactionapi.dto;
 
-import dev.suel.mstransactionapi.domain.OperationType;
+import dev.suel.gestaofinanceira.types.OperationType;
 
 import java.math.BigDecimal;
 

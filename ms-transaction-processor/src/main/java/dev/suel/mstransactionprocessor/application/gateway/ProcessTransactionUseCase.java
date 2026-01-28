@@ -1,6 +1,7 @@
 package dev.suel.mstransactionprocessor.application.gateway;
 
-import dev.suel.mstransactionprocessor.dto.TransactionKafkaEventData;
+
+import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 
 public interface ProcessTransactionUseCase {
     void execute(TransactionKafkaEventData event);

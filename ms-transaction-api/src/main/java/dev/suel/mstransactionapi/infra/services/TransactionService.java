@@ -1,12 +1,12 @@
 package dev.suel.mstransactionapi.infra.services;
 
+import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 import dev.suel.mstransactionapi.application.gateway.TransactionEventPublisher;
 import dev.suel.mstransactionapi.application.gateway.TransactionServicePort;
 import dev.suel.mstransactionapi.domain.PageDataDomain;
 import dev.suel.mstransactionapi.domain.PaginatedResponse;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
-import dev.suel.mstransactionapi.dto.TransactionKafkaEventData;
 import dev.suel.mstransactionapi.infra.mapper.PageMapper;
 import dev.suel.mstransactionapi.infra.mapper.PageSortMapper;
 import dev.suel.mstransactionapi.infra.mapper.TransactionMapper;

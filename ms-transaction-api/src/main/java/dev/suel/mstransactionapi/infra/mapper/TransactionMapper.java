@@ -1,8 +1,8 @@
 package dev.suel.mstransactionapi.infra.mapper;
 
+import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.dto.TransactionDetailResponse;
-import dev.suel.mstransactionapi.dto.TransactionKafkaEventData;
 import dev.suel.mstransactionapi.infra.persistence.TransactionEntity;
 import org.springframework.stereotype.Component;
 

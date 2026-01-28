@@ -1,6 +1,6 @@
 package dev.suel.mstransactionprocessor.application.gateway;
 
-import dev.suel.mstransactionprocessor.domain.CurrencyType;
+import dev.suel.gestaofinanceira.types.CurrencyType;
 
 import java.math.BigDecimal;
 

@@ -1,13 +1,12 @@
 package dev.suel.mstransactionprocessor.infra.service;
 
+import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
+import dev.suel.gestaofinanceira.types.TransactionStatus;
 import dev.suel.mstransactionprocessor.application.gateway.BalanceServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ExchangeServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ProcessTransactionUseCase;
-import dev.suel.mstransactionprocessor.domain.TransactionStatus;
 import dev.suel.mstransactionprocessor.domain.entity.Transaction;
-import dev.suel.mstransactionprocessor.dto.TransactionKafkaEventData;
 import dev.suel.mstransactionprocessor.infra.mapper.TransactionMapper;
-import dev.suel.mstransactionprocessor.infra.persistence.TransactionEntity;
 import dev.suel.mstransactionprocessor.infra.persistence.TransactionEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -48,7 +47,7 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
         BigDecimal currentBalance = balanceServicePort.getBalance(transaction.getUserId());
 
         switch (transaction.getOperationType()) {
-            case DEPOSIT ->  {
+            case DEPOSIT -> {
                 balanceServicePort.updateBalance(transaction.getUserId(), currentBalance.add(transaction.getFinalAmount()));
                 transaction.approve();
             }

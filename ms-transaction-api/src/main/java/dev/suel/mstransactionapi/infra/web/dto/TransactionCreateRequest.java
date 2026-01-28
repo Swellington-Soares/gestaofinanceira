@@ -1,8 +1,7 @@
 package dev.suel.mstransactionapi.infra.web.dto;
 
 
-import dev.suel.mstransactionapi.domain.CurrencyType;
-import dev.suel.mstransactionapi.domain.OperationType;
+import dev.suel.gestaofinanceira.types.CurrencyType;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;

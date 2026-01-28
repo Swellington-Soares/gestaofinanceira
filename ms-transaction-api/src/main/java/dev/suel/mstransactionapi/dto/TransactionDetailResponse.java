@@ -1,7 +1,7 @@
 package dev.suel.mstransactionapi.dto;
 
-import dev.suel.mstransactionapi.domain.OperationType;
-import dev.suel.mstransactionapi.domain.TransactionStatus;
+import dev.suel.gestaofinanceira.types.OperationType;
+import dev.suel.gestaofinanceira.types.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

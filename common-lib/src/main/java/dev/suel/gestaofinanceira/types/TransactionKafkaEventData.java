@@ -1,7 +1,6 @@
-package dev.suel.mstransactionapi.dto;
+package dev.suel.gestaofinanceira.types;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import dev.suel.mstransactionapi.domain.CurrencyType;
 
 import java.math.BigDecimal;
 import java.util.UUID;

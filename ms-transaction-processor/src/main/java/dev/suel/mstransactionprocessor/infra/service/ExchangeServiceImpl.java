@@ -1,8 +1,8 @@
 package dev.suel.mstransactionprocessor.infra.service;
 
+import dev.suel.gestaofinanceira.types.CurrencyType;
 import dev.suel.mstransactionprocessor.application.gateway.ExchangeServicePort;
 import dev.suel.mstransactionprocessor.domain.BusinessDayCalculator;
-import dev.suel.mstransactionprocessor.domain.CurrencyType;
 import dev.suel.mstransactionprocessor.infra.external.brasilcambioapi.CurrencyExchangeRate;
 import dev.suel.mstransactionprocessor.infra.external.brasilcambioapi.CurrencyExchangeRateInfo;
 import dev.suel.mstransactionprocessor.infra.external.brasilcambioapi.IBrasilCambioApiClient;

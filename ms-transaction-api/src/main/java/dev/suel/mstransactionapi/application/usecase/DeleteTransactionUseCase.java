@@ -5,7 +5,7 @@ import dev.suel.mstransactionapi.application.exception.AccessDeniedException;
 import dev.suel.mstransactionapi.application.exception.InvalidOperationException;
 import dev.suel.mstransactionapi.application.exception.ResourceNotFoundException;
 import dev.suel.mstransactionapi.application.gateway.TransactionServicePort;
-import dev.suel.mstransactionapi.domain.TransactionStatus;
+import dev.suel.gestaofinanceira.types.TransactionStatus;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 
 import java.util.UUID;

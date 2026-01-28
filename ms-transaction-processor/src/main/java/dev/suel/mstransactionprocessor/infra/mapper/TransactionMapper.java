@@ -2,7 +2,6 @@ package dev.suel.mstransactionprocessor.infra.mapper;
 
 
 import dev.suel.mstransactionprocessor.domain.entity.Transaction;
-import dev.suel.mstransactionprocessor.dto.TransactionKafkaEventData;
 import dev.suel.mstransactionprocessor.infra.persistence.TransactionEntity;
 import org.springframework.stereotype.Component;
 

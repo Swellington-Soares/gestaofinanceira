@@ -1,7 +1,7 @@
 package dev.suel.mstransactionapi.infra.services;
 
+import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 import dev.suel.mstransactionapi.application.gateway.TransactionEventPublisher;
-import dev.suel.mstransactionapi.dto.TransactionKafkaEventData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;

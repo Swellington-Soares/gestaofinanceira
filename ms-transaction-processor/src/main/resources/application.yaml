@@ -1,7 +1,17 @@
 spring:
   application:
     name: ms-transaction-processor
+  kafka:
+    consumer:
+      group-id: transaction-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: dev.suel.*
+        spring.json.value.default.type: dev.suel.gestaofinanceira.types.TransactionKafkaEventData
 services:
   external:
     brasil-cambio-api: https://brasilapi.com.br/api/cambio/v1
     mock-api: https://696f7560a06046ce6186c5c6.mockapi.io/api/v1
+

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @FeignClient(
-        name = "cambio-api",
+        name = "mock-api",
         url = "${services.external.mock-api}"
 )
 public interface IMockApiClient {
@@ -20,7 +20,7 @@ public interface IMockApiClient {
     @GetMapping("/balances/{balanceId}")
     UserBalanceInfo read(@PathVariable String balanceId);
 
-    @PatchMapping("/balances/{balanceId}")
+    @PutMapping("/balances/{balanceId}")
     UserBalanceInfo update(@PathVariable String balanceId, @RequestBody UserBalanceUpdate infoUpdate);
 
     @DeleteMapping("/balances/{balanceId}")

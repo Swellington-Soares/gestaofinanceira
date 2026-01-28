@@ -29,7 +29,7 @@ public class BalanceServiceImpl implements BalanceServicePort {
     @Override
     public void updateBalance(Long userId, BigDecimal amount) {
         UserBalanceInfo  userBalanceInfo = getOrCreateUserBalanceInfo(userId);
-        mockApiClient.update(userBalanceInfo.id(), new UserBalanceUpdate(amount));
+        mockApiClient.update(userBalanceInfo.id(), new UserBalanceUpdate(amount.toPlainString()));
     }
 
     @Override

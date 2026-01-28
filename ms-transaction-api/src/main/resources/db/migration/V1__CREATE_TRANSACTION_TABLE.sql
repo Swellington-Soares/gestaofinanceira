@@ -1,6 +1,6 @@
 CREATE TABLE transactions
 (
-    transaction_id BINARY(16)   NOT NULL,
+    transaction_id UUID   NOT NULL,
     created_date   datetime     NULL,
     processed_date datetime     NULL,
     amount         DECIMAL      NOT NULL DEFAULT 0,
@@ -10,7 +10,7 @@ CREATE TABLE transactions
     message        VARCHAR(255) NULL,
     currency_type  VARCHAR(255) NOT NULL,
     user_id        BIGINT       NOT NULL,
-    destAccount    BIGINT       NULL,
+    dest_account    BIGINT       NULL,
     CONSTRAINT pk_transactions PRIMARY KEY (transaction_id)
 );
 

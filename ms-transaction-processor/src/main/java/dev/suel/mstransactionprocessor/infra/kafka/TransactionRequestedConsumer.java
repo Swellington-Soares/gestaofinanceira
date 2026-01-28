@@ -1,7 +1,7 @@
 package dev.suel.mstransactionprocessor.infra.kafka;
 
+import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 import dev.suel.mstransactionprocessor.application.gateway.ProcessTransactionUseCase;
-import dev.suel.mstransactionprocessor.dto.TransactionKafkaEventData;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

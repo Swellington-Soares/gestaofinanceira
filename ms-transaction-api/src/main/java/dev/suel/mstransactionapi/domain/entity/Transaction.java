@@ -1,14 +1,14 @@
 package dev.suel.mstransactionapi.domain.entity;
 
-import dev.suel.mstransactionapi.domain.CurrencyType;
-import dev.suel.mstransactionapi.domain.OperationType;
-import dev.suel.mstransactionapi.domain.TransactionStatus;
+import dev.suel.gestaofinanceira.types.CurrencyType;
+import dev.suel.gestaofinanceira.types.OperationType;
+import dev.suel.gestaofinanceira.types.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Transaction {
+public final class Transaction {
     private UUID transactionId;
     private LocalDateTime createdDate;
     private LocalDateTime processedDate;
@@ -17,15 +17,22 @@ public class Transaction {
     private OperationType operationType;
     private TransactionStatus status = TransactionStatus.PENDING;
     private String message;
-    private CurrencyType currencyType;
     private Long userId;
+    private CurrencyType currencyType;
     private Long destAccountId;
 
 
-    public Transaction(UUID transactionId, LocalDateTime createdDate,
-                       LocalDateTime processedDate, BigDecimal amount,
-                       BigDecimal exchange, OperationType operationType,
-                       TransactionStatus status, String message, CurrencyType currencyType, Long userId, Long destAccountId) {
+    public Transaction(UUID transactionId,
+                       LocalDateTime createdDate,
+                       LocalDateTime processedDate,
+                       BigDecimal amount,
+                       BigDecimal exchange,
+                       OperationType operationType,
+                       TransactionStatus status,
+                       String message,
+                       Long userId,
+                       CurrencyType currencyType,
+                       Long destAccountId) {
         this.transactionId = transactionId;
         this.createdDate = createdDate;
         this.processedDate = processedDate;
@@ -34,8 +41,8 @@ public class Transaction {
         this.operationType = operationType;
         this.status = status;
         this.message = message;
-        this.currencyType = currencyType;
         this.userId = userId;
+        this.currencyType = currencyType;
         this.destAccountId = destAccountId;
     }
 
@@ -163,6 +170,27 @@ public class Transaction {
         return userId != null && userId.equals(ownerId);
     }
 
+    public void approve(String message) {
+        this.message = message;
+        this.status = TransactionStatus.APPROVED;
+        this.processedDate = LocalDateTime.now();
+    }
+
+    public void approve() {
+        approve("Transação aprovada.");
+    }
+
+    public void reject(String message) {
+        this.message = message;
+        this.status = TransactionStatus.REJECTED;
+        this.processedDate = LocalDateTime.now();
+    }
+
+
+    public void reject() {
+        approve("Transação rejeitada.");
+    }
+
     public static class TransactionBuilder {
         private UUID transactionId;
         private LocalDateTime createdDate;
@@ -191,6 +219,11 @@ public class Transaction {
             return this;
         }
 
+        public TransactionBuilder currencyType(CurrencyType currencyType) {
+            this.currencyType = currencyType;
+            return this;
+        }
+
         public TransactionBuilder amount(BigDecimal amount) {
             this.amount = amount;
             return this;
@@ -216,10 +249,6 @@ public class Transaction {
             return this;
         }
 
-        public TransactionBuilder currencyType(CurrencyType currencyType) {
-            this.currencyType = currencyType;
-            return this;
-        }
 
         public TransactionBuilder userId(Long userId) {
             this.userId = userId;
@@ -241,9 +270,10 @@ public class Transaction {
                     operationType,
                     status,
                     message,
-                    currencyType,
                     userId,
-                    destAccountId);
+                    currencyType,
+                    destAccountId
+            );
         }
     }
 }

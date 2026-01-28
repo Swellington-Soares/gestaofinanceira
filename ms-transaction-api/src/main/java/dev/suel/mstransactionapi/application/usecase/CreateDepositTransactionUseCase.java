@@ -2,8 +2,8 @@ package dev.suel.mstransactionapi.application.usecase;
 
 
 import dev.suel.mstransactionapi.application.gateway.TransactionServicePort;
-import dev.suel.mstransactionapi.domain.OperationType;
-import dev.suel.mstransactionapi.domain.TransactionStatus;
+import dev.suel.gestaofinanceira.types.OperationType;
+import dev.suel.gestaofinanceira.types.TransactionStatus;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 import dev.suel.mstransactionapi.infra.web.dto.TransactionCreateRequest;

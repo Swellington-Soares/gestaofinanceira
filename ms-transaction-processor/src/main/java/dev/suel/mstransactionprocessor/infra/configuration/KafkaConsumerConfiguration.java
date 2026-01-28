@@ -1,7 +1,7 @@
 package dev.suel.mstransactionprocessor.infra.configuration;
 
 
-import dev.suel.mstransactionprocessor.dto.TransactionKafkaEventData;
+import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 import org.apache.kafka.common.TopicPartition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

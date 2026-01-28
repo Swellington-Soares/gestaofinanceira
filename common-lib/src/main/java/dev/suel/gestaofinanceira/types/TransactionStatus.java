@@ -1,4 +1,4 @@
-package dev.suel.mstransactionprocessor.domain;
+package dev.suel.gestaofinanceira.types;
 
 public enum TransactionStatus {
     PENDING,
