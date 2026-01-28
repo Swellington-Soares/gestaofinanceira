@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: ms-transaction-api
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}

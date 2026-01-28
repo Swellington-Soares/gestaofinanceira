@@ -4,8 +4,6 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-  application:
-    name: ms-transaction-api
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}

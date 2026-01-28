@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: ms-user
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}

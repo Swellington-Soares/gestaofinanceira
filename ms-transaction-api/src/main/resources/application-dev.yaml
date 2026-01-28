@@ -4,8 +4,6 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-  application:
-    name: ms-transaction-api
   datasource:
     url: jdbc:mariadb://localhost:3306/becajava
     username: becajava
