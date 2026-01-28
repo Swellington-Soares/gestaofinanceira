@@ -40,10 +40,10 @@ public class AppConfiguration {
         return new RemoveCustomerByIdUseCase(customerService);
     }
 
-    @Bean
-    public RegisterNewCustomerByFileUseCase registerNewsCustomersByFile() {
-        return new RegisterNewCustomerByFileUseCase(batchRegisterCustomerService);
-    }
+//    @Bean
+//    public RegisterNewCustomerByFileUseCase registerNewsCustomersByFile() {
+//        return new RegisterNewCustomerByFileUseCase(batchRegisterCustomerService);
+//    }
 
 
     @Bean

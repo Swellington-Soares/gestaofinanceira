@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 @RestController
@@ -90,7 +89,6 @@ public class CustomerController {
         updateCustomerByIdUseCase.execute(id, data);
         return ResponseEntity.accepted().build();
     }
-
 
 
     @GetMapping("/{id}")
