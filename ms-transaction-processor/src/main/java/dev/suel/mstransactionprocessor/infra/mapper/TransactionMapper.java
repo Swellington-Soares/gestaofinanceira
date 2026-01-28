@@ -38,14 +38,4 @@ public class TransactionMapper {
                 .userId(transaction.getUserId())
                 .build();
     }
-
-    public TransactionKafkaEventData modelToKafkaData(Transaction model) {
-        return new TransactionKafkaEventData(
-                model.getTransactionId(),
-                model.getUserId(),
-                model.getCurrencyType(),
-                model.getAmount(),
-                model.getDestAccountId()
-        );
-    }
 }
