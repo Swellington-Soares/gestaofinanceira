@@ -56,6 +56,10 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
                  PURCHASER,
                  WITHDRAW -> {
                 if (currentBalance.compareTo(transaction.getFinalAmount()) > 0) {
+                    balanceServicePort.updateBalance(
+                            transaction.getUserId(),
+                            currentBalance.subtract(transaction.getFinalAmount())
+                    );
                     transaction.approve();
                 } else {
                     transaction.reject();
