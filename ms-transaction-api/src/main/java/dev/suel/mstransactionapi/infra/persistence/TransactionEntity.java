@@ -1,4 +1,4 @@
-package dev.suel.mstransactionapi.infra.persistence.entity;
+package dev.suel.mstransactionapi.infra.persistence;
 
 import dev.suel.mstransactionapi.domain.CurrencyType;
 import dev.suel.mstransactionapi.domain.OperationType;

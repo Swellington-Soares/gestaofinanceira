@@ -3,7 +3,7 @@ package dev.suel.mstransactionapi.infra.seeder;
 
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.infra.mapper.TransactionMapper;
-import dev.suel.mstransactionapi.infra.persistence.repository.TransactionEntityRepository;
+import dev.suel.mstransactionapi.infra.persistence.TransactionEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

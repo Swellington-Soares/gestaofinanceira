@@ -1,26 +1,13 @@
-package dev.suel.mstransactionapi.infra.mapper;
+package dev.suel.mstransactionprocessor.infra.mapper;
 
-import dev.suel.mstransactionapi.domain.entity.Transaction;
-import dev.suel.mstransactionapi.dto.TransactionDetailResponse;
-import dev.suel.mstransactionapi.dto.TransactionKafkaEventData;
-import dev.suel.mstransactionapi.infra.persistence.TransactionEntity;
+
+import dev.suel.mstransactionprocessor.domain.entity.Transaction;
+import dev.suel.mstransactionprocessor.dto.TransactionKafkaEventData;
+import dev.suel.mstransactionprocessor.infra.persistence.TransactionEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TransactionMapper {
-    public TransactionDetailResponse modelToResponse(Transaction transaction) {
-        return new TransactionDetailResponse(
-                transaction.getUserId(),
-                transaction.getCreatedDate(),
-                transaction.getProcessedDate(),
-                transaction.getTransactionId(),
-                transaction.getAmount(),
-                transaction.getExchange(),
-                transaction.getOperationType(),
-                transaction.getStatus(),
-                transaction.getFinalAmount()
-        );
-    }
 
     public Transaction transactionEntityToModel(TransactionEntity entity) {
         return Transaction.builder()

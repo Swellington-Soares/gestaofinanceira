@@ -1,3 +1,7 @@
 spring:
   application:
     name: ms-transaction-processor
+services:
+  external:
+    brasil-cambio-api: https://brasilapi.com.br/api/cambio/v1
+    mock-api: https://696f7560a06046ce6186c5c6.mockapi.io/api/v1

@@ -4,16 +4,10 @@ import dev.suel.mstransactionapi.application.gateway.TransactionReportPort;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
-import dev.suel.mstransactionapi.infra.persistence.repository.TransactionEntityRepository;
-import dev.suel.mstransactionapi.dto.ExpenseReportData;
+import dev.suel.mstransactionapi.infra.persistence.TransactionEntityRepository;
 import lombok.RequiredArgsConstructor;
-import org.openpdf.text.*;
-import org.openpdf.text.Font;
-import org.openpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
-import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 
