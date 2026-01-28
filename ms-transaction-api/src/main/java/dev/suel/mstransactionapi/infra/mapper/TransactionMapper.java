@@ -19,7 +19,8 @@ public class TransactionMapper {
                 transaction.getOperationType(),
                 transaction.getStatus(),
                 transaction.getFinalAmount(),
-                transaction.getCurrencyType()
+                transaction.getCurrencyType(),
+                transaction.getMessage()
         );
     }
 

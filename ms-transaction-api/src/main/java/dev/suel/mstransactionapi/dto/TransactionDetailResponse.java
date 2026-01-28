@@ -18,6 +18,7 @@ public record TransactionDetailResponse(
          OperationType operationType,
          TransactionStatus status,
          BigDecimal finalAmount,
-         CurrencyType currencyType
+         CurrencyType currencyType,
+         String message
 ) {
 }
