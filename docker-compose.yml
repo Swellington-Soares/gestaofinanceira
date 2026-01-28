@@ -63,8 +63,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        MODULE: ms-user
+      target: ms-user
+    image: ms-user:latest
     container_name: ms-user
     restart: unless-stopped
     ports:
@@ -87,8 +87,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        MODULE: ms-transaction-api
+      target: ms-transaction-api
+    image: ms-transaction-api:latest
     container_name: ms-transaction-api
     restart: unless-stopped
     ports:
@@ -111,8 +111,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        MODULE: ms-transaction-processor
+      target: ms-transaction-processor
+    image: ms-transaction-processor:latest
     container_name: ms-transaction-processor
     restart: unless-stopped
     ports:

@@ -17,6 +17,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
   kafka-init:
     image: alpine:3.19
     container_name: kafka-init
