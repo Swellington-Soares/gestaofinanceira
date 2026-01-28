@@ -22,7 +22,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             FROM Transaction t
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
-              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER', 'DEPOSIT')
+              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER')
               AND t.createdDate BETWEEN :start AND :end
             GROUP BY t.operationType
             """)
@@ -41,7 +41,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             FROM Transaction t
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
-              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER', 'DEPOSIT')
+              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER')
               AND t.createdDate BETWEEN :start AND :end
             GROUP BY DATE(t.createdDate)
             ORDER BY DATE(t.createdDate)
@@ -61,7 +61,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
                 FROM Transaction t
                 WHERE t.userId = :userId
                   AND t.status = 'APPROVED'
-                  AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER', 'DEPOSIT')
+                  AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER')
                   AND t.createdDate BETWEEN :start AND :end
                 GROUP BY YEAR(t.createdDate), MONTH(t.createdDate)
                 ORDER BY YEAR(t.createdDate), MONTH(t.createdDate)
