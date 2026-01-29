@@ -1,0 +1,34 @@
+post:
+  tags: [Clientes]
+  summary: Cadastro em lote por upload
+  description: >
+    Recebe um arquivo (multipart/form-data) para processar o cadastro em lote.
+    Retorna 202 Accepted com um identificador do processamento para consulta de status.
+  operationId: uploadBatchRegister
+  security: []
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required: [file]
+          properties:
+            file:
+              type: string
+              format: binary
+  responses:
+    '202':
+      description: Upload aceito e processamento iniciado    
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/FileUploadResponse.yaml'
+    '400':
+      description: 'Arquivo inválido (ex.: vazio)'      
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiResponse.yaml'
+    '422':
+      $ref: '../../components/responses.yaml#/UnprocessableEntity'

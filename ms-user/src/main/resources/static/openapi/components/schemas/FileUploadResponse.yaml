@@ -1,0 +1,14 @@
+type: object
+required: [id, message, startedAt]
+properties:
+  id:
+    type: string
+    description: Identificador do processamento
+    example: "9bda1a0a-0f10-4ab7-9a3e-1c3c3d6b7b1a"
+  message:
+    type: string
+    example: "Processamento iniciado"
+  startedAt:
+    type: string
+    format: date-time
+    example: "2026-01-29T10:00:00Z"

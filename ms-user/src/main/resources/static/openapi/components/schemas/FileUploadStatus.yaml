@@ -1,0 +1,27 @@
+type: object
+required: [id, createdAt, status, processed, totalItems, errors]
+properties:
+  id:
+    type: string
+    example: "9bda1a0a-0f10-4ab7-9a3e-1c3c3d6b7b1a"
+  createdAt:
+    type: string
+    format: date-time
+    example: "2026-01-29T10:00:00Z"
+  status:
+    type: string
+    enum: [STATUS_ERROR, STATUS_PROCESSING, STATUS_FINISHED]
+    example: "STATUS_PROCESSING"
+  processed:
+    type: integer
+    format: int64
+    example: 10
+  totalItems:
+    type: integer
+    format: int64
+    example: 200
+  errors:
+    type: array
+    items:
+      type: string
+    example: []

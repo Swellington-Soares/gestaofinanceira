@@ -1,0 +1,20 @@
+get:
+  tags: [Clientes]
+  summary: Consultar a situação do cadastro em lote
+  operationId: checkBatchRegisterStatus
+  security: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Identificador do processamento retornado no upload
+      example: "9bda1a0a0f104ab79a3e1c3c3d6b7b1a"
+  responses:
+    '200':
+      description: Status retornado com sucesso
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/FileUploadStatus.yaml'

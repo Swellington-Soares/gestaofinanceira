@@ -1,0 +1,70 @@
+get:
+  tags: [Clientes]
+  summary: Buscar cliente por ID
+  description: Requer autenticação e ownership (@security.isOwner).
+  operationId: getCustomerById
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: '../../components/parameters.yaml#/CustomerIdPath'
+  responses:
+    '200':
+      description: Cliente encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/CustomerInfoResponse.yaml'
+    '401':
+      $ref: '../../components/responses.yaml#/Unauthorized'
+    '403':
+      $ref: '../../components/responses.yaml#/Forbidden'
+    '404':
+      $ref: '../../components/responses.yaml#/NotFound'
+
+put:
+  tags: [Clientes]
+  summary: Atualizar cliente por ID
+  description: Retorna 202 Accepted sem body. Requer ownership.
+  operationId: updateCustomerById
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: '../../components/parameters.yaml#/CustomerIdPath'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/CustomerUpdateRequest.yaml'
+  responses:
+    '202':
+      description: Atualização aceita      
+    '400':
+      $ref: '../../components/responses.yaml#/BadRequest'
+    '401':
+      $ref: '../../components/responses.yaml#/Unauthorized'
+    '403':
+      $ref: '../../components/responses.yaml#/Forbidden'
+    '404':
+      $ref: '../../components/responses.yaml#/NotFound'
+    '422':
+      $ref: '../../components/responses.yaml#/UnprocessableEntity'
+
+delete:
+  tags: [Clientes]
+  summary: Remover customer por ID
+  description: Retorna 204 No Content. Requer ownership.
+  operationId: deleteCustomerById
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: '../../components/parameters.yaml#/CustomerIdPath'
+  responses:
+    '204':
+      description: Removido com sucesso     
+    '401':
+      $ref: '../../components/responses.yaml#/Unauthorized'
+    '403':
+      $ref: '../../components/responses.yaml#/Forbidden'
+    '404':
+      $ref: '../../components/responses.yaml#/NotFound'

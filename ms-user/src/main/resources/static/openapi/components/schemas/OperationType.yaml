@@ -1,0 +1,4 @@
+type: string
+description: Tipo de operação
+enum: [WITHDRAW, DEPOSIT, TRANSFER, PURCHASER]
+example: "DEPOSIT"

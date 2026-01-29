@@ -1,0 +1,16 @@
+type: object
+required: [email, password, name]
+properties:
+  email:
+    type: string
+    format: email
+    minLength: 1
+    example: "cliente@exemplo.com"
+  password:
+    type: string
+    minLength: 1
+    example: "SenhaForte@123"
+  name:
+    type: string
+    minLength: 1
+    example: "Cliente Exemplo"

@@ -1,0 +1,43 @@
+post:
+  tags: [Clientes]
+  summary: Criar Cliente
+  operationId: createCustomer
+  security: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/CustomerCreateRequest.yaml'
+  responses:
+    '201':
+      description: Cliente criado
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/CustomerInfoResponse.yaml'
+    '400':
+      $ref: '../../components/responses.yaml#/BadRequest'
+    '409':
+      $ref: '../../components/responses.yaml#/Conflict'
+    '422':
+      $ref: '../../components/responses.yaml#/UnprocessableEntity'
+
+get:
+  tags: [Clientes]
+  summary: Listar Clientes (paginado)
+  operationId: listCustomers
+  security: []
+  parameters:
+    - $ref: '../../components/parameters.yaml#/PageParam'
+    - $ref: '../../components/parameters.yaml#/SizeParam'
+    - $ref: '../../components/parameters.yaml#/SortParam'
+  responses:
+    '200':
+      description: Lista paginada
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/PaginatedCustomerInfoResponse.yaml'
+    '400':
+      $ref: '../../components/responses.yaml#/BadRequest'

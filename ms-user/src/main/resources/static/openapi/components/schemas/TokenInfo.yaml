@@ -1,0 +1,15 @@
+type: object
+required: [token, createAt, expiresIn]
+properties:
+  token:
+    type: string
+    description: JWT
+    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  createAt:
+    type: string
+    format: date-time
+    example: "2026-01-29T10:00:00Z"
+  expiresIn:
+    type: string
+    format: date-time
+    example: "2026-01-29T11:00:00Z"

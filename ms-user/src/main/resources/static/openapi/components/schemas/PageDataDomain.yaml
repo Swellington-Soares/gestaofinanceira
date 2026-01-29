@@ -1,0 +1,15 @@
+type: object
+required: [page, size]
+properties:
+  page:
+    type: integer
+    minimum: 0
+    example: 0
+  size:
+    type: integer
+    minimum: 1
+    example: 20
+  sort:
+    type: array
+    items:
+      $ref: ./SortField.yaml

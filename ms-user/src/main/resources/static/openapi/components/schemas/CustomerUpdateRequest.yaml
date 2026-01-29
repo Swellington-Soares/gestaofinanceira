@@ -1,0 +1,14 @@
+type: object
+description: >
+  Payload de atualização. Campos são opcionais.
+  Use `password` + `newPassword` para troca de senha.
+properties:
+  name:
+    type: string
+    example: "Novo Nome"
+  password:
+    type: string
+    example: "SenhaAtual@123"
+  newPassword:
+    type: string
+    example: "NovaSenha@123"

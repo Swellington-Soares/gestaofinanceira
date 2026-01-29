@@ -1,0 +1,41 @@
+BadRequest:
+  description: Requisição inválida (validação, parâmetros inválidos, etc.)
+  content:
+    application/json:
+      schema:
+        $ref: ./schemas/ApiResponse.yaml
+
+Unauthorized:
+  description: Não autenticado (token ausente/expirado/inválido)
+  content:
+    application/json:
+      schema:
+        $ref: ./schemas/ApiResponse.yaml
+
+Forbidden:
+  description: 'Sem permissão (ex.: não é dono do recurso)'
+  content:
+    application/json:
+      schema:
+        $ref: ./schemas/ApiResponse.yaml
+
+NotFound:
+  description: Recurso não encontrado
+  content:
+    application/json:
+      schema:
+        $ref: ./schemas/ApiResponse.yaml
+
+Conflict:
+  description: Conflito (recurso já existe)
+  content:
+    application/json:
+      schema:
+        $ref: ./schemas/ApiResponse.yaml
+
+UnprocessableEntity:
+  description: Erro de processamento (payload válido mas não processável)
+  content:
+    application/json:
+      schema:
+        $ref: ./schemas/ApiResponse.yaml

@@ -1,0 +1,29 @@
+post:
+  tags: [Auth]
+  summary: Refresh token
+  description: Gera um novo par de tokens a partir de um refreshToken válido.
+  operationId: refreshToken
+  security: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/RefreshTokenRequest.yaml'
+        examples:
+          refreshExample:
+            value:
+              refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  responses:
+    '200':
+      description: Tokens renovados com sucesso
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/TokenResponse.yaml'
+    '400':
+      $ref: '../../components/responses.yaml#/BadRequest'
+    '401':
+      $ref: '../../components/responses.yaml#/Unauthorized'
+    '422':
+      $ref: '../../components/responses.yaml#/UnprocessableEntity'

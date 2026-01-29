@@ -1,0 +1,32 @@
+ApiResponse:
+  $ref: ./ApiResponse.yaml
+CurrencyType:
+  $ref: ./CurrencyType.yaml
+CustomerCreateRequest:
+  $ref: ./CustomerCreateRequest.yaml
+CustomerInfoResponse:
+  $ref: ./CustomerInfoResponse.yaml
+CustomerUpdateRequest:
+  $ref: ./CustomerUpdateRequest.yaml
+FileUploadResponse:
+  $ref: ./FileUploadResponse.yaml
+FileUploadStatus:
+  $ref: ./FileUploadStatus.yaml
+LoginRequest:
+  $ref: ./LoginRequest.yaml
+OperationType:
+  $ref: ./OperationType.yaml
+PageDataDomain:
+  $ref: ./PageDataDomain.yaml
+PaginatedCustomerInfoResponse:
+  $ref: ./PaginatedCustomerInfoResponse.yaml
+RefreshTokenRequest:
+  $ref: ./RefreshTokenRequest.yaml
+SortField:
+  $ref: ./SortField.yaml
+TokenInfo:
+  $ref: ./TokenInfo.yaml
+TokenResponse:
+  $ref: ./TokenResponse.yaml
+TransactionStatus:
+  $ref: ./TransactionStatus.yaml

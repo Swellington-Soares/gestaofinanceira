@@ -1,0 +1,30 @@
+post:
+  tags: [Auth]
+  summary: Login
+  description: Autentica o usuário e retorna tokens JWT (access e refresh).
+  operationId: login
+  security: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/LoginRequest.yaml'
+        examples:
+          loginExample:
+            value:
+              email: "user@exemplo.com"
+              password: "SenhaForte@123"
+  responses:
+    '200':
+      description: Autenticado com sucesso
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/TokenResponse.yaml'
+    '400':
+      $ref: '../../components/responses.yaml#/BadRequest'
+    '401':
+      $ref: '../../components/responses.yaml#/Unauthorized'
+    '422':
+      $ref: '../../components/responses.yaml#/UnprocessableEntity'

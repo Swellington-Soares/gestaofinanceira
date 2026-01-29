@@ -1,0 +1,4 @@
+type: string
+description: Status de uma transação
+enum: [PENDING, APPROVED, REJECTED]
+example: "PENDING"
