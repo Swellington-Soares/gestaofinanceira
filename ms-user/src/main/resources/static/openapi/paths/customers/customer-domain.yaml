@@ -1,7 +1,7 @@
 get:
   tags: [Clientes]
   summary: Buscar cliente por ID
-  description: Requer autenticação e ownership (@security.isOwner).
+  description: Requer autenticação e Apenas o dono do recurso pode fazer isso (@security.isOwner).
   operationId: getCustomerById
   security:
     - bearerAuth: []
@@ -24,7 +24,7 @@ get:
 put:
   tags: [Clientes]
   summary: Atualizar cliente por ID
-  description: Retorna 202 Accepted sem body. Requer ownership.
+  description: Retorna 202 Accepted sem body. Apenas o dono do recurso pode fazer isso.
   operationId: updateCustomerById
   security:
     - bearerAuth: []
@@ -52,8 +52,8 @@ put:
 
 delete:
   tags: [Clientes]
-  summary: Remover customer por ID
-  description: Retorna 204 No Content. Requer ownership.
+  summary: Remover cliente por ID
+  description: Retorna 204 No Content. Apenas o dono do recurso pode fazer isso.
   operationId: deleteCustomerById
   security:
     - bearerAuth: []

@@ -16,17 +16,17 @@ security:
 
 paths:
   /api/v1/auth/login:
-    $ref: '/paths/auth/login.yaml'
+    $ref: './paths/auth/login.yaml'
   /api/v1/auth/refresh:
-    $ref: '/paths/auth/refresh-token.yaml'
+    $ref: './paths/auth/refresh-token.yaml'
   /api/v1/customers:
-    $ref: '/paths/customers/customer-root.yaml'
+    $ref: './paths/customers/customer-root.yaml'
   /api/v1/customers/{id}:
-    $ref: '/paths/customers/customer-domain.yaml'
+    $ref: './paths/customers/customer-domain.yaml'
   /api/v1/customers/batch-register:
-    $ref: '/paths/customers/batch-register.yaml'
+    $ref: './paths/customers/batch-register.yaml'
   /api/v1/customers/batch-register/{id}:
-    $ref: '/paths/customers/batch-register-status.yaml'
+    $ref: './paths/customers/batch-register-status.yaml'
 
 components:
   securitySchemes:
