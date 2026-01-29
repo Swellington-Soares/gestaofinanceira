@@ -6,10 +6,11 @@ import dev.suel.gestaofinanceira.types.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public final class Transaction {
-    private UUID transactionId;
+    private UUID id;
     private LocalDateTime createdDate;
     private LocalDateTime processedDate;
     private BigDecimal amount = new BigDecimal("0.0");
@@ -22,7 +23,7 @@ public final class Transaction {
     private Long destAccountId;
 
 
-    public Transaction(UUID transactionId,
+    public Transaction(UUID id,
                        LocalDateTime createdDate,
                        LocalDateTime processedDate,
                        BigDecimal amount,
@@ -33,7 +34,7 @@ public final class Transaction {
                        Long userId,
                        CurrencyType currencyType,
                        Long destAccountId) {
-        this.transactionId = transactionId;
+        this.id = id;
         this.createdDate = createdDate;
         this.processedDate = processedDate;
         this.amount = amount;
@@ -51,112 +52,108 @@ public final class Transaction {
         this.amount = new BigDecimal("0");
     }
 
-    public static TransactionBuilder builder() {
-        return new TransactionBuilder();
+
+    public UUID getId() {
+        return id;
     }
 
-    public static TransactionBuilder withId() {
-        return new TransactionBuilder().transactionId(UUID.randomUUID());
-    }
-
-    public Long getDestAccountId() {
-        return destAccountId;
-    }
-
-    public Transaction setDestAccountId(Long destAccountId) {
-        this.destAccountId = destAccountId;
-        return this;
-    }
-
-    public UUID getTransactionId() {
-        return transactionId;
-    }
-
-    public Transaction setTransactionId(UUID transactionId) {
-        this.transactionId = transactionId;
-        return this;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public Transaction setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
-        return this;
     }
 
     public LocalDateTime getProcessedDate() {
         return processedDate;
     }
 
-    public Transaction setProcessedDate(LocalDateTime processedDate) {
+    public void setProcessedDate(LocalDateTime processedDate) {
         this.processedDate = processedDate;
-        return this;
     }
 
     public BigDecimal getAmount() {
         return amount;
     }
 
-    public Transaction setAmount(BigDecimal amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
-        return this;
     }
 
     public BigDecimal getExchange() {
         return exchange;
     }
 
-    public Transaction setExchange(BigDecimal exchange) {
+    public void setExchange(BigDecimal exchange) {
         this.exchange = exchange;
-        return this;
     }
 
     public OperationType getOperationType() {
         return operationType;
     }
 
-    public Transaction setOperationType(OperationType operationType) {
+    public void setOperationType(OperationType operationType) {
         this.operationType = operationType;
-        return this;
     }
 
     public TransactionStatus getStatus() {
         return status;
     }
 
-    public Transaction setStatus(TransactionStatus status) {
+    public void setStatus(TransactionStatus status) {
         this.status = status;
-        return this;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public Transaction setMessage(String message) {
+    public void setMessage(String message) {
         this.message = message;
-        return this;
-    }
-
-    public CurrencyType getCurrencyType() {
-        return currencyType;
-    }
-
-    public Transaction setCurrencyType(CurrencyType currencyType) {
-        this.currencyType = currencyType;
-        return this;
     }
 
     public Long getUserId() {
         return userId;
     }
 
-    public Transaction setUserId(Long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
-        return this;
     }
+
+    public CurrencyType getCurrencyType() {
+        return currencyType;
+    }
+
+    public void setCurrencyType(CurrencyType currencyType) {
+        this.currencyType = currencyType;
+    }
+
+    public Long getDestAccountId() {
+        return destAccountId;
+    }
+
+    public void setDestAccountId(Long destAccountId) {
+        this.destAccountId = destAccountId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
+
+    //OPERAÇÕES
 
     public BigDecimal getFinalAmount() {
         if (exchange == null)
@@ -196,89 +193,15 @@ public final class Transaction {
         reject("Transação rejeitada.");
     }
 
-    public static class TransactionBuilder {
-        private UUID transactionId;
-        private LocalDateTime createdDate;
-        private LocalDateTime processedDate;
-        private BigDecimal amount = new BigDecimal("0.0");
-        private BigDecimal exchange = new BigDecimal("1.0");
-        private OperationType operationType;
-        private TransactionStatus status = TransactionStatus.PENDING;
-        private String message;
-        private CurrencyType currencyType;
-        private Long userId;
-        private Long destAccountId;
 
-        public TransactionBuilder transactionId(UUID transactionId) {
-            this.transactionId = transactionId;
-            return this;
-        }
-
-        public TransactionBuilder createdDate(LocalDateTime createdDate) {
-            this.createdDate = createdDate;
-            return this;
-        }
-
-        public TransactionBuilder processedDate(LocalDateTime processedDate) {
-            this.processedDate = processedDate;
-            return this;
-        }
-
-        public TransactionBuilder currencyType(CurrencyType currencyType) {
-            this.currencyType = currencyType;
-            return this;
-        }
-
-        public TransactionBuilder amount(BigDecimal amount) {
-            this.amount = amount;
-            return this;
-        }
-
-        public TransactionBuilder exchange(BigDecimal exchange) {
-            this.exchange = exchange;
-            return this;
-        }
-
-        public TransactionBuilder operationType(OperationType operationType) {
-            this.operationType = operationType;
-            return this;
-        }
-
-        public TransactionBuilder status(TransactionStatus status) {
-            this.status = status;
-            return this;
-        }
-
-        public TransactionBuilder message(String message) {
-            this.message = message;
-            return this;
-        }
+    //BUILDER MODE
 
 
-        public TransactionBuilder userId(Long userId) {
-            this.userId = userId;
-            return this;
-        }
+    public static TransactionBuilder builder() {
+        return new TransactionBuilder();
+    }
 
-        public TransactionBuilder destAccountId(Long destAccountId) {
-            this.destAccountId = destAccountId;
-            return this;
-        }
-
-        public Transaction build() {
-            return new Transaction(
-                    transactionId,
-                    createdDate,
-                    processedDate,
-                    amount,
-                    exchange,
-                    operationType,
-                    status,
-                    message,
-                    userId,
-                    currencyType,
-                    destAccountId
-            );
-        }
+    public static TransactionBuilder withId(){
+        return new TransactionBuilder().id(UUID.randomUUID());
     }
 }

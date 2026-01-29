@@ -5,9 +5,11 @@ import dev.suel.mstransactionapi.application.usecase.*;
 import dev.suel.mstransactionapi.domain.*;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 import dev.suel.mstransactionapi.dto.TransactionDetailResponse;
+import dev.suel.mstransactionapi.dto.UserTokenInfo;
 import dev.suel.mstransactionapi.infra.mapper.PageMapper;
 import dev.suel.mstransactionapi.infra.services.SecurityService;
 import dev.suel.mstransactionapi.infra.web.dto.TransactionCreateRequest;
+import dev.suel.mstransactionapi.infra.web.dto.TransactionCustomCreateRequest;
 import dev.suel.mstransactionapi.infra.web.dto.TransactionTransferCreateRequest;
 import dev.suel.mstransactionapi.infra.web.dto.TransactionWithdrawCreateRequest;
 import jakarta.validation.Valid;
@@ -33,6 +35,7 @@ public class TransactionController {
     private final CreateDepositTransactionUseCase createDepositTransactionUseCase;
     private final CreateWithDrawTransactionUseCase createWithdrawTransactionUseCase;
     private final CreateTransferTransactionUseCase createTransferTransactionUseCase;
+    private final CreateCustomTransactionUseCase createCustomTransactionUseCase;
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
@@ -83,6 +86,15 @@ public class TransactionController {
     ) {
         UserTokenInfo owner = securityService.getOwner(authentication);
         return ResponseEntity.ok(createTransferTransactionUseCase.execute(owner.id(), data));
+    }
+
+    @PostMapping("/custom")
+    public ResponseEntity<TransactionCreatedResponseDto> custom(
+            @RequestBody @Valid TransactionCustomCreateRequest data,
+            Authentication authentication
+    ) {
+        UserTokenInfo owner = securityService.getOwner(authentication);
+        return ResponseEntity.ok(createCustomTransactionUseCase.execute(owner.id(), data));
     }
 
 }

@@ -21,7 +21,7 @@ import java.util.UUID;
 public class TransactionEntity {
 
     @Id
-    private UUID transactionId;
+    private UUID id;
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdDate;
@@ -29,17 +29,19 @@ public class TransactionEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime processedDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision =  10, scale = 3)
     @Builder.Default
     private BigDecimal amount = new BigDecimal("0");
 
     @Builder.Default
+    @Column(nullable = false, precision =  10, scale = 3)
     private BigDecimal exchange = new BigDecimal("1.0");
 
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private TransactionStatus status = TransactionStatus.PENDING;
 
     private String message;

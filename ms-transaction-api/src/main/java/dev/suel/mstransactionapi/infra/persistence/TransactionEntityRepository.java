@@ -1,5 +1,6 @@
 package dev.suel.mstransactionapi.infra.persistence;
 
+import dev.suel.gestaofinanceira.types.TransactionStatus;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TransactionEntityRepository extends JpaRepository<TransactionEntity, UUID> {
@@ -22,7 +24,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             FROM Transaction t
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
-              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER')
+              AND t.operationType <> 'DEPOSIT'
               AND t.createdDate BETWEEN :start AND :end
             GROUP BY t.operationType
             """)
@@ -41,7 +43,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             FROM Transaction t
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
-              AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER')
+              AND t.operationType <> 'DEPOSIT'
               AND t.createdDate BETWEEN :start AND :end
             GROUP BY DATE(t.createdDate)
             ORDER BY DATE(t.createdDate)
@@ -61,7 +63,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
                 FROM Transaction t
                 WHERE t.userId = :userId
                   AND t.status = 'APPROVED'
-                  AND t.operationType IN ('WITHDRAW', 'TRANSFER', 'PURCHASER')
+                  AND t.operationType <> 'DEPOSIT'
                   AND t.createdDate BETWEEN :start AND :end
                 GROUP BY YEAR(t.createdDate), MONTH(t.createdDate)
                 ORDER BY YEAR(t.createdDate), MONTH(t.createdDate)
@@ -72,6 +74,17 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             LocalDateTime end
     );
 
-
     Page<TransactionEntity> findAllByUserId(Long userId, Pageable pageable);
+
+    Optional<TransactionEntity> findByIdAndStatus(UUID uuid, TransactionStatus status);
+    Optional<TransactionEntity> findByIdAndStatusNot(UUID id, TransactionStatus status);
+
+    default Optional<TransactionEntity> findByIdAndIsPending(UUID id) {
+        return findByIdAndStatus(id, TransactionStatus.PENDING);
+    }
+
+    default Optional<TransactionEntity> findByIdAndIsNotPending(UUID id) {
+        return findByIdAndStatusNot(id, TransactionStatus.PENDING);
+    }
+
 }
