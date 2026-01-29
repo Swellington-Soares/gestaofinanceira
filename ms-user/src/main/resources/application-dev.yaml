@@ -10,5 +10,13 @@ spring:
       ddl-auto: update
   flyway:
     enabled: false
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+    resolve-schema-properties: true
+  swagger-ui:
+    url: /openapi/openapi.yaml
+    path: /swagger-ui.html
 server:
   port: 8081

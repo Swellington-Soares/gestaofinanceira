@@ -16,6 +16,11 @@ spring:
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
     table: flyway_schema_history_ms1
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
 
 jwt:
   issuer: SW_ISSUER
