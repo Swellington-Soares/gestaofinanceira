@@ -3,7 +3,7 @@ package dev.suel.mstransactionapi.infra.web.controller;
 import dev.suel.mstransactionapi.application.usecase.*;
 import dev.suel.mstransactionapi.domain.PageDataDomain;
 import dev.suel.mstransactionapi.domain.PaginatedResponse;
-import dev.suel.mstransactionapi.domain.UserTokenInfo;
+import dev.suel.mstransactionapi.dto.UserTokenInfo;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 import dev.suel.mstransactionapi.dto.TransactionDetailResponse;
 import dev.suel.mstransactionapi.infra.mapper.PageMapper;
@@ -35,6 +35,7 @@ class TestTransactionController {
     private CreateDepositTransactionUseCase createDepositTransactionUseCase;
     private CreateWithDrawTransactionUseCase createWithdrawTransactionUseCase;
     private CreateTransferTransactionUseCase createTransferTransactionUseCase;
+    private CreateCustomTransactionUseCase createCustomTransactionUseCase;
 
     private TransactionController controller;
 
@@ -48,6 +49,7 @@ class TestTransactionController {
         createDepositTransactionUseCase = mock(CreateDepositTransactionUseCase.class);
         createWithdrawTransactionUseCase = mock(CreateWithDrawTransactionUseCase.class);
         createTransferTransactionUseCase = mock(CreateTransferTransactionUseCase.class);
+        createCustomTransactionUseCase =  mock(CreateCustomTransactionUseCase.class);
 
         controller = new TransactionController(
                 securityService,
@@ -57,7 +59,8 @@ class TestTransactionController {
                 showTransactionDetailUseCase,
                 createDepositTransactionUseCase,
                 createWithdrawTransactionUseCase,
-                createTransferTransactionUseCase
+                createTransferTransactionUseCase,
+                createCustomTransactionUseCase
         );
     }
 

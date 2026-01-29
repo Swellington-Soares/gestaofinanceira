@@ -6,7 +6,7 @@ import dev.suel.gestaofinanceira.types.OperationType;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
-import dev.suel.mstransactionapi.dto.ExpenseReportData;
+import dev.suel.mstransactionapi.domain.ExpenseReportData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

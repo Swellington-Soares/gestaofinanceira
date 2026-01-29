@@ -40,6 +40,6 @@ class TestKafkaTransactionEventPublisher {
         publisher.publish(event);
 
         then(kafkaTemplate).should()
-                .send("transaction.requested", event.transactionId().toString(), event);
+                .send("transaction.requested", event.id().toString(), event);
     }
 }

@@ -77,7 +77,7 @@ class TestTransactionService {
         LocalDateTime createdDate = LocalDateTime.now();
 
         Transaction model = mock(Transaction.class);
-        given(model.getTransactionId()).willReturn(transactionId);
+        given(model.getId()).willReturn(transactionId);
         given(model.getStatus()).willReturn(status);
         given(model.getCreatedDate()).willReturn(createdDate);
 

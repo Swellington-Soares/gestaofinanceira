@@ -5,6 +5,7 @@ import dev.suel.gestaofinanceira.types.OperationType;
 import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 import dev.suel.mstransactionprocessor.application.gateway.BalanceServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ExchangeServicePort;
+import dev.suel.mstransactionprocessor.application.gateway.exception.TransactionNotFoundException;
 import dev.suel.mstransactionprocessor.domain.entity.Transaction;
 import dev.suel.mstransactionprocessor.infra.kafka.CurrencyQuotationVerifyException;
 import dev.suel.mstransactionprocessor.infra.mapper.TransactionMapper;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -45,30 +47,14 @@ class TestProcessTransactionUseCaseImpl {
     void shouldThrowWhenTransactionNotFound() {
         TransactionKafkaEventData event = mock(TransactionKafkaEventData.class);
 
-        given(transactionRepository.findById(any())).willReturn(Optional.empty());
+        given(transactionRepository.findByIdAndIsPending(any())).willReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> useCase.execute(event));
+        assertDoesNotThrow(() -> useCase.execute(event));
 
-        then(transactionRepository).should().findById(any());
+        then(transactionRepository).should().findByIdAndIsPending(any());
         verifyNoMoreInteractions(transactionRepository, balanceServicePort, exchangeServicePort, transactionMapper);
     }
 
-    @Test
-    void shouldReturnWhenTransactionIsNotPending() {
-        TransactionKafkaEventData event = mock(TransactionKafkaEventData.class);
-        TransactionEntity entity = mock(TransactionEntity.class);
-        Transaction transaction = mock(Transaction.class);
-
-        given(transactionRepository.findById(any())).willReturn(Optional.of(entity));
-        given(transactionMapper.transactionEntityToModel(entity)).willReturn(transaction);
-        given(transaction.isPending()).willReturn(false);
-
-        useCase.execute(event);
-
-        then(transactionRepository).should().findById(any());
-        then(transactionMapper).should().transactionEntityToModel(entity);
-        verifyNoMoreInteractions(transactionRepository, balanceServicePort, exchangeServicePort, transactionMapper);
-    }
 
     @Test
     void shouldApproveDepositUpdateBalanceAndSave() {
@@ -79,8 +65,8 @@ class TestProcessTransactionUseCaseImpl {
         Transaction transaction = mock(Transaction.class);
         TransactionEntity entityToSave = mock(TransactionEntity.class);
 
-        given(event.transactionId()).willReturn(transactionId);
-        given(transactionRepository.findById(transactionId)).willReturn(Optional.of(entity));
+        given(event.id()).willReturn(transactionId);
+        given(transactionRepository.findByIdAndIsPending(transactionId)).willReturn(Optional.of(entity));
         given(transactionMapper.transactionEntityToModel(entity)).willReturn(transaction);
         given(transaction.isPending()).willReturn(true);
 
@@ -97,7 +83,7 @@ class TestProcessTransactionUseCaseImpl {
 
         useCase.execute(event);
 
-        then(transactionRepository).should().findById(transactionId);
+        then(transactionRepository).should().findByIdAndIsPending(transactionId);
         then(transactionMapper).should().transactionEntityToModel(entity);
 
         then(exchangeServicePort).should().getCurrencyExchangeRateToday(CurrencyType.USD);
@@ -123,8 +109,8 @@ class TestProcessTransactionUseCaseImpl {
         Transaction transaction = mock(Transaction.class);
         TransactionEntity entityToSave = mock(TransactionEntity.class);
 
-        given(event.transactionId()).willReturn(transactionId);
-        given(transactionRepository.findById(transactionId)).willReturn(Optional.of(entity));
+        given(event.id()).willReturn(transactionId);
+        given(transactionRepository.findByIdAndIsPending(transactionId)).willReturn(Optional.of(entity));
         given(transactionMapper.transactionEntityToModel(entity)).willReturn(transaction);
         given(transaction.isPending()).willReturn(true);
 
@@ -141,7 +127,7 @@ class TestProcessTransactionUseCaseImpl {
 
         useCase.execute(event);
 
-        then(transactionRepository).should().findById(transactionId);
+        then(transactionRepository).should().findByIdAndIsPending(transactionId);
         then(transactionMapper).should().transactionEntityToModel(entity);
 
         then(exchangeServicePort).should().getCurrencyExchangeRateToday(CurrencyType.EUR);
@@ -167,8 +153,8 @@ class TestProcessTransactionUseCaseImpl {
         Transaction transaction = mock(Transaction.class);
         TransactionEntity entityToSave = mock(TransactionEntity.class);
 
-        given(event.transactionId()).willReturn(transactionId);
-        given(transactionRepository.findById(transactionId)).willReturn(Optional.of(entity));
+        given(event.id()).willReturn(transactionId);
+        given(transactionRepository.findByIdAndIsPending(transactionId)).willReturn(Optional.of(entity));
         given(transactionMapper.transactionEntityToModel(entity)).willReturn(transaction);
         given(transaction.isPending()).willReturn(true);
 
@@ -185,7 +171,7 @@ class TestProcessTransactionUseCaseImpl {
 
         useCase.execute(event);
 
-        then(transactionRepository).should().findById(transactionId);
+        then(transactionRepository).should().findByIdAndIsPending(transactionId);
         then(transactionMapper).should().transactionEntityToModel(entity);
 
         then(exchangeServicePort).should().getCurrencyExchangeRateToday(CurrencyType.USD);
@@ -213,8 +199,8 @@ class TestProcessTransactionUseCaseImpl {
         Transaction transaction = mock(Transaction.class);
         TransactionEntity entityToSave = mock(TransactionEntity.class);
 
-        given(event.transactionId()).willReturn(transactionId);
-        given(transactionRepository.findById(transactionId)).willReturn(Optional.of(entity));
+        given(event.id()).willReturn(transactionId);
+        given(transactionRepository.findByIdAndIsPending(transactionId)).willReturn(Optional.of(entity));
         given(transactionMapper.transactionEntityToModel(entity)).willReturn(transaction);
         given(transaction.isPending()).willReturn(true);
 
@@ -226,7 +212,7 @@ class TestProcessTransactionUseCaseImpl {
 
         useCase.execute(event);
 
-        then(transactionRepository).should().findById(transactionId);
+        then(transactionRepository).should().findByIdAndIsPending(transactionId);
         then(transactionMapper).should().transactionEntityToModel(entity);
 
         then(exchangeServicePort).should().getCurrencyExchangeRateToday(CurrencyType.USD);

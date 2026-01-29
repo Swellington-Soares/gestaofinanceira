@@ -11,11 +11,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.*;
 
 class TestProcessTransactionRejectUseCaseImpl {
 
@@ -32,45 +30,24 @@ class TestProcessTransactionRejectUseCaseImpl {
     }
 
     @Test
-    void shouldThrowWhenTransactionNotFound() {
+    void shouldDoNothingWhenTransactionNotFound() {
         TransactionKafkaEventData event = mock(TransactionKafkaEventData.class);
         UUID transactionId = UUID.randomUUID();
         String message = "any error";
 
-        given(event.transactionId()).willReturn(transactionId);
-        given(transactionRepository.findById(transactionId)).willReturn(Optional.empty());
-
-        assertThrows(IllegalArgumentException.class, () -> useCase.execute(event, message));
-
-        then(transactionRepository).should().findById(transactionId);
-        verifyNoMoreInteractions(transactionRepository, transactionMapper);
-    }
-
-
-    @Test
-    void shouldDoNothingWhenTransactionIsNotPending() {
-        TransactionKafkaEventData event = mock(TransactionKafkaEventData.class);
-        UUID transactionId = UUID.randomUUID();
-        String message = "any error";
-
-        TransactionEntity entity = mock(TransactionEntity.class);
-        Transaction transaction = mock(Transaction.class);
-
-        given(event.transactionId()).willReturn(transactionId);
-        given(transactionRepository.findById(transactionId)).willReturn(Optional.of(entity));
-        given(transactionMapper.transactionEntityToModel(entity)).willReturn(transaction);
-        given(transaction.isPending()).willReturn(false);
+        given(event.id()).willReturn(transactionId);
+        given(transactionRepository.findByIdAndIsPending(transactionId)).willReturn(Optional.empty());
 
         useCase.execute(event, message);
 
-        then(transactionRepository).should().findById(transactionId);
-        then(transactionMapper).should().transactionEntityToModel(entity);
-        then(transaction).should().isPending();
-        verifyNoMoreInteractions(transactionRepository, transactionMapper);
+        then(transactionRepository).should().findByIdAndIsPending(transactionId);
+        then(transactionRepository).should(never()).save(any());
+        then(transactionMapper).shouldHaveNoInteractions();
+        verifyNoMoreInteractions(transactionRepository);
     }
 
     @Test
-    void shouldRejectAndSaveWhenTransactionIsPending() {
+    void shouldRejectAndSaveWhenTransactionIsPendingAndFoundByRepository() {
         TransactionKafkaEventData event = mock(TransactionKafkaEventData.class);
         UUID transactionId = UUID.randomUUID();
         String message = "any error";
@@ -79,21 +56,40 @@ class TestProcessTransactionRejectUseCaseImpl {
         Transaction transaction = mock(Transaction.class);
         TransactionEntity entityToSave = mock(TransactionEntity.class);
 
-        given(event.transactionId()).willReturn(transactionId);
-        given(transactionRepository.findById(transactionId)).willReturn(Optional.of(entity));
+        given(event.id()).willReturn(transactionId);
+        given(transactionRepository.findByIdAndIsPending(transactionId)).willReturn(Optional.of(entity));
         given(transactionMapper.transactionEntityToModel(entity)).willReturn(transaction);
-        given(transaction.isPending()).willReturn(true);
         given(transactionMapper.modelToEntity(transaction)).willReturn(entityToSave);
 
         useCase.execute(event, message);
 
-        then(transactionRepository).should().findById(transactionId);
+        then(transactionRepository).should().findByIdAndIsPending(transactionId);
         then(transactionMapper).should().transactionEntityToModel(entity);
-        then(transaction).should().isPending();
         then(transaction).should().reject("Falha técnica após múltiplas tentativas: " + message);
         then(transactionMapper).should().modelToEntity(transaction);
         then(transactionRepository).should().save(entityToSave);
 
+        verifyNoMoreInteractions(transactionRepository, transactionMapper);
+    }
+
+    @Test
+    void shouldDoNothingWhenMapperThrowsException() {
+        TransactionKafkaEventData event = mock(TransactionKafkaEventData.class);
+        UUID transactionId = UUID.randomUUID();
+        String message = "any error";
+
+        TransactionEntity entity = mock(TransactionEntity.class);
+
+        given(event.id()).willReturn(transactionId);
+        given(transactionRepository.findByIdAndIsPending(transactionId)).willReturn(Optional.of(entity));
+        given(transactionMapper.transactionEntityToModel(entity)).willThrow(new RuntimeException("boom"));
+
+        useCase.execute(event, message);
+
+        then(transactionRepository).should().findByIdAndIsPending(transactionId);
+        then(transactionRepository).should(never()).save(any());
+        then(transactionMapper).should().transactionEntityToModel(entity);
+        then(transactionMapper).should(never()).modelToEntity(any());
         verifyNoMoreInteractions(transactionRepository, transactionMapper);
     }
 }

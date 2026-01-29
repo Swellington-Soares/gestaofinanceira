@@ -64,6 +64,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: ms-user
+      args:
+        MODULE: ms-user
     image: ms-user:latest
     container_name: ms-user
     restart: unless-stopped
@@ -88,6 +90,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: ms-transaction-api
+      args:
+        MODULE: ms-transaction-api
     image: ms-transaction-api:latest
     container_name: ms-transaction-api
     restart: unless-stopped
@@ -112,6 +116,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: ms-transaction-processor
+      args:
+        MODULE: ms-transaction-processor
     image: ms-transaction-processor:latest
     container_name: ms-transaction-processor
     restart: unless-stopped

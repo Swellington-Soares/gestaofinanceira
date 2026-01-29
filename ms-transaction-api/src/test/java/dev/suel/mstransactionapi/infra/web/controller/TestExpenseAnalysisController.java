@@ -99,7 +99,7 @@ class TestExpenseAnalysisController {
                         .param("end_date", "2026-01-10"))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=relatorio-transacoes.pdf"))
+                        "attachment; filename=relatorio-despesas.pdf"))
                 .andExpect(content().contentType(MediaType.APPLICATION_PDF))
                 .andExpect(content().bytes(pdf));
 
