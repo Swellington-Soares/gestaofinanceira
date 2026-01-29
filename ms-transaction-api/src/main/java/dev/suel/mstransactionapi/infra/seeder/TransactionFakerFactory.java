@@ -8,13 +8,14 @@ import net.datafaker.Faker;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Random;
 
 public class TransactionFakerFactory {
     private static final Faker faker =
-            new Faker(new Locale("pt", "BR"), new Random(42));
+            new Faker(Locale.of("pt", "BR"), new Random(Instant.now().getEpochSecond()));
 
     private TransactionFakerFactory() {
     }

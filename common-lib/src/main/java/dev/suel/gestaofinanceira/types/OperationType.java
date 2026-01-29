@@ -4,7 +4,9 @@ public enum OperationType {
     WITHDRAW("SAQUE"),
     DEPOSIT("DEPÓSITO"),
     TRANSFER("TRANSFERÊNCIA"),
-    PURCHASER("COMPRA");
+    PURCHASER("COMPRA"),
+    CREDIT_CARD_PURCHASE("CARTÃO DE CRÉDITO"),
+    EXTERNAL("EXTERNO");
 
     private final String title;
 

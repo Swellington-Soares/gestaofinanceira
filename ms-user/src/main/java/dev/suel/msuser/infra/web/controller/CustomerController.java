@@ -1,6 +1,5 @@
 package dev.suel.msuser.infra.web.controller;
 
-
 import dev.suel.msuser.application.usecase.customer.*;
 import dev.suel.msuser.domain.FileUploadStatus;
 import dev.suel.msuser.domain.PageDataDomain;
@@ -87,7 +86,7 @@ public class CustomerController {
             @PathVariable Long id,
             @RequestBody @Valid CustomerUpdateRequest data) {
         updateCustomerByIdUseCase.execute(id, data);
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.ok().build();
     }
 
 

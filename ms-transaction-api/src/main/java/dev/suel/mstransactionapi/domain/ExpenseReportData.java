@@ -1,9 +1,13 @@
-package dev.suel.mstransactionapi.dto;
+package dev.suel.mstransactionapi.domain;
+
+import dev.suel.mstransactionapi.dto.ExpenseByCategory;
+import dev.suel.mstransactionapi.dto.ExpenseByDay;
+import dev.suel.mstransactionapi.dto.ExpenseByMonth;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class ExpenseReportData {
+public final class ExpenseReportData {
     private final List<ExpenseByMonth> expenseByMonth;
     private final List<ExpenseByDay> expenseByDay;
     private final List<ExpenseByCategory> expenseByCategory;

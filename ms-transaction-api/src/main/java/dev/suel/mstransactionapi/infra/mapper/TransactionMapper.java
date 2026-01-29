@@ -13,7 +13,7 @@ public class TransactionMapper {
                 transaction.getUserId(),
                 transaction.getCreatedDate(),
                 transaction.getProcessedDate(),
-                transaction.getTransactionId(),
+                transaction.getId(),
                 transaction.getAmount(),
                 transaction.getExchange(),
                 transaction.getOperationType(),
@@ -29,7 +29,7 @@ public class TransactionMapper {
                 .userId(entity.getUserId())
                 .createdDate(entity.getCreatedDate())
                 .processedDate(entity.getProcessedDate())
-                .transactionId(entity.getTransactionId())
+                .id(entity.getId())
                 .amount(entity.getAmount())
                 .exchange(entity.getExchange())
                 .currencyType(entity.getCurrencyType())
@@ -41,7 +41,7 @@ public class TransactionMapper {
 
     public TransactionEntity modelToEntity(Transaction transaction) {
         return TransactionEntity.builder()
-                .transactionId(transaction.getTransactionId())
+                .id(transaction.getId())
                 .createdDate(transaction.getCreatedDate())
                 .processedDate(transaction.getProcessedDate())
                 .amount(transaction.getAmount())
@@ -56,7 +56,7 @@ public class TransactionMapper {
 
     public TransactionKafkaEventData modelToKafkaData(Transaction model) {
         return new TransactionKafkaEventData(
-                model.getTransactionId(),
+                model.getId(),
                 model.getUserId(),
                 model.getCurrencyType(),
                 model.getAmount(),

@@ -1,6 +1,6 @@
 package dev.suel.mstransactionapi.infra.services;
 
-import dev.suel.mstransactionapi.domain.UserTokenInfo;
+import dev.suel.mstransactionapi.dto.UserTokenInfo;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 

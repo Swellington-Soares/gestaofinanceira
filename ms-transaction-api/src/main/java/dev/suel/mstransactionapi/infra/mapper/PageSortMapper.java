@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class PageSortMapper {
+public final class PageSortMapper {
     public Sort domainToSort(List<PageDataDomain.SortField> fieldList) {
         if (fieldList == null || fieldList.isEmpty()) {
             return Sort.unsorted();

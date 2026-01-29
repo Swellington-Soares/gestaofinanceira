@@ -20,10 +20,10 @@ public class KafkaTransactionEventPublisher implements TransactionEventPublisher
 
     @Override
     public void publish(TransactionKafkaEventData event) {
-        kafkaTemplate.send(TOPIC, event.transactionId().toString(), event)
+        kafkaTemplate.send(TOPIC, event.id().toString(), event)
                 .whenComplete((result, ex) -> {
                     if (ex != null) {
-                        log.error("Falha ao publicar evento Kafka. transactionId={}", event.transactionId(), ex);
+                        log.error("Falha ao publicar evento Kafka. transactionId={}", event.id(), ex);
                     }
                 });
     }

@@ -1,17 +1,17 @@
 CREATE TABLE transactions
 (
-    transaction_id UUID   NOT NULL,
-    created_date   datetime     NULL,
-    processed_date datetime     NULL,
-    amount         DECIMAL      NOT NULL DEFAULT 0,
-    exchange       DECIMAL      NOT NULL DEFAULT 1,
-    operation_type VARCHAR(255) NOT NULL,
-    status         VARCHAR(255) NOT NULL,
-    message        VARCHAR(255) NULL,
-    currency_type  VARCHAR(255) NOT NULL,
-    user_id        BIGINT       NOT NULL,
-    dest_account    BIGINT       NULL,
-    CONSTRAINT pk_transactions PRIMARY KEY (transaction_id)
+    id             UUID           NOT NULL,
+    created_date   datetime       NOT NULL,
+    processed_date datetime       NULL,
+    amount         DECIMAL(10, 3) NOT NULL DEFAULT 0,
+    exchange       DECIMAL(10, 3) NOT NULL DEFAULT 1,
+    operation_type VARCHAR(255)   NOT NULL,
+    status         VARCHAR(255)   NOT NULL,
+    message        VARCHAR(255)   NULL,
+    currency_type  VARCHAR(255)   NOT NULL,
+    user_id        BIGINT         NOT NULL,
+    dest_account   BIGINT         NULL,
+    CONSTRAINT pk_transactions_id PRIMARY KEY (id)
 );
 
 CREATE INDEX idx_transactions_created_date

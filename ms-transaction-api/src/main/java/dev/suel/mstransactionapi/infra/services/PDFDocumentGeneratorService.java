@@ -4,7 +4,7 @@ import dev.suel.mstransactionapi.application.gateway.DocumentGeneratorPort;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
-import dev.suel.mstransactionapi.dto.ExpenseReportData;
+import dev.suel.mstransactionapi.domain.ExpenseReportData;
 import org.openpdf.text.*;
 import org.openpdf.text.Font;
 import org.openpdf.text.pdf.PdfPCell;
@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -53,18 +52,14 @@ public class PDFDocumentGeneratorService implements DocumentGeneratorPort {
             addPeriodSubtitle(document, expenseReportData.getStartDate(), expenseReportData.getEndDate());
 
             if (!expenseReportData.isEmpty()) {
-
                 addByMonth(document, expenseReportData.getExpenseByMonth());
                 addByDay(document, expenseReportData.getExpenseByDay());
                 addByCategory(document, expenseReportData.getExpenseByCategory());
-
             } else {
                 addEmptyText(document);
             }
-
             document.close();
             return out.toByteArray();
-
         } catch (Exception e) {
             throw new RuntimeException("Erro ao gerar relatório de despesas", e);
         }
@@ -79,7 +74,6 @@ public class PDFDocumentGeneratorService implements DocumentGeneratorPort {
 
     private void addEmptyText(Document document) {
         addSubtitle(document, "Nenhum lançamento encontrado para o período informado");
-
     }
 
     private void addPeriodSubtitle(Document document, LocalDate startDate, LocalDate endDate) {

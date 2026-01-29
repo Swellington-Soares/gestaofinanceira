@@ -6,7 +6,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import dev.suel.mstransactionapi.application.gateway.TokenServicePort;
-import dev.suel.mstransactionapi.domain.UserTokenInfo;
+import dev.suel.mstransactionapi.dto.UserTokenInfo;
 import dev.suel.mstransactionapi.infra.configuration.TokenConfigProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

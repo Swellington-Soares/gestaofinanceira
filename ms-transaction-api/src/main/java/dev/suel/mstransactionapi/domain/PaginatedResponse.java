@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PaginatedResponse<T> {
+public final class PaginatedResponse<T> {
 
     private List<T> data;
     private int currentPage;

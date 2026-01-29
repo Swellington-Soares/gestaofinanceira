@@ -2,10 +2,10 @@ package dev.suel.mstransactionapi.domain;
 
 import java.util.List;
 
-public class PageDataDomain {
+public final class PageDataDomain {
     private Integer page;
     private Integer size;
-    private List<SortField> sort;
+    private final List<SortField> sort;
 
     public PageDataDomain(Integer page, Integer size, List<SortField> sortBy) {
         sort = sortBy;

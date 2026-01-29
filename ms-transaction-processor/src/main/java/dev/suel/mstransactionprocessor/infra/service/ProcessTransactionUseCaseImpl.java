@@ -4,6 +4,7 @@ import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 import dev.suel.mstransactionprocessor.application.gateway.BalanceServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ExchangeServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ProcessTransactionUseCase;
+import dev.suel.mstransactionprocessor.application.gateway.exception.TransactionNotFoundException;
 import dev.suel.mstransactionprocessor.domain.entity.Transaction;
 import dev.suel.mstransactionprocessor.infra.kafka.CurrencyQuotationVerifyException;
 import dev.suel.mstransactionprocessor.infra.mapper.TransactionMapper;
@@ -26,20 +27,13 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
 
     @Override
     public void execute(TransactionKafkaEventData event) {
-
-        Transaction transaction = transactionRepository
-                .findById(event.transactionId())
-                .map(transactionMapper::transactionEntityToModel)
-                .orElseThrow(() -> new IllegalArgumentException("Transação não encontrada"));
-
-        if (!transaction.isPending()) {
-            log.info("Transação {} já processada. Status={}",
-                    transaction.getTransactionId(),
-                    transaction.getStatus());
-            return;
-        }
-
+        Transaction transaction = null;
         try {
+            transaction = transactionRepository.findByIdAndIsPending(event.id())
+                    .map(transactionMapper::transactionEntityToModel)
+                    .orElseThrow(TransactionNotFoundException::new);
+
+
             BigDecimal exchangeRate =
                     exchangeServicePort.getCurrencyExchangeRateToday(
                             transaction.getCurrencyType()
@@ -67,23 +61,24 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
                         );
                         transaction.approve();
                     } else {
-
                         transaction.reject("Saldo insuficiente.");
                     }
                 }
+                case CREDIT_CARD_PURCHASE  -> transaction.approve("Compra no cartão de crédito.");
+                case EXTERNAL -> transaction.approve("Movimentação externa.");
             }
 
             transactionRepository.save(
                     transactionMapper.modelToEntity(transaction)
             );
 
+        } catch (TransactionNotFoundException ex) {
+            log.info(ex.getMessage());
         } catch (CurrencyQuotationVerifyException ex) {
-            transaction.reject(ex.getMessage());
-            transactionRepository.save(
-                    transactionMapper.modelToEntity(transaction)
-            );
-        } catch (Exception ex) {
-            throw ex;
+            if (transaction != null) {
+                transaction.reject(ex.getMessage());
+                transactionRepository.save(transactionMapper.modelToEntity(transaction));
+            }
         }
     }
 

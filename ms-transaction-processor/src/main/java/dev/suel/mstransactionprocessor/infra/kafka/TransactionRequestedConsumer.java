@@ -36,7 +36,7 @@ public class TransactionRequestedConsumer {
     }
 
     @KafkaListener(
-            topics = "transaction.requested.DLT",
+            topics = "transaction.requested.dlt",
             groupId = "transaction-processor-dlt"
     )
     public void consumeDlq(

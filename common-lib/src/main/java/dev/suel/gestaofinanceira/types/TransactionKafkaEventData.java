@@ -13,7 +13,7 @@ import java.util.UUID;
         "destAccount"
 })
 public record TransactionKafkaEventData(
-        UUID transactionId,
+        UUID id,
         Long userId,
         CurrencyType currencyType,
         BigDecimal amount,

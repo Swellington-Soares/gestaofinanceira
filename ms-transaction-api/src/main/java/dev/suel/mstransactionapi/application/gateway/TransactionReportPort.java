@@ -1,7 +1,6 @@
 package dev.suel.mstransactionapi.application.gateway;
 
 import dev.suel.mstransactionapi.dto.*;
-import dev.suel.mstransactionapi.dto.ExpenseReportData;
 
 import java.time.LocalDateTime;
 import java.util.List;

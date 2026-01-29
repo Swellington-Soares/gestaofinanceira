@@ -99,7 +99,7 @@ public class ExpenseAnalysisController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=relatorio-transacoes.pdf")
+                        "attachment; filename=relatorio-despesas.pdf")
                 .contentType(MediaType.APPLICATION_PDF)
                 .contentLength(pdf.length)
                 .body(pdf);

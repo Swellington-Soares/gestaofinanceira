@@ -4,7 +4,6 @@ import dev.suel.mstransactionapi.application.gateway.TransactionReportPort;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
-import dev.suel.mstransactionapi.dto.ExpenseReportData;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

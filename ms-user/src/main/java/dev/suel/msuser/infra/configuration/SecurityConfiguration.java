@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                                         "/api/v1/customers/batch-register/**",
                                         "/v3/api-docs",
                                         "/v3/api-docs/**",
-                                        "/openapi-v1.yml",
+                                        "/openapi/openapi.yaml",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html",
                                         "/static/**",

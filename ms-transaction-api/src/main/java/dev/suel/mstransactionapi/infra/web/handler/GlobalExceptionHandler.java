@@ -9,6 +9,7 @@ import dev.suel.mstransactionapi.dto.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,7 +28,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 new ApiResponse(LocalDateTime.now(),
                         HttpStatus.BAD_REQUEST.value(),
-                        ex.getMessage(),
+                        "Verifique os dados e tente novamente.",
                         request.getRequestURI(),
                         errors)
         );
@@ -143,6 +144,18 @@ public class GlobalExceptionHandler {
                 new ApiResponse(LocalDateTime.now(),
                         HttpStatus.CONFLICT.value(),
                         ex.getMessage(),
+                        request.getRequestURI(),
+                        null)
+        );
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex,
+                                                                             HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(
+                new ApiResponse(LocalDateTime.now(),
+                        HttpStatus.NOT_ACCEPTABLE.value(),
+                        "Não foi possível processar a solicitação, verifique a estrutura dos dados.",
                         request.getRequestURI(),
                         null)
         );

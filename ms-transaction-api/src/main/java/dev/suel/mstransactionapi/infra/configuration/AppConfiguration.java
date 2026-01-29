@@ -58,4 +58,9 @@ public class AppConfiguration {
         return new TransactionReportUseCase(transactionReportPort);
     }
 
+    @Bean
+    public CreateCustomTransactionUseCase createCustomTransactionUseCase(){
+        return new CreateCustomTransactionUseCase(transactionServicePort);
+    }
+
 }

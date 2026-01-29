@@ -2,7 +2,7 @@ package dev.suel.mstransactionapi.application.usecase;
 
 import dev.suel.mstransactionapi.application.gateway.DocumentGeneratorPort;
 import dev.suel.mstransactionapi.application.gateway.TransactionReportPort;
-import dev.suel.mstransactionapi.dto.ExpenseReportData;
+import dev.suel.mstransactionapi.domain.ExpenseReportData;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

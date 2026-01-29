@@ -52,7 +52,7 @@ public class TransactionService implements TransactionServicePort {
         );
 
         return new TransactionCreatedResponseDto(
-                model.getTransactionId(),
+                model.getId(),
                 model.getStatus(),
                 model.getCreatedDate()
         );

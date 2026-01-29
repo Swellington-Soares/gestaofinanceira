@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PageMapper {
+public final class PageMapper {
     public <T> PaginatedResponse<T> converter(Page<T> page) {
         PaginatedResponse<T> response = new PaginatedResponse<>();
         response.setData(page.getContent());

@@ -13,7 +13,7 @@ public class TransactionMapper {
                 .userId(entity.getUserId())
                 .createdDate(entity.getCreatedDate())
                 .processedDate(entity.getProcessedDate())
-                .transactionId(entity.getTransactionId())
+                .id(entity.getId())
                 .amount(entity.getAmount())
                 .exchange(entity.getExchange())
                 .currencyType(entity.getCurrencyType())
@@ -25,7 +25,7 @@ public class TransactionMapper {
 
     public TransactionEntity modelToEntity(Transaction transaction) {
         return TransactionEntity.builder()
-                .transactionId(transaction.getTransactionId())
+                .id(transaction.getId())
                 .createdDate(transaction.getCreatedDate())
                 .processedDate(transaction.getProcessedDate())
                 .amount(transaction.getAmount())
