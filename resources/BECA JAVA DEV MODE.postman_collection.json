@@ -1,0 +1,950 @@
+{
+  "info": {
+    "_postman_id": "a943cc31-870a-46f7-8411-8104e4c4f0d8",
+    "name": "BECA JAVA DEV MODE",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1490424",
+    "_collection_link": "https://go.postman.co/collection/1490424-a943cc31-870a-46f7-8411-8104e4c4f0d8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Parse the JSON response and extract tokens",
+                  "try {",
+                  "    const jsonData = pm.response.json();",
+                  "    ",
+                  "    // Extract and store accessToken",
+                  "    if (jsonData.accessToken && jsonData.accessToken.token) {",
+                  "        pm.environment.set(\"accessToken\", jsonData.accessToken.token);",
+                  "        console.log(\"accessToken stored successfully\");",
+                  "    } else {",
+                  "        console.warn(\"accessToken not found in response\");",
+                  "    }",
+                  "    ",
+                  "    // Extract and store accessToken expiry",
+                  "    if (jsonData.accessToken && jsonData.accessToken.expiresIn) {",
+                  "        pm.environment.set(\"accessTokenExpiry\", jsonData.accessToken.expiresIn);",
+                  "        console.log(\"accessTokenExpiry stored successfully: \" + jsonData.accessToken.expiresIn);",
+                  "    } else {",
+                  "        console.warn(\"accessToken expiresIn not found in response\");",
+                  "    }",
+                  "    ",
+                  "    // Extract and store refreshToken",
+                  "    if (jsonData.refreshToken && jsonData.refreshToken.token) {",
+                  "        pm.environment.set(\"refreshToken\", jsonData.refreshToken.token);",
+                  "        console.log(\"refreshToken stored successfully\");",
+                  "    } else {",
+                  "        console.warn(\"refreshToken not found in response\");",
+                  "    }",
+                  "    ",
+                  "} catch (error) {",
+                  "    console.error(\"Error parsing response: \" + error.message);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"sw@sw.com\",\r\n    \"password\": \"123!!QAqa\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}:{{ms1Port}}/api/v1/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms1Port}}",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refresh",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Parse JSON response and extract tokens with error handling",
+                  "if (pm.response.code === 200) {",
+                  "    try {",
+                  "        const jsonData = pm.response.json();",
+                  "        ",
+                  "        // Extract and store accessToken",
+                  "        if (jsonData.accessToken && jsonData.accessToken.token) {",
+                  "            pm.environment.set(\"accessToken\", jsonData.accessToken.token);",
+                  "            console.log(\"accessToken stored successfully\");",
+                  "        } else {",
+                  "            console.warn(\"accessToken.token not found in response\");",
+                  "        }",
+                  "        ",
+                  "        // Extract and store refreshToken",
+                  "        if (jsonData.refreshToken && jsonData.refreshToken.token) {",
+                  "            pm.environment.set(\"refreshToken\", jsonData.refreshToken.token);",
+                  "            console.log(\"refreshToken stored successfully\");",
+                  "        } else {",
+                  "            console.warn(\"refreshToken.token not found in response\");",
+                  "        }",
+                  "    } catch (error) {",
+                  "        console.error(\"Failed to parse JSON response:\", error.message);",
+                  "    }",
+                  "} else {",
+                  "    console.log(\"Request failed with status code:\", pm.response.code);",
+                  "    console.log(\"Response body:\", pm.response.text());",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}:{{ms1Port}}/api/v1/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms1Port}}",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "refresh"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "customer",
+      "item": [
+        {
+          "name": "Get All",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}:{{ms1Port}}/api/v1/customers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms1Port}}",
+              "path": [
+                "api",
+                "v1",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Laura Santos\",\r\n    \"email\": \"sw@sw.com\",\r\n    \"password\": \"123!!QAqa\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}:{{ms1Port}}/api/v1/customers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms1Port}}",
+              "path": [
+                "api",
+                "v1",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Batch Register",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "873ea674-195e-437c-bdb6-2a592a9f6500",
+                  "src": "/D:/projetos/desafiobeca2/resources/mock_data.xlsx"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}:{{ms1Port}}/api/v1/customers/batch-register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms1Port}}",
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                "batch-register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Check Batch Register Status",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}:{{ms1Port}}/api/v1/customers/batch-register/2ad1ed53efd60d3b2c06290c9ea8b0e0c32c6c70c290801e53dc9d359cbefa4a",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms1Port}}",
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                "batch-register",
+                "2ad1ed53efd60d3b2c06290c9ea8b0e0c32c6c70c290801e53dc9d359cbefa4a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}:{{ms1Port}}/api/v1/customers/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms1Port}}",
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Jonas Melo\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}:{{ms1Port}}/api/v1/customers/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms1Port}}",
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}:{{ms1Port}}/api/v1/customers/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms1Port}}",
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "transactions",
+      "item": [
+        {
+          "name": "deposit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 100,\r\n    \"currencyType\": \"USD\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}:{{ms2Port}}/api/v1/transactions/deposit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms2Port}}",
+              "path": [
+                "api",
+                "v1",
+                "transactions",
+                "deposit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Withdraw",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 10,\r\n    \"currencyType\": \"BRL\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}:{{ms2Port}}/api/v1/transactions/withdraw",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms2Port}}",
+              "path": [
+                "api",
+                "v1",
+                "transactions",
+                "withdraw"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "download report file",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}:{{ms2Port}}/api/v1/expenses/1/summary/download?start_date=2026-01-01&end_date=2026-01-31",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms2Port}}",
+              "path": [
+                "api",
+                "v1",
+                "expenses",
+                "1",
+                "summary",
+                "download"
+              ],
+              "query": [
+                {
+                  "key": "start_date",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2026-01-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Transfer",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 500,\r\n    \"destAccount\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}:{{ms2Port}}/api/v1/transactions/transfer",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms2Port}}",
+              "path": [
+                "api",
+                "v1",
+                "transactions",
+                "transfer"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}:{{ms2Port}}/api/v1/transactions/e8f41887-44b0-461a-b299-c3263b53c03f",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms2Port}}",
+              "path": [
+                "api",
+                "v1",
+                "transactions",
+                "e8f41887-44b0-461a-b299-c3263b53c03f"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAll",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}:{{ms2Port}}/api/v1/transactions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms2Port}}",
+              "path": [
+                "api",
+                "v1",
+                "transactions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show detail",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}:{{ms2Port}}/api/v1/transactions/31b8bcb0-f6ce-4983-af06-2f1739e13806",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms2Port}}",
+              "path": [
+                "api",
+                "v1",
+                "transactions",
+                "31b8bcb0-f6ce-4983-af06-2f1739e13806"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "summary day",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}:{{ms2Port}}/api/v1/expenses/10/summary/category?start_date=2026-01-01&end_date=2026-01-31",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "port": "{{ms2Port}}",
+              "path": [
+                "api",
+                "v1",
+                "expenses",
+                "10",
+                "summary",
+                "category"
+              ],
+              "query": [
+                {
+                  "key": "start_date",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2026-01-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "mockAPI",
+      "item": [
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{mockapi-base}}/balances",
+              "host": [
+                "{{mockapi-base}}"
+              ],
+              "path": [
+                "balances"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get By User Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{mockapi-base}}/balances?userId=1",
+              "host": [
+                "{{mockapi-base}}"
+              ],
+              "path": [
+                "balances"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{mockapi-base}}/balances",
+              "host": [
+                "{{mockapi-base}}"
+              ],
+              "path": [
+                "balances"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"balance\": \"0\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{mockapi-base}}/balances/1",
+              "host": [
+                "{{mockapi-base}}"
+              ],
+              "path": [
+                "balances",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get By Balance Id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{mockapi-base}}/balances/1",
+              "host": [
+                "{{mockapi-base}}"
+              ],
+              "path": [
+                "balances",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"balance\": \"0\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{mockapi-base}}/balances/1",
+              "host": [
+                "{{mockapi-base}}"
+              ],
+              "path": [
+                "balances",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          "// Automatic Token Refresh - Collection Pre-request Script",
+          "",
+          "// Skip refresh logic for login and refresh endpoints to avoid infinite loops",
+          "const requestName = pm.info.requestName.toLowerCase();",
+          "const skipEndpoints = ['login', 'refresh', ''];",
+          "",
+          "if (skipEndpoints.some(endpoint => requestName.includes(endpoint))) {",
+          "    console.log(\"Skipping token refresh for auth endpoint: \" + pm.info.requestName);",
+          "    return;",
+          "}",
+          "",
+          "// Check if we have the required tokens and expiry",
+          "const accessToken = pm.environment.get(\"accessToken\");",
+          "const refreshToken = pm.environment.get(\"refreshToken\");",
+          "const accessTokenExpiry = pm.environment.get(\"accessTokenExpiry\");",
+          "",
+          "if (!accessToken || !refreshToken) {",
+          "    console.log(\"No tokens found. Please login first.\");",
+          "    return;",
+          "}",
+          "",
+          "if (!accessTokenExpiry) {",
+          "    console.log(\"No accessTokenExpiry found. Proceeding with existing token.\");",
+          "    return;",
+          "}",
+          "",
+          "// Check if token is expired or about to expire (within 60 seconds)",
+          "const expiryTime = new Date(accessTokenExpiry).getTime();",
+          "const currentTime = Date.now();",
+          "const bufferTime = 60 * 1000; // 60 seconds buffer",
+          "",
+          "if (currentTime < (expiryTime - bufferTime)) {",
+          "    console.log(\"Access token is still valid. Expires at: \" + accessTokenExpiry);",
+          "    return;",
+          "}",
+          "",
+          "console.log(\"Access token expired or expiring soon. Refreshing token...\");",
+          "",
+          "// Send refresh request",
+          "const baseUrl = pm.environment.get(\"baseUrl\");",
+          "const refreshUrl = baseUrl + \"/api/v1/auth/refresh\";",
+          "",
+          "try {",
+          "    const response = await pm.sendRequest({",
+          "        url: refreshUrl,",
+          "        method: \"POST\",",
+          "        header: {",
+          "            \"Content-Type\": \"application/json\"",
+          "        },",
+          "        body: {",
+          "            mode: \"raw\",",
+          "            raw: JSON.stringify({ refreshToken: refreshToken })",
+          "        }",
+          "    });",
+          "",
+          "    if (response.code === 200) {",
+          "        const jsonData = response.json();",
+          "        ",
+          "        // Update accessToken",
+          "        if (jsonData.accessToken && jsonData.accessToken.token) {",
+          "            pm.environment.set(\"accessToken\", jsonData.accessToken.token);",
+          "            console.log(\"accessToken refreshed successfully\");",
+          "        } else {",
+          "            console.error(\"accessToken not found in refresh response\");",
+          "        }",
+          "        ",
+          "        // Update accessTokenExpiry",
+          "        if (jsonData.accessToken && jsonData.accessToken.expiresIn) {",
+          "            pm.environment.set(\"accessTokenExpiry\", jsonData.accessToken.expiresIn);",
+          "            console.log(\"accessTokenExpiry updated: \" + jsonData.accessToken.expiresIn);",
+          "        } else {",
+          "            console.error(\"accessToken expiresIn not found in refresh response\");",
+          "        }",
+          "        ",
+          "        // Update refreshToken",
+          "        if (jsonData.refreshToken && jsonData.refreshToken.token) {",
+          "            pm.environment.set(\"refreshToken\", jsonData.refreshToken.token);",
+          "            console.log(\"refreshToken updated successfully\");",
+          "        } else {",
+          "            console.error(\"refreshToken not found in refresh response\");",
+          "        }",
+          "        ",
+          "        console.log(\"Token refresh completed successfully\");",
+          "    } else {",
+          "        console.error(\"Token refresh failed with status: \" + response.code);",
+          "        console.error(\"Response: \" + response.text());",
+          "    }",
+          "} catch (error) {",
+          "    console.error(\"Error during token refresh: \" + error.message);",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
