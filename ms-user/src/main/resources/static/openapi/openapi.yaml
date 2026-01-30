@@ -34,6 +34,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      description: 'Envie o token no header `Authorization: Bearer <token>`'
 
 
 
