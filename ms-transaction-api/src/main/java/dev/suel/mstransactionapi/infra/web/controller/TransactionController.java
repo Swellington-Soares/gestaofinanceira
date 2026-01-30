@@ -2,7 +2,8 @@ package dev.suel.mstransactionapi.infra.web.controller;
 
 
 import dev.suel.mstransactionapi.application.usecase.*;
-import dev.suel.mstransactionapi.domain.*;
+import dev.suel.mstransactionapi.domain.PageDataDomain;
+import dev.suel.mstransactionapi.domain.PaginatedResponse;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 import dev.suel.mstransactionapi.dto.TransactionDetailResponse;
 import dev.suel.mstransactionapi.dto.UserTokenInfo;

@@ -1,10 +1,10 @@
 package dev.suel.mstransactionapi.infra.services;
 
 import dev.suel.mstransactionapi.application.gateway.DocumentGeneratorPort;
+import dev.suel.mstransactionapi.domain.ExpenseReportData;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
-import dev.suel.mstransactionapi.domain.ExpenseReportData;
 import org.openpdf.text.*;
 import org.openpdf.text.Font;
 import org.openpdf.text.pdf.PdfPCell;

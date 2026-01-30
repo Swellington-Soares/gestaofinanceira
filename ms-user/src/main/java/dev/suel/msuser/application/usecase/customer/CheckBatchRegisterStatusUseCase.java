@@ -3,9 +3,7 @@ package dev.suel.msuser.application.usecase.customer;
 
 import dev.suel.msuser.application.exception.ResourceNotFoundException;
 import dev.suel.msuser.application.gateway.BatchRegisterCustomerPort;
-import dev.suel.msuser.application.gateway.CustomerServicePort;
 import dev.suel.msuser.domain.FileUploadStatus;
-import dev.suel.msuser.dto.FileUploadResponse;
 
 public class CheckBatchRegisterStatusUseCase {
 

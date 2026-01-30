@@ -2,7 +2,6 @@ package dev.suel.msuser.application.usecase.customer;
 
 import dev.suel.msuser.application.exception.ResourceNotFoundException;
 import dev.suel.msuser.application.gateway.BatchRegisterCustomerPort;
-import dev.suel.msuser.application.usecase.customer.CheckBatchRegisterStatusUseCase;
 import dev.suel.msuser.domain.FileUploadStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

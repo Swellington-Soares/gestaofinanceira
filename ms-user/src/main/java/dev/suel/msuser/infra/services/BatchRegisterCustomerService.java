@@ -7,7 +7,6 @@ import dev.suel.msuser.domain.entity.Customer;
 import dev.suel.msuser.domain.valueobject.Email;
 import dev.suel.msuser.domain.valueobject.Password;
 import dev.suel.msuser.domain.valueobject.PersonName;
-import dev.suel.msuser.dto.FileUploadResponse;
 import dev.suel.msuser.infra.mapper.CustomerMapper;
 import dev.suel.msuser.infra.persistence.repository.CustomerEntityRepository;
 import lombok.RequiredArgsConstructor;

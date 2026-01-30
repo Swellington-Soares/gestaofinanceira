@@ -2,7 +2,6 @@ package dev.suel.msuser.application.usecase.customer;
 
 import dev.suel.msuser.application.exception.ResourceNotFoundException;
 import dev.suel.msuser.application.gateway.CustomerServicePort;
-import dev.suel.msuser.application.usecase.customer.FindCustomerByIdUseCase;
 import dev.suel.msuser.domain.entity.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

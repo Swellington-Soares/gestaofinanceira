@@ -3,9 +3,9 @@ package dev.suel.mstransactionapi.infra.web.controller;
 import dev.suel.mstransactionapi.application.usecase.*;
 import dev.suel.mstransactionapi.domain.PageDataDomain;
 import dev.suel.mstransactionapi.domain.PaginatedResponse;
-import dev.suel.mstransactionapi.dto.UserTokenInfo;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 import dev.suel.mstransactionapi.dto.TransactionDetailResponse;
+import dev.suel.mstransactionapi.dto.UserTokenInfo;
 import dev.suel.mstransactionapi.infra.mapper.PageMapper;
 import dev.suel.mstransactionapi.infra.services.SecurityService;
 import dev.suel.mstransactionapi.infra.web.dto.TransactionCreateRequest;
@@ -21,7 +21,7 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 

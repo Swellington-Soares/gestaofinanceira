@@ -1,14 +1,9 @@
 package dev.suel.msuser.application.gateway;
 
-import dev.suel.msuser.domain.FileUploadStatus;
 import dev.suel.msuser.domain.PageDataDomain;
 import dev.suel.msuser.domain.PaginatedResponse;
 import dev.suel.msuser.domain.entity.Customer;
 import dev.suel.msuser.dto.CustomerInfoResponse;
-import dev.suel.msuser.dto.FileUploadResponse;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 
 public interface CustomerServicePort {

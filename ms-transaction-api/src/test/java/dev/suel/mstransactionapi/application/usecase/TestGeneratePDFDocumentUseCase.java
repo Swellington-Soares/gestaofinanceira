@@ -2,10 +2,10 @@ package dev.suel.mstransactionapi.application.usecase;
 
 import dev.suel.mstransactionapi.application.gateway.DocumentGeneratorPort;
 import dev.suel.mstransactionapi.application.gateway.TransactionReportPort;
+import dev.suel.mstransactionapi.domain.ExpenseReportData;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
-import dev.suel.mstransactionapi.domain.ExpenseReportData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 

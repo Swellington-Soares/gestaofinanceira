@@ -5,7 +5,6 @@ import dev.suel.gestaofinanceira.types.OperationType;
 import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 import dev.suel.mstransactionprocessor.application.gateway.BalanceServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ExchangeServicePort;
-import dev.suel.mstransactionprocessor.application.gateway.exception.TransactionNotFoundException;
 import dev.suel.mstransactionprocessor.domain.entity.Transaction;
 import dev.suel.mstransactionprocessor.infra.kafka.CurrencyQuotationVerifyException;
 import dev.suel.mstransactionprocessor.infra.mapper.TransactionMapper;
@@ -18,7 +17,6 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;

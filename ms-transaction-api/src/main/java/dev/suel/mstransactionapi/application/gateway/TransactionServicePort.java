@@ -6,7 +6,6 @@ import dev.suel.mstransactionapi.domain.PaginatedResponse;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 

@@ -1,10 +1,10 @@
 package dev.suel.mstransactionapi.application.usecase;
 
+import dev.suel.gestaofinanceira.types.TransactionStatus;
 import dev.suel.mstransactionapi.application.exception.AccessDeniedException;
 import dev.suel.mstransactionapi.application.exception.InvalidOperationException;
 import dev.suel.mstransactionapi.application.exception.ResourceNotFoundException;
 import dev.suel.mstransactionapi.application.gateway.TransactionServicePort;
-import dev.suel.gestaofinanceira.types.TransactionStatus;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 

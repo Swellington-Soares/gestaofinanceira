@@ -1,7 +1,6 @@
 package dev.suel.msuser.application.gateway;
 
 import dev.suel.msuser.domain.FileUploadStatus;
-import dev.suel.msuser.dto.FileUploadResponse;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

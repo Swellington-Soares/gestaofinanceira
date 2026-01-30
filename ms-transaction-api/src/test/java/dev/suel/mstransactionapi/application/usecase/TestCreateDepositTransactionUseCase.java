@@ -1,9 +1,9 @@
 package dev.suel.mstransactionapi.application.usecase;
 
-import dev.suel.mstransactionapi.application.gateway.TransactionServicePort;
 import dev.suel.gestaofinanceira.types.CurrencyType;
 import dev.suel.gestaofinanceira.types.OperationType;
 import dev.suel.gestaofinanceira.types.TransactionStatus;
+import dev.suel.mstransactionapi.application.gateway.TransactionServicePort;
 import dev.suel.mstransactionapi.domain.entity.Transaction;
 import dev.suel.mstransactionapi.dto.TransactionCreatedResponseDto;
 import dev.suel.mstransactionapi.infra.web.dto.TransactionCreateRequest;
@@ -15,7 +15,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 

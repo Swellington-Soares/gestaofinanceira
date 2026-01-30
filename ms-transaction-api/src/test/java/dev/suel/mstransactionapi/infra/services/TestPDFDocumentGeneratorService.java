@@ -1,14 +1,14 @@
 package dev.suel.mstransactionapi.infra.services;
 
-import org.openpdf.text.pdf.PdfReader;
-import org.openpdf.text.pdf.parser.PdfTextExtractor;
 import dev.suel.gestaofinanceira.types.OperationType;
+import dev.suel.mstransactionapi.domain.ExpenseReportData;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
-import dev.suel.mstransactionapi.domain.ExpenseReportData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openpdf.text.pdf.PdfReader;
+import org.openpdf.text.pdf.parser.PdfTextExtractor;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -16,7 +16,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class TestPDFDocumentGeneratorService {
 
