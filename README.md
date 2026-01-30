@@ -41,6 +41,10 @@ Plataforma de **gestão financeira** construída em **Java 21 + Spring Boot 3**,
 Na raiz do repositório:
 
 ```bash
+docker docker-compose up -d
+```
+Para força o build
+```bash
 docker docker-compose up -d --build
 ```
 
@@ -60,7 +64,7 @@ Serviços expostos (host → container):
 1) Suba infra (MariaDB + Kafka) via Docker:
 
 ```bash
-docker-compose up -d beca-database kafka
+docker compose -f docker-compose-dev.yml up -d
 ```
 
 2) Execute cada serviço com o profile `dev`:
