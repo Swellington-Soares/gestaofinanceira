@@ -28,6 +28,9 @@ public class CreateTransferTransactionUseCase {
         if (data == null || data.amount() == null || data.amount().compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("O valor da transação é inválido.");
 
+        if (data.destAccount() == null || data.destAccount() <= 0)
+            throw new IllegalArgumentException("Conta de destino inválida: " + data.destAccount());
+
         Transaction transactionModel = Transaction.withId()
                 .createdDate(LocalDateTime.now())
                 .operationType(OperationType.TRANSFER)
