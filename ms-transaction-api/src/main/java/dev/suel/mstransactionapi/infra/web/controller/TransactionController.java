@@ -89,6 +89,7 @@ public class TransactionController {
     }
 
     @PostMapping("/custom")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<TransactionCreatedResponseDto> custom(
             @RequestBody @Valid TransactionCustomCreateRequest data,
             Authentication authentication

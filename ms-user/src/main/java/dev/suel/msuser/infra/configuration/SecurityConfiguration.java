@@ -32,8 +32,8 @@ public class SecurityConfiguration {
         return http
                 .authorizeHttpRequests(a ->
                         a.requestMatchers(
-                                        "/api/v1/auth/**",
                                         "/api/v1/customers/batch-register/**",
+                                        "/api/v1/auth/**",
                                         "/v3/api-docs",
                                         "/v3/api-docs/**",
                                         "/openapi/openapi.yaml",

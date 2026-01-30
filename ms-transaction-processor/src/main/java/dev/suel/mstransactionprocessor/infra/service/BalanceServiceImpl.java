@@ -5,6 +5,7 @@ import dev.suel.mstransactionprocessor.infra.external.mockapi.IMockApiClient;
 import dev.suel.mstransactionprocessor.infra.external.mockapi.UserBalanceInfo;
 import dev.suel.mstransactionprocessor.infra.external.mockapi.UserBalanceInfoCreate;
 import dev.suel.mstransactionprocessor.infra.external.mockapi.UserBalanceUpdate;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,17 @@ public class BalanceServiceImpl implements BalanceServicePort {
     private final IMockApiClient mockApiClient;
 
     private UserBalanceInfo getOrCreateUserBalanceInfo(Long userId) {
-        return mockApiClient.getByUserId(userId)
-                .stream().findFirst()
-                .orElseGet(() -> mockApiClient.create(new UserBalanceInfoCreate(userId)));
+        try {
+            return mockApiClient.getByUserId(userId)
+                    .stream().findFirst()
+                    .orElseGet(() -> mockApiClient.create(new UserBalanceInfoCreate(userId)));
+        } catch (FeignException fe) {
+            if (fe.status() == 404) {
+                return mockApiClient.create(new UserBalanceInfoCreate(userId));
+            } else {
+                throw fe;
+            }
+        }
     }
 
 

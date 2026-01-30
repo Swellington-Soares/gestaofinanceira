@@ -28,9 +28,10 @@ public class SecurityConfiguration {
         return http
                 .authorizeHttpRequests(a ->
                         a.requestMatchers(
+                                        "/api/v1/auth/**",
                                         "/v3/api-docs",
                                         "/v3/api-docs/**",
-                                        "/openapi-v1.yml",
+                                        "/openapi/openapi.yaml",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html",
                                         "/static/**",
