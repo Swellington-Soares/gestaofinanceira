@@ -1,0 +1,37 @@
+get:
+  tags: [Transações]
+  summary: Detalhar transação
+  description: Retorna os detalhes de uma transação do usuário autenticado.
+  operationId: getTransactionById
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: "../../components/parameters.yaml#/TransactionIdPath"
+  responses:
+    '200':
+      description: Detalhe da transação
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/TransactionDetailResponse.yaml"
+    '401':
+      $ref: "../../components/responses.yaml#/Unauthorized"
+    '404':
+      $ref: "../../components/responses.yaml#/NotFound"
+
+delete:
+  tags: [Transações]
+  summary: Excluir transação
+  description: Remove uma transação do usuário autenticado.
+  operationId: deleteTransaction
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: "../../components/parameters.yaml#/TransactionIdPath"
+  responses:
+    '204':
+      description: Removida com sucesso
+    '401':
+      $ref: "../../components/responses.yaml#/Unauthorized"
+    '404':
+      $ref: "../../components/responses.yaml#/NotFound"

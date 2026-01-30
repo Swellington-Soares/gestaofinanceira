@@ -1,0 +1,4 @@
+type: string
+description: Tipo de moeda suportado
+enum: [BRL, USD, EUR, GBP, JPY, CAD, AUD, CHF, SEK, NOK, DKK]
+example: "BRL"

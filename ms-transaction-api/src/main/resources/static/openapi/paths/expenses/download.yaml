@@ -1,0 +1,30 @@
+get:
+  tags: [Despesas]
+  summary: Download do relatório em PDF
+  description: >
+    Gera e retorna um PDF (application/pdf) com o relatório de despesas no intervalo informado.
+    Requer autenticação e ownership do userId.
+  operationId: downloadExpensePdf
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: "../../components/parameters.yaml#/UserIdPath"
+    - $ref: "../../components/parameters.yaml#/StartDateParam"
+    - $ref: "../../components/parameters.yaml#/EndDateParam"
+  responses:
+    '200':
+      description: PDF gerado
+      headers:
+        Content-Disposition:
+          schema:
+            type: string
+          example: 'attachment; filename=relatorio-despesas.pdf'
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    '401':
+      $ref:  "../../components/responses.yaml#/Unauthorized"
+    '403':
+      $ref:  "../../components/responses.yaml#/Forbidden"

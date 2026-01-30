@@ -1,0 +1,21 @@
+type: object
+description: Filtro para relatórios de transações
+properties:
+  startDate:
+    type: string
+    format: date-time
+    example: "2026-01-01T00:00:00Z"
+  endDate:
+    type: string
+    format: date-time
+    example: "2026-01-31T23:59:59Z"
+  operationType:
+    $ref: ./OperationType.yaml
+  status:
+    $ref: ./TransactionStatus.yaml
+  currency:
+    $ref: ./CurrencyType.yaml
+  userId:
+    type: integer
+    format: int64
+    example: 1001

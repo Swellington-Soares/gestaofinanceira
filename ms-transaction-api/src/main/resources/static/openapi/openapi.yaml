@@ -1,0 +1,51 @@
+openapi: 3.0.3
+
+info:
+  title: MS Transaction API
+  version: 1.0.0
+  contact:
+    name: Swellington Soares
+  description: >
+    API REST do microserviço de transações.
+
+servers:
+  - url: http://localhost:8082
+    description: Local
+
+tags:
+  - name: Transações
+    description: Operações de transações (depósito, saque, transferência, personalizado, listagem e detalhe)
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Envie o token no header `Authorization: Bearer <token>`'
+
+paths:
+  /api/v1/transactions:
+    $ref: './paths/transaction/getall.yaml'
+  /api/v1/transactions/{id}:
+    $ref: './paths/transaction/crud.yaml'
+  /api/v1/transactions/deposit:
+    $ref: './paths/transaction/deposit.yaml'
+  /api/v1/transactions/withdraw:
+    $ref: './paths/transaction/withdraw.yaml'
+  /api/v1/transactions/transfer:
+    $ref: './paths/transaction/transfer.yaml'
+  /api/v1/transactions/custom:
+    $ref: './paths/transaction/custom.yaml'
+
+  /api/v1/expenses/{userId}/summary/category:
+    $ref: "./paths/expenses/category.yaml"
+  /api/v1/expenses/{userId}/summary/day:
+    $ref: './paths/expenses/day.yaml'
+  /api/v1/expenses/{userId}/summary/month:
+    $ref: './paths/expenses/month.yaml'
+  /api/v1/expenses/{userId}/summary/download:
+    $ref: './paths/expenses/download.yaml'

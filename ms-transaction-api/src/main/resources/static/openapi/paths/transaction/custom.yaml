@@ -1,0 +1,33 @@
+post:
+  tags: [Transações]
+  summary: Criar transação personalizada
+  description: >
+    Cria uma transação personalizada para o usuário autenticado.
+  operationId: createCustom
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/TransactionCustomCreateRequest.yaml"
+        examples:
+          example:
+            value:
+              amount: 20.00
+              currencyType: BRL
+              operationType: EXTERNAL
+  responses:
+    '200':
+      description: Transação criada
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/TransactionCreatedResponseDto.yaml"
+    '400':
+      $ref: "../../components/responses.yaml#/BadRequest"
+    '401':
+      $ref: "../../components/responses.yaml#/Unauthorized"
+    '422':
+      $ref: "../../components/responses.yaml#/UnprocessableEntity"

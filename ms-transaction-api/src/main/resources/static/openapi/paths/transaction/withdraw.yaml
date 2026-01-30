@@ -1,0 +1,30 @@
+post:
+  tags: [Transações]
+  summary: Criar saque
+  description: Cria uma transação de saque para o usuário autenticado.
+  operationId: createWithdraw
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/TransactionWithdrawCreateRequest.yaml"
+        examples:
+          example:
+            value:
+              amount: 100.00
+  responses:
+    '200':
+      description: Transação criada
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/TransactionCreatedResponseDto.yaml"
+    '400':
+      $ref: "../../components/responses.yaml#/BadRequest"
+    '401':
+      $ref: "../../components/responses.yaml#/Unauthorized"
+    '422':
+      $ref: "../../components/responses.yaml#/UnprocessableEntity"

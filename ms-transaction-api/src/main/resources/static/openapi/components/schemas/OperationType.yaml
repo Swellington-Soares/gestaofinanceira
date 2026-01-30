@@ -1,0 +1,4 @@
+type: string
+description: Tipo de operação da transação
+enum: [DEPOSIT, WITHDRAW, TRANSFER, PURCHASER, CREDIT_CARD_PURCHASE, EXTERNAL]
+example: "DEPOSIT"

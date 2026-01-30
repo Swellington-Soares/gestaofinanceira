@@ -1,0 +1,13 @@
+type: object
+required: [id, status, createdAt]
+properties:
+  id:
+    type: string
+    format: uuid
+    example: "0f6b7a0c-0b84-4a3f-8c93-0df6cf3b4b44"
+  status:
+    $ref: ./TransactionStatus.yaml
+  createdAt:
+    type: string
+    format: date-time
+    example: "2026-01-29T10:00:00Z"

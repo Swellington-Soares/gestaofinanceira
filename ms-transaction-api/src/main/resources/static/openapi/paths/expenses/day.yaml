@@ -1,0 +1,26 @@
+get:
+  tags: [Despesas]
+  summary: Total por dia
+  description: >
+    Retorna a soma de despesas agrupada por dia no intervalo informado.
+    Requer autenticação e ownership do userId.
+  operationId: expenseTotalByDay
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: "../../components/parameters.yaml#/UserIdPath"
+    - $ref: "../../components/parameters.yaml#/StartDateParam"
+    - $ref: "../../components/parameters.yaml#/EndDateParam"
+  responses:
+    '200':
+      description: Lista de totais por dia
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../components/schemas/ExpenseByDay.yaml"
+    '401':
+      $ref:  "../../components/responses.yaml#/Unauthorized"
+    '403':
+      $ref:  "../../components/responses.yaml#/Forbidden"

@@ -1,0 +1,17 @@
+type: object
+required: [operationType, status, currency, totalTransactions, totalAmount]
+properties:
+  operationType:
+    $ref: ./OperationType.yaml
+  status:
+    $ref: ./TransactionStatus.yaml
+  currency:
+    $ref: ./CurrencyType.yaml
+  totalTransactions:
+    type: integer
+    format: int64
+    example: 12
+  totalAmount:
+    type: number
+    format: double
+    example: 1234.56

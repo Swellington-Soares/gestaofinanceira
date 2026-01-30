@@ -1,0 +1,34 @@
+ApiResponse:
+  $ref: ./ApiResponse.yaml
+CurrencyType:
+  $ref: ./CurrencyType.yaml
+DocumentGenerationResponse:
+  $ref: ./DocumentGenerationResponse.yaml
+ExpenseByCategory:
+  $ref: ./ExpenseByCategory.yaml
+ExpenseByDay:
+  $ref: ./ExpenseByDay.yaml
+ExpenseByMonth:
+  $ref: ./ExpenseByMonth.yaml
+OperationType:
+  $ref: ./OperationType.yaml
+PaginatedTransactionDetailResponse:
+  $ref: ./PaginatedTransactionDetailResponse.yaml
+TransactionCreateRequest:
+  $ref: ./TransactionCreateRequest.yaml
+TransactionCreatedResponseDto:
+  $ref: ./TransactionCreatedResponseDto.yaml
+TransactionCustomCreateRequest:
+  $ref: ./TransactionCustomCreateRequest.yaml
+TransactionDetailResponse:
+  $ref: ./TransactionDetailResponse.yaml
+TransactionReportFilter:
+  $ref: ./TransactionReportFilter.yaml
+TransactionStatus:
+  $ref: ./TransactionStatus.yaml
+TransactionSummary:
+  $ref: ./TransactionSummary.yaml
+TransactionTransferCreateRequest:
+  $ref: ./TransactionTransferCreateRequest.yaml
+TransactionWithdrawCreateRequest:
+  $ref: ./TransactionWithdrawCreateRequest.yaml

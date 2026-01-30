@@ -1,0 +1,77 @@
+TransactionIdPath:
+  name: id
+  in: path
+  required: true
+  description: Identificador da transação
+  schema:
+    type: string
+    format: uuid
+  example: "0f6b7a0c-0b84-4a3f-8c93-0df6cf3b4b44"
+
+UserIdPath:
+  name: userId
+  in: path
+  required: true
+  description: Identificador do usuário (owner)
+  schema:
+    type: integer
+    format: int64
+    minimum: 1
+  example: 1001
+
+StartDateParam:
+  name: start_date
+  in: query
+  required: true
+  description: Data inicial (ISO 8601 - yyyy-MM-dd)
+  schema:
+    type: string
+    format: date
+  example: "2026-01-01"
+
+EndDateParam:
+  name: end_date
+  in: query
+  required: true
+  description: Data final (ISO 8601 - yyyy-MM-dd)
+  schema:
+    type: string
+    format: date
+  example: "2026-01-31"
+
+PageParam:
+  name: page
+  in: query
+  required: false
+  description: Índice da página (0-based)
+  schema:
+    type: integer
+    minimum: 0
+    default: 0
+  example: 0
+
+SizeParam:
+  name: size
+  in: query
+  required: false
+  description: Tamanho da página (> 0)
+  schema:
+    type: integer
+    minimum: 1
+    default: 20
+  example: 20
+
+SortParam:
+  name: sort
+  in: query
+  required: false
+  description: >
+    Ordenação no padrão Spring Data.
+    Pode ser repetido múltiplas vezes. Ex.: `sort=createdDate,desc&sort=amount,asc`
+  schema:
+    type: array
+    items:
+      type: string
+  style: form
+  explode: true
+  example: ["createdDate,desc"]

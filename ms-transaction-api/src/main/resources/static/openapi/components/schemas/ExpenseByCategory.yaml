@@ -1,0 +1,9 @@
+type: object
+required: [category, totalAmount]
+properties:
+  category:
+    $ref: ./OperationType.yaml
+  totalAmount:
+    type: number
+    format: double
+    example: 300.00

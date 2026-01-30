@@ -1,0 +1,44 @@
+type: object
+required: [userId, createdDate, transactionId, amount, exchange, operationType, status, finalAmount, currencyType]
+properties:
+  userId:
+    type: integer
+    format: int64
+    example: 1001
+  createdDate:
+    type: string
+    format: date-time
+    example: "2026-01-29T10:00:00Z"
+  processedDate:
+    type: string
+    format: date-time
+    nullable: true
+    example: "2026-01-29T10:00:05Z"
+  transactionId:
+    type: string
+    format: uuid
+    example: "0f6b7a0c-0b84-4a3f-8c93-0df6cf3b4b44"
+  amount:
+    type: number
+    format: double
+    example: 150.75
+  exchange:
+    type: number
+    format: double
+    description: Cotação aplicada no momento do processamento (quando aplicável)
+    example: 1.00
+  operationType:
+    $ref: ./OperationType.yaml
+  status:
+    $ref: ./TransactionStatus.yaml
+  finalAmount:
+    type: number
+    format: double
+    description: Valor final considerado após câmbio/taxas
+    example: 150.75
+  currencyType:
+    $ref: ./CurrencyType.yaml
+  message:
+    type: string
+    nullable: true
+    example: "Depósito realizado com sucesso."

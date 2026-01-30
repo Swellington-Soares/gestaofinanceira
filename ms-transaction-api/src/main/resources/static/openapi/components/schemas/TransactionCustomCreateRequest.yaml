@@ -1,0 +1,14 @@
+type: object
+required: [amount, currencyType, operationType]
+properties:
+  amount:
+    type: number
+    format: double
+    exclusiveMinimum: true
+    minimum: 0
+    description: Valor da transação customizada
+    example: 20.00
+  currencyType:
+    $ref: ./CurrencyType.yaml
+  operationType:
+    $ref: ./OperationType.yaml

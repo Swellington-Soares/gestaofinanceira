@@ -1,0 +1,26 @@
+type: object
+required: [data, currentPage, totalPages, totalItems, pageSize, hasNext, hasPrevious]
+properties:
+  data:
+    type: array
+    items:
+      $ref: ./TransactionDetailResponse.yaml
+  currentPage:
+    type: integer
+    example: 0
+  totalPages:
+    type: integer
+    example: 10
+  totalItems:
+    type: integer
+    format: int64
+    example: 100
+  pageSize:
+    type: integer
+    example: 10
+  hasNext:
+    type: boolean
+    example: true
+  hasPrevious:
+    type: boolean
+    example: false

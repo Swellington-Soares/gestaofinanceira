@@ -1,0 +1,25 @@
+get:
+  tags: [Transações]
+  summary: Listar transações (paginado)
+  description: >
+    Lista transações do usuário autenticado, com paginação no padrão Spring Data.
+    Requer autenticação (JWT).
+  operationId: listTransactions
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: "../../components/parameters.yaml#/PageParam"
+    - $ref: "../../components/parameters.yaml#/SizeParam"
+    - $ref: "../../components/parameters.yaml#/SortParam"
+
+  responses:
+    '200':
+      description: Lista paginada de transações
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/PaginatedTransactionDetailResponse.yaml"
+    '400':
+      $ref: "../../components/responses.yaml#/BadRequest"
+    '401':
+      $ref: "../../components/responses.yaml#/Unauthorized"

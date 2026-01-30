@@ -1,0 +1,19 @@
+type: object
+required: [id, requestedAt, status, format]
+properties:
+  id:
+    type: string
+    format: uuid
+    example: "f1c8f9da-7c6a-4c0d-8d54-3c2cfc7c2cb3"
+  requestedAt:
+    type: string
+    format: date
+    example: "2026-01-29"
+  status:
+    type: string
+    description: Status da solicitação de geração do documento
+    example: "PROCESSING"
+  format:
+    type: string
+    description: Formato do documento
+    example: "PDF"

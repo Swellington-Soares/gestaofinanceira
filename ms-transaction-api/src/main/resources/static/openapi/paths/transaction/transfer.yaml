@@ -1,0 +1,31 @@
+post:
+  tags: [Transações]
+  summary: Criar transferência
+  description: Cria uma transação de transferência para outro usuário.
+  operationId: createTransfer
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/TransactionTransferCreateRequest.yaml"
+        examples:
+          example:
+            value:
+              amount: 50.00
+              destAccount: 2001
+  responses:
+    '200':
+      description: Transação criada
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/TransactionCreatedResponseDto.yaml"
+    '400':
+      $ref: "../../components/responses.yaml#/BadRequest"
+    '401':
+      $ref: "../../components/responses.yaml#/Unauthorized"
+    '422':
+      $ref: "../../components/responses.yaml#/UnprocessableEntity"

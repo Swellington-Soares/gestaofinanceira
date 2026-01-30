@@ -1,0 +1,31 @@
+post:
+  tags: [Transações]
+  summary: Criar depósito
+  description: Cria uma transação de depósito para o usuário autenticado.
+  operationId: createDeposit
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/TransactionCreateRequest.yaml"
+        examples:
+          example:
+            value:
+              amount: 150.75
+              currencyType: BRL
+  responses:
+    '200':
+      description: Transação criada
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/TransactionCreatedResponseDto.yaml"
+    '400':
+      $ref: "../../components/responses.yaml#/BadRequest"
+    '401':
+      $ref: "../../components/responses.yaml#/Unauthorized"
+    '422':
+      $ref: "../../components/responses.yaml#/UnprocessableEntity"

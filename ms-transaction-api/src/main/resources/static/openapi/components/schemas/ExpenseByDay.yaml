@@ -1,0 +1,11 @@
+type: object
+required: [date, totalAmount]
+properties:
+  date:
+    type: string
+    format: date-time
+    example: "2026-01-15T00:00:00Z"
+  totalAmount:
+    type: number
+    format: double
+    example: 45.90

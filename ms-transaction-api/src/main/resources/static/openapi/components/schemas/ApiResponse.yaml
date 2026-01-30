@@ -1,0 +1,27 @@
+type: object
+required: [timestamp, status, message, path]
+properties:
+  timestamp:
+    type: string
+    format: date-time
+    description: Momento do erro
+    example: "2026-01-29T07:10:00Z"
+  status:
+    type: integer
+    description: HTTP status code
+    example: 400
+  message:
+    type: string
+    description: Mensagem de erro
+    example: "Erro de validação"
+  path:
+    type: string
+    description: Caminho da requisição
+    example: "/api/v1/transactions"
+  errors:
+    type: object
+    description: Mapa de erros por campo, quando aplicável
+    additionalProperties:
+      type: string
+    example:
+      amount: "O valor precisa ser maior que zero."
