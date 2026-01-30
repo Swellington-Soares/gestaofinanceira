@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 new ApiResponse(LocalDateTime.now(),
                         HttpStatus.BAD_REQUEST.value(),
-                        ex.getMessage(),
+                        "Problemas de validação.",
                         request.getRequestURI(),
                         errors)
         );
