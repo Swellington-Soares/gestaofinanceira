@@ -89,12 +89,17 @@ public class CustomerController {
         return ResponseEntity.ok().build();
     }
 
-
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated() && @security.isOwner(#id, authentication)")
     ResponseEntity<CustomerInfoResponse> read(@PathVariable Long id) {
         Customer customer = findCustomerByIdUseCase.execute(id);
         CustomerInfoResponse response = customerMapper.modelToResponse(customer);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/check")
+    @PreAuthorize("isAuthenticated()")
+    ResponseEntity<Void> check() {
+        return ResponseEntity.ok().build();
     }
 }
