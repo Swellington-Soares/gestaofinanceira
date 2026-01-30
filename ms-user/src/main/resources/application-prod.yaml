@@ -27,4 +27,3 @@ jwt:
   sign-key: ${JWT_SIGN_KEY}
   access-token-validity-minutes: ${JWT_ACCESS_TOKEN_MINUTE:10}
   refresh-token-validity-minutes: ${JWT_REFRESH_TOKEN_MINUTE:120}
-

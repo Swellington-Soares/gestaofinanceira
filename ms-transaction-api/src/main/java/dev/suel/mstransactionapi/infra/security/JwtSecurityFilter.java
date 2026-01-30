@@ -38,7 +38,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserTokenInfo tokenInfo = tokenService.validateAccessTokenAndGetInfo(token);
                     AbstractAuthenticationToken auth = new UsernamePasswordAuthenticationToken(tokenInfo.email(),
-                            null,
+                            token,
                             List.of(new SimpleGrantedAuthority("USER")));
                     auth.setDetails(tokenInfo);
                     SecurityContextHolder.getContext().setAuthentication(auth);

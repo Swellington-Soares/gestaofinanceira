@@ -39,7 +39,7 @@ public class TransactionController {
     private final CreateCustomTransactionUseCase createCustomTransactionUseCase;
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public ResponseEntity<PaginatedResponse<TransactionDetailResponse>> getAll(Pageable pageable, Authentication authentication) {
         UserTokenInfo owner = securityService.getOwner(authentication);
         PageDataDomain pageDataDomain = pageMapper.pageableToPageDataDomain(pageable);
@@ -47,7 +47,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public ResponseEntity<Void> delete(@PathVariable UUID id, Authentication authentication) {
         UserTokenInfo owner = securityService.getOwner(authentication);
         deleteTransactionUseCase.execute(id, owner.id());
@@ -55,14 +55,14 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public ResponseEntity<TransactionDetailResponse> show(@PathVariable UUID id, Authentication authentication) {
         UserTokenInfo owner = securityService.getOwner(authentication);
         return ResponseEntity.ok(showTransactionDetailUseCase.execute(id, owner.id()));
     }
 
     @PostMapping("/deposit")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public ResponseEntity<TransactionCreatedResponseDto> deposit(
             @RequestBody @Valid TransactionCreateRequest data,
             Authentication authentication) {
@@ -71,7 +71,7 @@ public class TransactionController {
     }
 
     @PostMapping("/withdraw")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public ResponseEntity<TransactionCreatedResponseDto> withdraw(
             @RequestBody @Valid TransactionWithdrawCreateRequest data,
             Authentication authentication) {
@@ -80,7 +80,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transfer")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public ResponseEntity<TransactionCreatedResponseDto> transfer(
             @RequestBody @Valid TransactionTransferCreateRequest data,
             Authentication authentication
@@ -90,7 +90,7 @@ public class TransactionController {
     }
 
     @PostMapping("/custom")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public ResponseEntity<TransactionCreatedResponseDto> custom(
             @RequestBody @Valid TransactionCustomCreateRequest data,
             Authentication authentication

@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class AppConfiguration {
 
-
     private final TransactionServicePort transactionServicePort;
     private final TransactionReportPort transactionReportPort;
     private final DocumentGeneratorPort pdfDocumentGeneratorService;

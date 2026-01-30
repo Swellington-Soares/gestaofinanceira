@@ -30,3 +30,7 @@ springdoc:
     enabled: false
   swagger-ui:
     enabled: false
+
+services:
+  external:
+    ms-api: ${MS_CHECK_USER_API:http://localhost:8081/api/v1/customer/check}
