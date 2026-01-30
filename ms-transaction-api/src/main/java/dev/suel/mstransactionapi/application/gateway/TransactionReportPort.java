@@ -1,6 +1,5 @@
 package dev.suel.mstransactionapi.application.gateway;
 
-import dev.suel.mstransactionapi.dto.BalanceInfo;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
