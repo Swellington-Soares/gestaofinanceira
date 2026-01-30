@@ -85,7 +85,6 @@ public class BatchRegisterCustomerService implements BatchRegisterCustomerPort {
                     String password = formatter.formatCellValue(row.getCell(2));
 
                     if (name.isBlank() || email.isBlank() || password.isBlank()) continue;
-                    ;
 
                     Customer customer = Customer.builder()
                             .email(Email.of(email))

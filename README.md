@@ -25,10 +25,11 @@ Plataforma de **gestão financeira** construída em **Java 21 + Spring Boot 3**,
 ## Pré-requisitos
 
 ### Para rodar local (sem Docker)
-- Java **21**
+- Java **21+**
 - Maven **3.9+**
 - MariaDB **11** (ou compatível)
 - Kafka (broker exposto em `localhost:9092`)
+  - A versão do Kafka usada no momento foi a 4.1.1
 
 ### Para rodar com Docker
 - Docker
@@ -43,7 +44,7 @@ Na raiz do repositório:
 ```bash
 docker docker-compose up -d
 ```
-Para força o build
+Para rebuildar
 ```bash
 docker docker-compose up -d --build
 ```
@@ -197,17 +198,17 @@ sequenceDiagram
 
 ### `ms-user` — Base URL: `http://localhost:8081`
 
-| Método | Rota | Responsável | Descrição |
-|---|---|---|---|
-| POST | `/api/v1/auth/login` | `LoginController#login` | Autentica e retorna tokens JWT. |
-| POST | `/api/v1/auth/refresh` | `LoginController#refreshToken` | Gera novo access token via refresh token. |
-| POST | `/api/v1/customers` | `CustomerController#create` | Cria um novo customer. |
-| GET | `/api/v1/customers` | `CustomerController#getAllUsers` | Lista customers paginado. |
-| GET | `/api/v1/customers/{id}` | `CustomerController#read` | Busca customer por id (**requer autenticação e ownership**). |
-| PUT | `/api/v1/customers/{id}` | `CustomerController#update` | Atualiza customer por id (**requer autenticação e ownership**). |
-| DELETE | `/api/v1/customers/{id}` | `CustomerController#delete` | Remove customer por id (**requer autenticação e ownership**). |
-| POST | `/api/v1/customers/batch-register` | `CustomerController#upload` | Upload (multipart) para cadastro em lote. |
-| GET | `/api/v1/customers/batch-register/{id}` | `CustomerController#checkUploadStatus` | Consulta status do processamento do batch. |
+| Método | Rota | Responsável | Descrição                                                       |
+|---|---|---|-----------------------------------------------------------------|
+| POST | `/api/v1/auth/login` | `LoginController#login` | Autentica e retorna tokens JWT.                                 |
+| POST | `/api/v1/auth/refresh` | `LoginController#refreshToken` | Gera novo access token via refresh token.                       |
+| POST | `/api/v1/customers` | `CustomerController#create` | Cadastra um novo cliente. |                                      |
+| GET | `/api/v1/customers` | `CustomerController#getAllUsers` | Lista os cliente paginado.                                       |
+| GET | `/api/v1/customers/{id}` | `CustomerController#read` | Busca o cliente por id (**requer autenticação e ser dono**).    |
+| PUT | `/api/v1/customers/{id}` | `CustomerController#update` | Atualiza cliente por id (**requer autenticação e ser dono.**). |
+| DELETE | `/api/v1/customers/{id}` | `CustomerController#delete` | Remove cliente por id (**requer autenticação e ser dono.**).   |
+| POST | `/api/v1/customers/batch-register` | `CustomerController#upload` | Upload (multipart) para cadastro em lote.                       |
+| GET | `/api/v1/customers/batch-register/{id}` | `CustomerController#checkUploadStatus` | Consulta status do processamento do batch.                      |
 
 **Principais DTOs (web):**
 - `CustomerCreateRequest`, `CustomerUpdateRequest` (`infra/web/dto`)
