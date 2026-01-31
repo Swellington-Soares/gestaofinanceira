@@ -7,4 +7,7 @@ spring:
     default-property-inclusion: non_null
   application:
     name: ms-transaction-api
+services:
+  external:
+    ms-api-check: http://localhost:8081/api/v1/customers/check
 

@@ -23,7 +23,3 @@ springdoc:
 server:
   port: 8082
 
-services:
-  external:
-    ms-api-check: http://localhost:8081/api/v1/customers/check
-
