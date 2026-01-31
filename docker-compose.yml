@@ -109,6 +109,7 @@ services:
       JWT_SIGN_KEY: db8ac1c259eb89d4a131b253bacfca5f319d54f2
       JWT_ACCESS_TOKEN_MINUTE: 10
       JWT_REFRESH_TOKEN_MINUTE: 120
+      MS_CHECK_USER_API: http://ms-user:8080/api/v1/customers/check
     depends_on:
       beca-database:
         condition: service_healthy
