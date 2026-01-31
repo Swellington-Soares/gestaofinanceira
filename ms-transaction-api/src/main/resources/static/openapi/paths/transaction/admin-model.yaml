@@ -1,0 +1,31 @@
+get:
+  tags: ["Transações MODO DEV"]
+  summary: Mostra o detalhe de uma única transação, buscando pelo ID
+  description: Retorna um objeto json contendo o detalhe da transação
+  operationId: getOne
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: "../../components/parameters.yaml#/TransactionIdPath"
+  responses:
+    '200':
+      description: Detalhe da transação
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/TransactionDetailResponse.yaml"
+    '404':
+      $ref: "../../components/responses.yaml#/NotFound"
+
+delete:
+  tags: ["Transações MODO DEV"]
+  summary: Excluir transação
+  description: Deleta uma transação do banco de dados pelo ID
+  operationId: deleteTransaction
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: "../../components/parameters.yaml#/TransactionIdPath"
+  responses:
+    '204':
+      description: Removida com sucesso

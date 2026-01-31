@@ -1,0 +1,11 @@
+get:
+  tags: ["Transações MODO DEV"]
+  summary: Busca todas as transações registradas no banco de dados.
+  operationId: getAll
+  responses:
+    '200':
+      description: "Retorna um lista das transações em modo paginado."
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/PaginatedTransactionDetailResponse.yaml"

@@ -11,6 +11,9 @@ get:
     - $ref: "../../components/parameters.yaml#/UserIdPath"
     - $ref: "../../components/parameters.yaml#/StartDateParam"
     - $ref: "../../components/parameters.yaml#/EndDateParam"
+    - $ref: "../../components/parameters.yaml#/PageParam"
+    - $ref: "../../components/parameters.yaml#/SizeParam"
+    - $ref: "../../components/parameters.yaml#/SortParam"
   responses:
     '200':
       description: Lista de totais por categoria

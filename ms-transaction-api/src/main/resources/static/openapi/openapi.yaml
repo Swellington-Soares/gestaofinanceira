@@ -5,8 +5,17 @@ info:
   version: 1.0.0
   contact:
     name: Swellington Soares
-  description: >
+  description: |
     API REST do microserviço de transações.
+  
+    Esta aplicação depende do Microserviço de Clientes (`ms-user`) em execução.
+    Os endpoints deste microserviço utilizam a API `/check` para validar corretamente
+    se o usuário que está realizando a operação de fato existe no sistema.
+  
+    Essa mudança foi necessária para estabelecer uma comunicação direta entre o
+    microserviço de Transações e o `ms-user`, garantindo maior consistência,
+    segurança e integridade nas operações que envolvem usuários.
+
 
 servers:
   - url: http://localhost:8082
@@ -49,3 +58,9 @@ paths:
     $ref: './paths/expenses/month.yaml'
   /api/v1/expenses/{userId}/summary/download:
     $ref: './paths/expenses/download.yaml'
+
+
+  /api/v1/transactions/admin:
+    $ref: "./paths/transaction/admin.yaml"
+  /api/v1/transactions/admin/{transaction_id}:
+    $ref: "./paths/transaction/admin-model.yaml"
