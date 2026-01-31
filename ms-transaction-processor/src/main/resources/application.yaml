@@ -18,3 +18,7 @@ services:
     cambio-api: https://economia.awesomeapi.com.br/json/last
     mock-api: https://696f7560a06046ce6186c5c6.mockapi.io/api/v1
 
+logging:
+  level:
+    org.springframework.kafka.listener.KafkaMessageListenerContainer: ERROR
+

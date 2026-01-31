@@ -4,7 +4,6 @@ import dev.suel.mstransactionapi.application.gateway.CustomerCanExecuteActionPor
 import dev.suel.mstransactionapi.infra.external.ICustomerClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -16,6 +15,10 @@ public class CustomerCanExecuteActionImpl implements CustomerCanExecuteActionPor
 
     @Override
     public boolean isAllowed() {
-        return customerClient.checkCustomer().getStatusCode() == HttpStatus.OK;
+        try {
+            return customerClient.checkCustomer().status() == 200;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

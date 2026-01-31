@@ -2,8 +2,8 @@ package dev.suel.mstransactionapi.infra.external;
 
 
 import dev.suel.mstransactionapi.infra.configuration.GestaoAPIFeignConfiguration;
+import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(
@@ -13,5 +13,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 )
 public interface ICustomerClient {
     @GetMapping
-    ResponseEntity<Void> checkCustomer();
+    Response checkCustomer();
 }
