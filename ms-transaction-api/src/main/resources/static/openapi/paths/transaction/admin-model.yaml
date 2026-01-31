@@ -21,7 +21,7 @@ delete:
   tags: ["Transações MODO DEV"]
   summary: Excluir transação
   description: Deleta uma transação do banco de dados pelo ID
-  operationId: deleteTransaction
+  operationId: delete
   security:
     - bearerAuth: []
   parameters:
@@ -29,3 +29,5 @@ delete:
   responses:
     '204':
       description: Removida com sucesso
+    '400':
+      $ref: "../../components/responses.yaml#/BadRequest"
