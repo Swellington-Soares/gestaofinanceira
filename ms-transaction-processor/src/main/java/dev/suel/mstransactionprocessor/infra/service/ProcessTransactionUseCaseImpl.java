@@ -7,10 +7,8 @@ import dev.suel.mstransactionprocessor.application.gateway.ExchangeServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ProcessTransactionUseCase;
 import dev.suel.mstransactionprocessor.application.gateway.exception.TransactionNotFoundException;
 import dev.suel.mstransactionprocessor.domain.entity.Transaction;
-import dev.suel.mstransactionprocessor.infra.kafka.CurrencyQuotationVerifyException;
 import dev.suel.mstransactionprocessor.infra.mapper.TransactionMapper;
 import dev.suel.mstransactionprocessor.infra.persistence.TransactionEntityRepository;
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,10 +34,7 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
                     .orElseThrow(TransactionNotFoundException::new);
 
 
-            BigDecimal exchangeRate =
-                    exchangeServicePort.getCurrencyExchangeRateToday(
-                            transaction.getCurrencyType()
-                    );
+            BigDecimal exchangeRate = exchangeServicePort.getCurrencyExchangeRateToday(transaction.getCurrencyType());
 
             transaction.setExchange(exchangeRate);
 
@@ -47,25 +42,37 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
 
             switch (transaction.getOperationType()) {
                 case DEPOSIT -> {
+
                     balanceServicePort.updateBalance(
                             transaction.getUserId(),
                             balance.add(transaction.getFinalAmount())
                     );
                     transaction.approve("Depósito realizado com sucesso.");
+                    transactionRepository.save(
+                            transactionMapper.modelToEntity(transaction)
+                    );
                 }
 
                 case TRANSFER, PURCHASER, WITHDRAW -> {
                     if (transaction.getFinalAmount().compareTo(balance) > 0)
                         throw new InsufficientBalanceForTransactionException();
+
+
+                    balanceServicePort.updateBalance(
+                            transaction.getUserId(),
+                            balance.subtract(transaction.getFinalAmount())
+                    );
+
                     transaction.approve();
+
+                    transactionRepository.save(
+                            transactionMapper.modelToEntity(transaction)
+                    );
                 }
                 case CREDIT_CARD_PURCHASE -> transaction.approve("Compra no cartão de crédito.");
                 case EXTERNAL -> transaction.approve("Movimentação externa.");
             }
 
-            transactionRepository.save(
-                    transactionMapper.modelToEntity(transaction)
-            );
 
         } catch (InsufficientBalanceForTransactionException ex) {
             log.info("Transação com ID: {} cancelada.", event.id());
@@ -76,7 +83,7 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
                 );
             }
         } catch (TransactionNotFoundException ex) {
-            log.info("Transação com ID: {} não encontrada.",  event.id());
+            log.info("Transação com ID: {} não encontrada.", event.id());
         } catch (Exception ex) {
             throw ex;
         }
