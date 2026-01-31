@@ -62,5 +62,5 @@ paths:
 
   /api/v1/transactions/admin:
     $ref: "./paths/transaction/admin.yaml"
-  /api/v1/transactions/admin/{transaction_id}:
+  /api/v1/transactions/admin/{id}:
     $ref: "./paths/transaction/admin-model.yaml"

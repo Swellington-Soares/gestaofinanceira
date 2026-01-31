@@ -34,10 +34,10 @@ public class TransactionAdminController {
                 .map(mapper::modelToResponse);
     }
 
-    @GetMapping("/{transaction_id}")
-    ResponseEntity<TransactionDetailResponse> getOne(@PathVariable UUID transaction_id) {
+    @GetMapping("/{id}")
+    ResponseEntity<TransactionDetailResponse> getOne(@PathVariable UUID id) {
         try {
-            return ResponseEntity.ok(repository.findById(transaction_id)
+            return ResponseEntity.ok(repository.findById(id)
                     .map(mapper::transactionEntityToModel)
                     .map(mapper::modelToResponse)
                     .orElseThrow());
@@ -46,10 +46,10 @@ public class TransactionAdminController {
         }
     }
 
-    @DeleteMapping("/{transaction_id}")
-    ResponseEntity<Void> delete(@PathVariable UUID transaction_id) {
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> delete(@PathVariable UUID id) {
         try {
-            repository.deleteById(transaction_id);
+            repository.deleteById(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
