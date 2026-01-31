@@ -25,13 +25,13 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
               AND t.operationType <> 'DEPOSIT'
-              AND t.createdDate BETWEEN :start AND :end
+              AND t.createdDate BETWEEN :startDate AND :endDate
             GROUP BY t.operationType
             """)
     List<ExpenseByCategory> totalByCategory(
             Long userId,
-            LocalDateTime start,
-            LocalDateTime end
+            LocalDateTime startDate,
+            LocalDateTime endDate
     );
 
 
@@ -44,14 +44,14 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
               AND t.operationType <> 'DEPOSIT'
-              AND t.createdDate BETWEEN :start AND :end
+              AND t.createdDate BETWEEN :startDate AND :endDate
             GROUP BY DATE(t.createdDate)
             ORDER BY DATE(t.createdDate)
             """)
     List<ExpenseByDay> totalByDay(
             Long userId,
-            LocalDateTime start,
-            LocalDateTime end
+            LocalDateTime startDate,
+            LocalDateTime endDate
     );
 
     @Query("""
@@ -64,14 +64,14 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
                 WHERE t.userId = :userId
                   AND t.status = 'APPROVED'
                   AND t.operationType <> 'DEPOSIT'
-                  AND t.createdDate BETWEEN :start AND :end
+                  AND t.createdDate BETWEEN :startDate AND :endDate
                 GROUP BY YEAR(t.createdDate), MONTH(t.createdDate)
                 ORDER BY YEAR(t.createdDate), MONTH(t.createdDate)
             """)
     List<ExpenseByMonth> totalByMonth(
             Long userId,
-            LocalDateTime start,
-            LocalDateTime end
+            LocalDateTime startDate,
+            LocalDateTime endDate
     );
 
 
@@ -93,7 +93,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
                     WHERE t.userId = :userId
                       AND t.status = 'APPROVED'
                       AND t.operationType <> 'DEPOSIT'
-                      AND t.createdDate BETWEEN :start AND :end
+                      AND t.createdDate BETWEEN :startDate AND :endDate
                     GROUP BY t.operationType
                     """,
             countQuery = """
@@ -102,7 +102,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
                     WHERE t.userId = :userId
                       AND t.status = 'APPROVED'
                       AND t.operationType <> 'DEPOSIT'
-                      AND t.createdDate BETWEEN :start AND :end
+                      AND t.createdDate BETWEEN :startDate AND :endDate
                     """
     )
     Page<ExpenseByCategory> getSummaryOfTransactionOfUserByCategoryPaginated(Long userId,
@@ -121,7 +121,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
               AND t.operationType <> 'DEPOSIT'
-              AND t.createdDate BETWEEN :start AND :end
+              AND t.createdDate BETWEEN :startDate AND :endDate
             GROUP BY DATE(t.createdDate)
             ORDER BY DATE(t.createdDate)
             """,
@@ -131,7 +131,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
               AND t.operationType <> 'DEPOSIT'
-              AND t.createdDate BETWEEN :start AND :end
+              AND t.createdDate BETWEEN :startDate AND :endDate
             """
     )
     Page<ExpenseByDay> getSummaryOfTransactionOfUserByDayPaginated(Long userId,
@@ -152,7 +152,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
               AND t.operationType <> 'DEPOSIT'
-              AND t.createdDate BETWEEN :start AND :end
+              AND t.createdDate BETWEEN :startDate AND :endDate
             GROUP BY YEAR(t.createdDate), MONTH(t.createdDate)
             ORDER BY YEAR(t.createdDate), MONTH(t.createdDate)
             """,
@@ -162,7 +162,7 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             WHERE t.userId = :userId
               AND t.status = 'APPROVED'
               AND t.operationType <> 'DEPOSIT'
-              AND t.createdDate BETWEEN :start AND :end
+              AND t.createdDate BETWEEN :startDate AND :endDate
             """
     )
     Page<ExpenseByMonth> getSummaryOfTransactionOfUserByMonthPaginated(Long userId,
