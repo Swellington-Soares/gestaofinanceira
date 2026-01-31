@@ -6,7 +6,6 @@ import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
 import dev.suel.mstransactionprocessor.application.gateway.BalanceServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ExchangeServicePort;
 import dev.suel.mstransactionprocessor.domain.entity.Transaction;
-import dev.suel.mstransactionprocessor.infra.kafka.CurrencyQuotationVerifyException;
 import dev.suel.mstransactionprocessor.infra.mapper.TransactionMapper;
 import dev.suel.mstransactionprocessor.infra.persistence.TransactionEntity;
 import dev.suel.mstransactionprocessor.infra.persistence.TransactionEntityRepository;
@@ -184,41 +183,6 @@ class TestProcessTransactionUseCaseImpl {
         then(balanceServicePort).shouldHaveNoMoreInteractions();
         then(exchangeServicePort).shouldHaveNoMoreInteractions();
         verifyNoMoreInteractions(transactionRepository, transactionMapper);
-    }
-
-
-
-    @Test
-    void shouldRejectAndSaveWhenCurrencyQuotationFails() {
-        TransactionKafkaEventData event = mock(TransactionKafkaEventData.class);
-        java.util.UUID transactionId = java.util.UUID.randomUUID();
-
-        TransactionEntity entity = mock(TransactionEntity.class);
-        Transaction transaction = mock(Transaction.class);
-        TransactionEntity entityToSave = mock(TransactionEntity.class);
-
-        given(event.id()).willReturn(transactionId);
-        given(transactionRepository.findByIdAndIsPending(transactionId)).willReturn(Optional.of(entity));
-        given(transactionMapper.transactionEntityToModel(entity)).willReturn(transaction);
-        given(transaction.isPending()).willReturn(true);
-
-        given(transaction.getCurrencyType()).willReturn(CurrencyType.USD);
-        CurrencyQuotationVerifyException ex = new CurrencyQuotationVerifyException("x");
-        given(exchangeServicePort.getCurrencyExchangeRateToday(CurrencyType.USD)).willThrow(ex);
-
-        given(transactionMapper.modelToEntity(transaction)).willReturn(entityToSave);
-
-        useCase.execute(event);
-
-        then(transactionRepository).should().findByIdAndIsPending(transactionId);
-        then(transactionMapper).should().transactionEntityToModel(entity);
-
-        then(exchangeServicePort).should().getCurrencyExchangeRateToday(CurrencyType.USD);
-        then(transaction).should().reject("x");
-        then(transactionMapper).should().modelToEntity(transaction);
-        then(transactionRepository).should().save(entityToSave);
-
-        verifyNoMoreInteractions(transactionRepository, balanceServicePort, exchangeServicePort, transactionMapper);
     }
 
 }

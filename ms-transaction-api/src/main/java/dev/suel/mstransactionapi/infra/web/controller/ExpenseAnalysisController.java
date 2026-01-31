@@ -21,7 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/expenses")
@@ -35,7 +34,7 @@ public class ExpenseAnalysisController {
 
 
     @GetMapping("/{userId}/summary/category")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public ResponseEntity<PaginatedResponse<ExpenseByCategory>> totalByCategoryPaginated(
             @PathVariable Long userId,
             @RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -57,7 +56,7 @@ public class ExpenseAnalysisController {
 
 
     @GetMapping("/{userId}/summary/day")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public  ResponseEntity<PaginatedResponse<ExpenseByDay>> totalByDayPaginated(
             @PathVariable Long userId,
             @RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -79,7 +78,7 @@ public class ExpenseAnalysisController {
 
 
     @GetMapping("/{userId}/summary/month")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public  ResponseEntity<PaginatedResponse<ExpenseByMonth>> totalByMonthPaginated(
             @PathVariable Long userId,
             @RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -99,7 +98,7 @@ public class ExpenseAnalysisController {
         );
     }
     @GetMapping("/{userId}/summary/download")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && @CustomerCanExecuteService.isAllowed()")
     public ResponseEntity<byte[]> downloadPdf(
             @PathVariable Long userId,
             @RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
