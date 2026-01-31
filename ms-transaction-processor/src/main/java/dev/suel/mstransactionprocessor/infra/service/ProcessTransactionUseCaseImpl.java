@@ -1,6 +1,7 @@
 package dev.suel.mstransactionprocessor.infra.service;
 
 import dev.suel.gestaofinanceira.types.TransactionKafkaEventData;
+import dev.suel.mstransactionprocessor.application.exception.InsufficientBalanceForTransactionException;
 import dev.suel.mstransactionprocessor.application.gateway.BalanceServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ExchangeServicePort;
 import dev.suel.mstransactionprocessor.application.gateway.ProcessTransactionUseCase;
@@ -9,6 +10,7 @@ import dev.suel.mstransactionprocessor.domain.entity.Transaction;
 import dev.suel.mstransactionprocessor.infra.kafka.CurrencyQuotationVerifyException;
 import dev.suel.mstransactionprocessor.infra.mapper.TransactionMapper;
 import dev.suel.mstransactionprocessor.infra.persistence.TransactionEntityRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -41,8 +43,7 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
 
             transaction.setExchange(exchangeRate);
 
-            BigDecimal balance =
-                    balanceServicePort.getBalance(transaction.getUserId());
+            BigDecimal balance = balanceServicePort.getBalance(transaction.getUserId());
 
             switch (transaction.getOperationType()) {
                 case DEPOSIT -> {
@@ -54,17 +55,11 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
                 }
 
                 case TRANSFER, PURCHASER, WITHDRAW -> {
-                    if (balance.compareTo(transaction.getFinalAmount()) >= 0) {
-                        balanceServicePort.updateBalance(
-                                transaction.getUserId(),
-                                balance.subtract(transaction.getFinalAmount())
-                        );
-                        transaction.approve();
-                    } else {
-                        transaction.reject("Saldo insuficiente.");
-                    }
+                    if (transaction.getFinalAmount().compareTo(balance) > 0)
+                        throw new InsufficientBalanceForTransactionException();
+                    transaction.approve();
                 }
-                case CREDIT_CARD_PURCHASE  -> transaction.approve("Compra no cartão de crédito.");
+                case CREDIT_CARD_PURCHASE -> transaction.approve("Compra no cartão de crédito.");
                 case EXTERNAL -> transaction.approve("Movimentação externa.");
             }
 
@@ -72,13 +67,18 @@ public class ProcessTransactionUseCaseImpl implements ProcessTransactionUseCase 
                     transactionMapper.modelToEntity(transaction)
             );
 
-        } catch (TransactionNotFoundException ex) {
-            log.info(ex.getMessage());
-        } catch (CurrencyQuotationVerifyException ex) {
+        } catch (InsufficientBalanceForTransactionException ex) {
+            log.info("Transação com ID: {} cancelada.", event.id());
             if (transaction != null) {
-                transaction.reject(ex.getMessage());
-                transactionRepository.save(transactionMapper.modelToEntity(transaction));
+                transaction.reject("Saldo insuficiente.");
+                transactionRepository.save(
+                        transactionMapper.modelToEntity(transaction)
+                );
             }
+        } catch (TransactionNotFoundException ex) {
+            log.info("Transação com ID: {} não encontrada.",  event.id());
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 

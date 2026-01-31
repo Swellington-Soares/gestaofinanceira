@@ -5,6 +5,7 @@ import dev.suel.mstransactionprocessor.application.gateway.ProcessTransactionRej
 import dev.suel.mstransactionprocessor.application.gateway.ProcessTransactionUseCase;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.DltHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -23,9 +24,9 @@ public class TransactionRequestedConsumer {
             attempts = "4",
             backoff = @Backoff(delay = 5000),
             include = {
-                    FeignException.class,
-                    RuntimeException.class
-            }
+                    FeignException.class
+            },
+            dltTopicSuffix = ".dlt"
     )
     @KafkaListener(
             topics = "transaction.requested",
@@ -35,13 +36,11 @@ public class TransactionRequestedConsumer {
         processTransactionUseCase.execute(event);
     }
 
-    @KafkaListener(
-            topics = "transaction.requested.DLT",
-            groupId = "transaction-processor-dlt"
-    )
+
+    @DltHandler
     public void consumeDlq(
             TransactionKafkaEventData event,
-            @Header(KafkaHeaders.DLT_EXCEPTION_MESSAGE) String errorMessage
+            @Header(value = KafkaHeaders.DLT_EXCEPTION_MESSAGE, required = false) String errorMessage
     ) {
         processTransactionRejectUseCase.execute(event, errorMessage);
     }

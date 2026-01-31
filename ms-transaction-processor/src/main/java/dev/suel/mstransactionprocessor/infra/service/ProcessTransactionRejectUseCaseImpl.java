@@ -28,7 +28,10 @@ public class ProcessTransactionRejectUseCaseImpl implements ProcessTransactionRe
                     .map(transactionMapper::transactionEntityToModel)
                     .orElseThrow(TransactionNotFoundException::new);
 
-            transaction.reject("Falha técnica após múltiplas tentativas: " + message);
+            transaction.reject(
+                    message == null ?
+                            "Falha técnica após múltiplas tentativas." :
+                            "Falha técnica após múltiplas tentativas: " + message);
 
             transactionRepository.save(transactionMapper.modelToEntity(transaction));
             log.error("Transação {} enviada para DLQ", transaction.getId());

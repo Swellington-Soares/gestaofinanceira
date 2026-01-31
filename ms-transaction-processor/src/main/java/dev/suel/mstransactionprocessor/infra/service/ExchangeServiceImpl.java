@@ -15,10 +15,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ExchangeServiceImpl implements ExchangeServicePort {
 
-    private final ICambioApiClient brasilCambioApiClient;
+    private final ICambioApiClient cambioClient;
 
     private float getSellQuoteToday(CurrencyType currencyCode) {
-        Map<String, CurrencyExchangeRateInfo> info = brasilCambioApiClient.getCurrency(currencyCode.name());
+        Map<String, CurrencyExchangeRateInfo> info = cambioClient.getCurrency(currencyCode.name());
         CurrencyExchangeRateInfo value = info.values().stream().findFirst().orElseThrow(
                 () -> new CurrencyQuotationVerifyException("Não foi possível obter informação sobre a cotação.")
         );
