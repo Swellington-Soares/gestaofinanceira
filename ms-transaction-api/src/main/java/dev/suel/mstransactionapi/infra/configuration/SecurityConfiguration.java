@@ -37,7 +37,8 @@ public class SecurityConfiguration {
                                         "/static/**",
                                         "/openapi/**"
                                 ).permitAll()
-                                .anyRequest().permitAll()
+                                .anyRequest()
+                                .authenticated()
 
                 )
                 .sessionManagement(sm ->
@@ -51,6 +52,7 @@ public class SecurityConfiguration {
                 .addFilterBefore(
                         new JwtSecurityFilter(tokenServicePort),
                         UsernamePasswordAuthenticationFilter.class)
+
                 .build();
     }
 
@@ -59,14 +61,4 @@ public class SecurityConfiguration {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(ar -> ar.anyRequest().permitAll())
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .cors(AbstractHttpConfigurer::disable)
-//                .build();
-//    }
 }
