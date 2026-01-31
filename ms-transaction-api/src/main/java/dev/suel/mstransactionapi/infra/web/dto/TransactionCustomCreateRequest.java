@@ -14,7 +14,7 @@ public record TransactionCustomCreateRequest(
         @NotNull(message = "O tipo da moeda é obrigatório.")
         CurrencyType currencyType,
 
-        @NotNull
+        @NotNull(message = "O tipo da transação é obrigatório.")
         OperationType operationType
 ) {
 }
