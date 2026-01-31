@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 public record ExpenseByCategory(
         OperationType category,
         BigDecimal totalAmount
-) {
+){
 }

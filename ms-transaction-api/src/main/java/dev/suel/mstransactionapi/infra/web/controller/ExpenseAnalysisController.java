@@ -3,11 +3,15 @@ package dev.suel.mstransactionapi.infra.web.controller;
 import dev.suel.mstransactionapi.application.exception.AccessDeniedException;
 import dev.suel.mstransactionapi.application.usecase.GeneratePDFDocumentUseCase;
 import dev.suel.mstransactionapi.application.usecase.TransactionReportUseCase;
+import dev.suel.mstransactionapi.domain.PageDataDomain;
+import dev.suel.mstransactionapi.domain.PaginatedResponse;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
+import dev.suel.mstransactionapi.infra.mapper.PageMapper;
 import dev.suel.mstransactionapi.infra.services.SecurityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -27,59 +31,71 @@ public class ExpenseAnalysisController {
     private final TransactionReportUseCase transactionReportUseCase;
     private final GeneratePDFDocumentUseCase generatePDFDocumentUseCase;
     private final SecurityService securityService;
+    private final PageMapper pageMapper;
 
 
     @GetMapping("/{userId}/summary/category")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<ExpenseByCategory>> totalByCategory(
+    public ResponseEntity<PaginatedResponse<ExpenseByCategory>> totalByCategoryPaginated(
             @PathVariable Long userId,
             @RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate startDate,
             @RequestParam("end_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate endDate,
+            Pageable pageable,
             Authentication authentication
     ) {
         if (!securityService.isOwner(userId, authentication))
             throw new AccessDeniedException();
 
+        PageDataDomain pageDataDomain = pageMapper.pageableToPageDataDomain(pageable);
+
         return ResponseEntity.ok(
-                transactionReportUseCase.totalByCategory(userId, startDate, endDate)
+                transactionReportUseCase.totalSummaryByCategoryPaginated(userId, startDate, endDate, pageDataDomain)
         );
     }
 
 
     @GetMapping("/{userId}/summary/day")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<ExpenseByDay>> totalByDay(
+    public  ResponseEntity<PaginatedResponse<ExpenseByDay>> totalByDayPaginated(
             @PathVariable Long userId,
             @RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate startDate,
             @RequestParam("end_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate endDate,
+            Pageable pageable,
             Authentication authentication
     ) {
         if (!securityService.isOwner(userId, authentication))
             throw new AccessDeniedException();
+
+        PageDataDomain pageDataDomain = pageMapper.pageableToPageDataDomain(pageable);
+
         return ResponseEntity.ok(
-                transactionReportUseCase.totalByDay(userId, startDate, endDate)
+                transactionReportUseCase.totalSummaryByDaysPaginated(userId, startDate, endDate,pageDataDomain)
         );
     }
 
 
     @GetMapping("/{userId}/summary/month")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<ExpenseByMonth>> totalByMonth(
+    public  ResponseEntity<PaginatedResponse<ExpenseByMonth>> totalByMonthPaginated(
             @PathVariable Long userId,
             @RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate startDate,
             @RequestParam("end_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate endDate,
+            Pageable pageable,
             Authentication authentication
     ) {
         if (!securityService.isOwner(userId, authentication))
             throw new AccessDeniedException();
+
+        PageDataDomain pageDataDomain = pageMapper.pageableToPageDataDomain(pageable);
+
         return ResponseEntity.ok(
-                transactionReportUseCase.totalByMonth(userId, startDate, endDate)
+                transactionReportUseCase.totalSummaryByMonthPaginated(userId, startDate, endDate, pageDataDomain)
         );
     }
     @GetMapping("/{userId}/summary/download")

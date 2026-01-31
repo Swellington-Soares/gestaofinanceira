@@ -40,15 +40,15 @@ class TestTransactionReportUseCase {
 
         List<ExpenseByCategory> expected = List.of();
 
-        given(transactionReportPort.totalByCategory(eq(userId), any(LocalDateTime.class), any(LocalDateTime.class)))
+        given(transactionReportPort.totalSummaryByCategoryAsList(eq(userId), any(LocalDateTime.class), any(LocalDateTime.class)))
                 .willReturn(expected);
 
-        List<ExpenseByCategory> result = useCase.totalByCategory(userId, startDate, endDate);
+        List<ExpenseByCategory> result = useCase.allTotalSummaryByCategoryAsList(userId, startDate, endDate);
 
         ArgumentCaptor<LocalDateTime> s1Captor = ArgumentCaptor.forClass(LocalDateTime.class);
         ArgumentCaptor<LocalDateTime> s2Captor = ArgumentCaptor.forClass(LocalDateTime.class);
 
-        then(transactionReportPort).should().totalByCategory(eq(userId), s1Captor.capture(), s2Captor.capture());
+        then(transactionReportPort).should().totalSummaryByCategoryAsList(eq(userId), s1Captor.capture(), s2Captor.capture());
         assertThat(s1Captor.getValue()).isEqualTo(expectedS1);
         assertThat(s2Captor.getValue()).isEqualTo(expectedS2);
 
@@ -66,15 +66,15 @@ class TestTransactionReportUseCase {
 
         List<ExpenseByDay> expected = List.of();
 
-        given(transactionReportPort.totalByDay(eq(userId), any(LocalDateTime.class), any(LocalDateTime.class)))
+        given(transactionReportPort.totalSummaryByDayAsList(eq(userId), any(LocalDateTime.class), any(LocalDateTime.class)))
                 .willReturn(expected);
 
-        List<ExpenseByDay> result = useCase.totalByDay(userId, startDate, endDate);
+        List<ExpenseByDay> result = useCase.allTotalSummaryByDayAsList(userId, startDate, endDate);
 
         ArgumentCaptor<LocalDateTime> s1Captor = ArgumentCaptor.forClass(LocalDateTime.class);
         ArgumentCaptor<LocalDateTime> s2Captor = ArgumentCaptor.forClass(LocalDateTime.class);
 
-        then(transactionReportPort).should().totalByDay(eq(userId), s1Captor.capture(), s2Captor.capture());
+        then(transactionReportPort).should().totalSummaryByDayAsList(eq(userId), s1Captor.capture(), s2Captor.capture());
         assertThat(s1Captor.getValue()).isEqualTo(expectedS1);
         assertThat(s2Captor.getValue()).isEqualTo(expectedS2);
 
@@ -92,15 +92,15 @@ class TestTransactionReportUseCase {
 
         List<ExpenseByMonth> expected = List.of();
 
-        given(transactionReportPort.totalByMonth(eq(userId), any(LocalDateTime.class), any(LocalDateTime.class)))
+        given(transactionReportPort.totalSummaryByMonthAsList(eq(userId), any(LocalDateTime.class), any(LocalDateTime.class)))
                 .willReturn(expected);
 
-        List<ExpenseByMonth> result = useCase.totalByMonth(userId, startDate, endDate);
+        List<ExpenseByMonth> result = useCase.allTotalSummaryByMonthAsList(userId, startDate, endDate);
 
         ArgumentCaptor<LocalDateTime> s1Captor = ArgumentCaptor.forClass(LocalDateTime.class);
         ArgumentCaptor<LocalDateTime> s2Captor = ArgumentCaptor.forClass(LocalDateTime.class);
 
-        then(transactionReportPort).should().totalByMonth(eq(userId), s1Captor.capture(), s2Captor.capture());
+        then(transactionReportPort).should().totalSummaryByMonthAsList(eq(userId), s1Captor.capture(), s2Captor.capture());
         assertThat(s1Captor.getValue()).isEqualTo(expectedS1);
         assertThat(s2Captor.getValue()).isEqualTo(expectedS2);
 
@@ -113,15 +113,15 @@ class TestTransactionReportUseCase {
         LocalDate startDate = LocalDate.now().plusDays(1);
         LocalDate endDate = LocalDate.now().plusDays(2);
 
-        assertThatThrownBy(() -> useCase.totalByCategory(userId, startDate, endDate))
+        assertThatThrownBy(() -> useCase.allTotalSummaryByCategoryAsList(userId, startDate, endDate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Data de início inválida.");
 
-        assertThatThrownBy(() -> useCase.totalByDay(userId, startDate, endDate))
+        assertThatThrownBy(() -> useCase.allTotalSummaryByDayAsList(userId, startDate, endDate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Data de início inválida.");
 
-        assertThatThrownBy(() -> useCase.totalByMonth(userId, startDate, endDate))
+        assertThatThrownBy(() -> useCase.allTotalSummaryByMonthAsList(userId, startDate, endDate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Data de início inválida.");
 
@@ -134,15 +134,15 @@ class TestTransactionReportUseCase {
         LocalDate startDate = LocalDate.now().minusDays(1);
         LocalDate endDate = LocalDate.now().minusDays(10);
 
-        assertThatThrownBy(() -> useCase.totalByCategory(userId, startDate, endDate))
+        assertThatThrownBy(() -> useCase.allTotalSummaryByCategoryAsList(userId, startDate, endDate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Data de início inválida.");
 
-        assertThatThrownBy(() -> useCase.totalByDay(userId, startDate, endDate))
+        assertThatThrownBy(() -> useCase.allTotalSummaryByDayAsList(userId, startDate, endDate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Data de início inválida.");
 
-        assertThatThrownBy(() -> useCase.totalByMonth(userId, startDate, endDate))
+        assertThatThrownBy(() -> useCase.allTotalSummaryByMonthAsList(userId, startDate, endDate))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Data de início inválida.");
 

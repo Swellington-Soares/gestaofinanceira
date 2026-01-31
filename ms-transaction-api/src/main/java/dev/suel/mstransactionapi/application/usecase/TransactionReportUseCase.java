@@ -1,6 +1,8 @@
 package dev.suel.mstransactionapi.application.usecase;
 
 import dev.suel.mstransactionapi.application.gateway.TransactionReportPort;
+import dev.suel.mstransactionapi.domain.PageDataDomain;
+import dev.suel.mstransactionapi.domain.PaginatedResponse;
 import dev.suel.mstransactionapi.dto.ExpenseByCategory;
 import dev.suel.mstransactionapi.dto.ExpenseByDay;
 import dev.suel.mstransactionapi.dto.ExpenseByMonth;
@@ -20,7 +22,64 @@ public class TransactionReportUseCase {
         this.transactionReportPort = transactionReportPort;
     }
 
-    public List<ExpenseByCategory> totalByCategory(
+    public PaginatedResponse<ExpenseByCategory> totalSummaryByCategoryPaginated(
+            Long userId,
+            LocalDate startDate,
+            LocalDate endDate,
+            PageDataDomain pageDataDomain
+    ) {
+        if (startDate.isAfter(LocalDate.now()) || startDate.isAfter(endDate))
+            throw new IllegalArgumentException("Data de início inválida.");
+
+        if (endDate.isBefore(startDate))
+            throw new IllegalArgumentException("Data de fim inválida.");
+
+        return transactionReportPort.totalSummaryByCategoryPaginated(
+                userId,
+                LocalDateTime.of(startDate, LocalTime.MIN),
+                LocalDateTime.of(endDate, LocalTime.MAX),
+                pageDataDomain);
+    }
+
+    public PaginatedResponse<ExpenseByDay> totalSummaryByDaysPaginated(
+            Long userId,
+            LocalDate startDate,
+            LocalDate endDate,
+            PageDataDomain pageDataDomain
+    ) {
+        if (startDate.isAfter(LocalDate.now()) || startDate.isAfter(endDate))
+            throw new IllegalArgumentException("Data de início inválida.");
+
+        if (endDate.isBefore(startDate))
+            throw new IllegalArgumentException("Data de fim inválida.");
+
+        return transactionReportPort.totalSummaryByDayPaginated(
+                userId,
+                LocalDateTime.of(startDate, LocalTime.MIN),
+                LocalDateTime.of(endDate, LocalTime.MAX),
+                pageDataDomain);
+    }
+
+    public PaginatedResponse<ExpenseByMonth> totalSummaryByMonthPaginated(
+            Long userId,
+            LocalDate startDate,
+            LocalDate endDate,
+            PageDataDomain pageDataDomain
+    ) {
+        if (startDate.isAfter(LocalDate.now()) || startDate.isAfter(endDate))
+            throw new IllegalArgumentException("Data de início inválida.");
+
+        if (endDate.isBefore(startDate))
+            throw new IllegalArgumentException("Data de fim inválida.");
+
+        return transactionReportPort.totalSummaryByMonthPaginated(
+                userId,
+                LocalDateTime.of(startDate, LocalTime.MIN),
+                LocalDateTime.of(endDate, LocalTime.MAX),
+                pageDataDomain);
+    }
+
+    public List<ExpenseByCategory> allTotalSummaryByCategoryAsList(
             Long userId,
             LocalDate startDate,
             LocalDate endDate
@@ -31,11 +90,11 @@ public class TransactionReportUseCase {
         if (endDate.isBefore(startDate))
             throw new IllegalArgumentException("Data de fim inválida.");
 
-        return transactionReportPort.totalByCategory(userId, LocalDateTime.of(startDate, LocalTime.MIN),
+        return transactionReportPort.totalSummaryByCategoryAsList(userId, LocalDateTime.of(startDate, LocalTime.MIN),
                 LocalDateTime.of(endDate, LocalTime.MAX));
     }
 
-    public List<ExpenseByDay> totalByDay(
+    public List<ExpenseByDay> allTotalSummaryByDayAsList(
             Long userId,
             LocalDate startDate,
             LocalDate endDate
@@ -46,11 +105,11 @@ public class TransactionReportUseCase {
         if (endDate.isBefore(startDate))
             throw new IllegalArgumentException("Data de fim inválida.");
 
-        return transactionReportPort.totalByDay(userId, LocalDateTime.of(startDate, LocalTime.MIN),
+        return transactionReportPort.totalSummaryByDayAsList(userId, LocalDateTime.of(startDate, LocalTime.MIN),
                 LocalDateTime.of(endDate, LocalTime.MAX));
     }
 
-    public List<ExpenseByMonth> totalByMonth(
+    public List<ExpenseByMonth> allTotalSummaryByMonthAsList(
             Long userId,
             LocalDate startDate,
             LocalDate endDate
@@ -61,7 +120,7 @@ public class TransactionReportUseCase {
         if (endDate.isBefore(startDate))
             throw new IllegalArgumentException("Data de fim inválida.");
 
-        return transactionReportPort.totalByMonth(userId,
+        return transactionReportPort.totalSummaryByMonthAsList(userId,
                 LocalDateTime.of(startDate, LocalTime.MIN),
                 LocalDateTime.of(endDate, LocalTime.MAX)
         );

@@ -7,6 +7,7 @@ import dev.suel.mstransactionapi.domain.ExpenseReportData;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 public class GeneratePDFDocumentUseCase {
 
@@ -34,9 +35,9 @@ public class GeneratePDFDocumentUseCase {
         ExpenseReportData expenseReport = new ExpenseReportData(
                 startDate,
                 endDate,
-                transactionReportPort.totalByMonth(userId, s1, s2),
-                transactionReportPort.totalByDay(userId, s1, s2),
-                transactionReportPort.totalByCategory(userId, s1, s2)
+                transactionReportPort.totalSummaryByMonthAsList(userId, s1, s2),
+                transactionReportPort.totalSummaryByDayAsList(userId, s1, s2),
+                transactionReportPort.totalSummaryByCategoryAsList(userId, s1, s2)
         );
 
         return pdfDocumentGeneratorService.generateDocument(expenseReport);

@@ -74,10 +74,102 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
             LocalDateTime end
     );
 
+
     Page<TransactionEntity> findAllByUserId(Long userId, Pageable pageable);
 
     Optional<TransactionEntity> findByIdAndStatus(UUID uuid, TransactionStatus status);
+
     Optional<TransactionEntity> findByIdAndStatusNot(UUID id, TransactionStatus status);
+
+
+
+    @Query(
+            value = """
+                    SELECT new dev.suel.mstransactionapi.dto.ExpenseByCategory(
+                        t.operationType,
+                        COALESCE(SUM(t.amount * t.exchange), 0)
+                    )
+                    FROM Transaction t
+                    WHERE t.userId = :userId
+                      AND t.status = 'APPROVED'
+                      AND t.operationType <> 'DEPOSIT'
+                      AND t.createdDate BETWEEN :start AND :end
+                    GROUP BY t.operationType
+                    """,
+            countQuery = """
+                    SELECT COUNT(DISTINCT t.operationType)
+                    FROM Transaction t
+                    WHERE t.userId = :userId
+                      AND t.status = 'APPROVED'
+                      AND t.operationType <> 'DEPOSIT'
+                      AND t.createdDate BETWEEN :start AND :end
+                    """
+    )
+    Page<ExpenseByCategory> getSummaryOfTransactionOfUserByCategoryPaginated(Long userId,
+                                                                             LocalDateTime startDate,
+                                                                             LocalDateTime endDate,
+                                                                             Pageable pageable);
+
+
+    @Query(
+            value = """
+            SELECT new dev.suel.mstransactionapi.dto.ExpenseByDay(
+                t.createdDate,
+                COALESCE(SUM(t.amount * t.exchange), 0)
+            )
+            FROM Transaction t
+            WHERE t.userId = :userId
+              AND t.status = 'APPROVED'
+              AND t.operationType <> 'DEPOSIT'
+              AND t.createdDate BETWEEN :start AND :end
+            GROUP BY DATE(t.createdDate)
+            ORDER BY DATE(t.createdDate)
+            """,
+            countQuery = """
+            SELECT COUNT(DISTINCT DATE(t.createdDate))
+            FROM Transaction t
+            WHERE t.userId = :userId
+              AND t.status = 'APPROVED'
+              AND t.operationType <> 'DEPOSIT'
+              AND t.createdDate BETWEEN :start AND :end
+            """
+    )
+    Page<ExpenseByDay> getSummaryOfTransactionOfUserByDayPaginated(Long userId,
+                                                                        LocalDateTime startDate,
+                                                                        LocalDateTime endDate,
+                                                                        Pageable pageable
+    );
+
+
+    @Query(
+            value = """
+            SELECT new dev.suel.mstransactionapi.dto.ExpenseByMonth(
+                YEAR(t.createdDate),
+                MONTH(t.createdDate),
+                COALESCE(SUM(t.amount * t.exchange), 0)
+            )
+            FROM Transaction t
+            WHERE t.userId = :userId
+              AND t.status = 'APPROVED'
+              AND t.operationType <> 'DEPOSIT'
+              AND t.createdDate BETWEEN :start AND :end
+            GROUP BY YEAR(t.createdDate), MONTH(t.createdDate)
+            ORDER BY YEAR(t.createdDate), MONTH(t.createdDate)
+            """,
+            countQuery = """
+            SELECT COUNT(DISTINCT (YEAR(t.createdDate) * 100 + MONTH(t.createdDate)))
+            FROM Transaction t
+            WHERE t.userId = :userId
+              AND t.status = 'APPROVED'
+              AND t.operationType <> 'DEPOSIT'
+              AND t.createdDate BETWEEN :start AND :end
+            """
+    )
+    Page<ExpenseByMonth> getSummaryOfTransactionOfUserByMonthPaginated(Long userId,
+                                                                          LocalDateTime startDate,
+                                                                          LocalDateTime endDate,
+                                                                          Pageable pageable);
+
 
     default Optional<TransactionEntity> findByIdAndIsPending(UUID id) {
         return findByIdAndStatus(id, TransactionStatus.PENDING);
@@ -86,5 +178,4 @@ public interface TransactionEntityRepository extends JpaRepository<TransactionEn
     default Optional<TransactionEntity> findByIdAndIsNotPending(UUID id) {
         return findByIdAndStatusNot(id, TransactionStatus.PENDING);
     }
-
 }
