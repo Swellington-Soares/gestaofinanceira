@@ -2,6 +2,7 @@ package dev.suel.mstransactionapi.infra.services;
 
 import dev.suel.mstransactionapi.application.gateway.CustomerCanExecuteActionPort;
 import dev.suel.mstransactionapi.infra.external.ICustomerClient;
+import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,9 @@ public class CustomerCanExecuteActionImpl implements CustomerCanExecuteActionPor
 
     @Override
     public boolean isAllowed() {
-        try {
-            return customerClient.checkCustomer().status() == 200;
-        } catch (Exception e) {
+        try (Response response = customerClient.checkCustomer()) {
+            return response.status() == 200;
+        } catch (Exception ignored) {
             return false;
         }
     }
