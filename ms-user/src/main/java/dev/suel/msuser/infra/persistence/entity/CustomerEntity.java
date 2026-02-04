@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "Customer")
 @Table(name = "customers")
@@ -37,6 +39,15 @@ public class CustomerEntity {
     public void prePersist() {
         this.createdAt = Instant.now();
     }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+           name = "customer_roles",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+
+    )
+    private Set<RoleEntity> roles = new HashSet<>();
 
 
 }

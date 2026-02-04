@@ -32,14 +32,15 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain) throws ServletException, IOException, IOException {
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = extractTokenFromRequest(request);
         if (token != null) {
             try {
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     String email = tokenService.validateAccessTokenAndGetSubject(token);
                     UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                    AbstractAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email, null,
+                    AbstractAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email,
+                            token,
                             userDetails.getAuthorities());
                     auth.setDetails(userDetails);
                     SecurityContextHolder.getContext().setAuthentication(auth);

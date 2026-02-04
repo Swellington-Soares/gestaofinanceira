@@ -4,6 +4,7 @@ package dev.suel.msuser.application.usecase.customer;
 import dev.suel.msuser.application.exception.ResourceAlreadyExistsException;
 import dev.suel.msuser.application.gateway.CustomerServicePort;
 import dev.suel.msuser.domain.entity.Customer;
+import dev.suel.msuser.domain.entity.Role;
 import dev.suel.msuser.domain.valueobject.Email;
 import dev.suel.msuser.domain.valueobject.Password;
 import dev.suel.msuser.domain.valueobject.PersonName;
@@ -28,6 +29,7 @@ public class RegisterNewCustomerUseCase {
                 .email(email)
                 .name(nome)
                 .password(senha)
+                .addRole(Role.of("USER"))
                 .build();
 
         return customerServicePort.registerNewCustomer(customer);

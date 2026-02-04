@@ -7,9 +7,9 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   flyway:
-    enabled: false
+    enabled: true
 springdoc:
   api-docs:
     enabled: true

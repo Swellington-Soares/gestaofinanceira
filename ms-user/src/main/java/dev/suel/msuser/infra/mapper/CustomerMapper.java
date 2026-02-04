@@ -1,12 +1,16 @@
 package dev.suel.msuser.infra.mapper;
 
 import dev.suel.msuser.domain.entity.Customer;
+import dev.suel.msuser.domain.entity.Role;
 import dev.suel.msuser.domain.valueobject.Email;
 import dev.suel.msuser.domain.valueobject.Password;
 import dev.suel.msuser.domain.valueobject.PersonName;
 import dev.suel.msuser.dto.CustomerInfoResponse;
 import dev.suel.msuser.infra.persistence.entity.CustomerEntity;
+import dev.suel.msuser.infra.persistence.entity.RoleEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class CustomerMapper {
@@ -19,6 +23,9 @@ public class CustomerMapper {
                 .id(customerEntity.getId())
                 .name(PersonName.of(customerEntity.getName()))
                 .email(Email.of(customerEntity.getEmail()))
+                .roles(customerEntity.getRoles().stream()
+                        .map(r -> Role.of(r.getName()))
+                        .collect(Collectors.toSet()))
                 .build();
     }
 
@@ -30,6 +37,10 @@ public class CustomerMapper {
                 .name(customer.getName())
                 .email(customer.getEmail())
                 .createdAt(customer.getCreatedAt())
+                .roles(customer.getRoles().stream()
+                        .map(r -> RoleEntity.of(r.getName()))
+                        .collect(Collectors.toSet())
+                )
                 .build();
     }
 
