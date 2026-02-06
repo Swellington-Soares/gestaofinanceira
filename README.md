@@ -42,11 +42,11 @@ Plataforma de **gestão financeira** construída em **Java 21 + Spring Boot 3**,
 Na raiz do repositório:
 
 ```bash
-docker docker-compose up -d
+docker compose up -d
 ```
 Para rebuildar
 ```bash
-docker docker-compose up -d --build
+docker compose up -d --build
 ```
 
 Serviços expostos (host → container):
